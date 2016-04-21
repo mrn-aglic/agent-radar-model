@@ -661,10 +661,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1120
-431
-1281
-464
+1124
+448
+1285
+481
 sweep-angle
 sweep-angle
 1
@@ -815,10 +815,10 @@ NIL
 1
 
 BUTTON
-1143
-226
-1225
-259
+1142
+216
+1224
+249
 NIL
 load-map
 NIL
@@ -842,10 +842,10 @@ choose-path-method
 1
 
 SWITCH
-1126
-278
-1269
-311
+1113
+263
+1256
+296
 hide-searchers?
 hide-searchers?
 1
@@ -853,10 +853,10 @@ hide-searchers?
 -1000
 
 SWITCH
-1128
-324
-1269
-357
+1115
+309
+1256
+342
 activate-cars?
 activate-cars?
 1
@@ -864,10 +864,10 @@ activate-cars?
 -1000
 
 SLIDER
-1121
-376
-1278
-409
+1117
+402
+1274
+435
 num-cars
 num-cars
 1
@@ -1096,6 +1096,17 @@ TEXTBOX
 11
 0.0
 1
+
+SWITCH
+1120
+355
+1292
+388
+enable-user-message?
+enable-user-message?
+1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?

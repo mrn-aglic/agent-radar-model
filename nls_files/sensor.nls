@@ -34,7 +34,7 @@ to scope-activation [ goal-found? ]
   fd range
 
   ;; Move to separate file
-  project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
+  ;; project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
   ;;
 
   show-turtle

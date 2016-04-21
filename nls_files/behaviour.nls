@@ -8,7 +8,8 @@ to start-behaviour
 
   if (any? antennas with [ [goal?] of patch-here ] )
   [
-    ;; user-message ( word [who] of antennas with [ [ goal? ] of patch-here ] " Made it to goal" )
+    if ( enable-user-message? )
+    [ user-message ( word [who] of antennas with [ [ goal? ] of patch-here ] " Made it to goal" ) ]
     stop 
   ]
   
@@ -28,7 +29,8 @@ to start-behaviour
         set collisioned-with ( lput self collisioned-with )
       ]
       
-      user-message (word "Dogodio se sudar na patch-u " patch-here )
+      if ( enable-user-message? )
+      [ user-message (word "Dogodio se sudar na patch-u " patch-here ) ]
     ]
   ]
 
