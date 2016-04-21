@@ -137,8 +137,6 @@ to go
   if (any? antennas with [ [goal?] of patch-here ] )
   [ stop ]
 
-  if ( activate-cars? = true ) [ set move-num-paces? false ]
-
   if ( ( not any? cars ) and activate-cars? = true )
   [ setup-cars ]
 
@@ -179,9 +177,7 @@ to go
     [ setup-reason ]
 
 
-    ifelse ( move-num-paces? = true )
-    [ repeat ( num-paces ) [ basic-move-procedure ( 1 ) wait 1 ] ]
-    [ basic-move-procedure ( 1 ) ]
+    basic-move-procedure ( 1 )
 
     reset-for-new-scan
 
@@ -938,10 +934,10 @@ NIL
 1
 
 SLIDER
-10
-685
-251
-718
+14
+607
+255
+640
 memory-fade-parameter
 memory-fade-parameter
 0
@@ -953,10 +949,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-10
-407
-166
-440
+14
+329
+170
+362
 weight-param-a
 weight-param-a
 0
@@ -968,10 +964,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-4
-479
-164
-512
+8
+401
+168
+434
 weight-param-b
 weight-param-b
 0
@@ -1016,22 +1012,11 @@ NIL
 NIL
 1
 
-SWITCH
-20
-240
-162
-273
-move-num-paces?
-move-num-paces?
-1
-1
--1000
-
 CHOOSER
-10
-308
-164
-353
+14
+230
+168
+275
 choose-path-method
 choose-path-method
 "default" "function"
@@ -1075,20 +1060,20 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-13
-371
-131
-399
+17
+293
+135
+321
 Change weight of closest-patch-distance
 11
 0.0
 1
 
 TEXTBOX
-7
-449
-175
-477
+11
+371
+179
+399
 Change weight of deflection-angle
 11
 0.0
@@ -1105,10 +1090,10 @@ The parameters weight-param-a and weight-param-b affect the selection of which h
 1
 
 SLIDER
-11
-634
-254
-667
+15
+556
+258
+589
 trail-memory-fade-parameter
 trail-memory-fade-parameter
 0
@@ -1148,10 +1133,10 @@ NIL
 1
 
 SWITCH
-8
-531
-134
-564
+12
+453
+138
+486
 pen-down?
 pen-down?
 0
@@ -1256,10 +1241,10 @@ NIL
 1
 
 SWITCH
-8
-568
-133
-601
+12
+490
+137
+523
 leave-trail?
 leave-trail?
 1
