@@ -34,43 +34,6 @@ to start-behaviour
 
   antenna-behaviour
   
-  
-  
-;
-;  repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
-;  [
-;    if ( any? waves )
-;    [
-;      wave-advancement
-;      monitor-receiver
-;    ]
-;  ]
-;
-;  scope-fade
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;  if ( clock-state >= 360 )
-;  [
-;    if ( anything-found? )
-;    [ setup-reason ]
-;
-;    basic-move-procedure ( 1 )
-;
-;    reset-for-new-scan
-;
-;    if ( leave-trail? )
-;    [
-;      foreach phere [
-;
-;        project-patch-to-trail ? ( [ who ] of searcher-zero ) ( task map-x-quadrant-first-fourth )
-;      ]
-;    ]
-;  ]
-
   memory-fade
   trail-memory-fade
 
@@ -84,24 +47,27 @@ end
 
 to antenna-behaviour
   
-  while [ clock-state < 360 ] 
+  ask antenna 
   [
-    antenna-sweep
-  
-    emit-waves
-    
-    repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
+    while [ clock-state < 360 ] 
     [
-      if ( any? waves )
+      antenna-sweep
+  
+      emit-waves
+    
+      repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
       [
-        wave-advancement
-        monitor-receiver
+        if ( any? waves )
+        [
+          wave-advancement
+          monitor-receiver
+        ]
       ]
+      
+      set clock-state clock-state + sweep-angle
+      
+      scope-fade
     ]
-    
-    set clock-state clock-state + sweep-angle
-    
-    scope-fade
   ]
   
   set clock-state 0
@@ -111,22 +77,21 @@ end
 
 to antenna-sweep
 
-  ask antenna
-  [
-    set antenna-heading antenna-heading + sweep-angle
-    
-    set heading antenna-heading
+  set antenna-heading antenna-heading + sweep-angle
+  
+  set heading antenna-heading
 
-    ask scope [ set heading antenna-heading ]
-  ]
+  ask scope [ set heading antenna-heading ]
 
 end
 
 to emit-waves
 
-  create-waves 1
+  hatch-waves 1
   [
     set heading [heading] of antenna
+
+    pu
 
     setxy antenna-x antenna-y
     set bounced? false

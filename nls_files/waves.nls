@@ -3,9 +3,7 @@ to wave-advancement
   ask waves
   [
     set time time + resolution
-
-    show distance antenna
-
+    
     ifelse ( precision ( distance antenna ) 1 >= scope-radius  ) 
     [ die ]                                                        
     [

@@ -9,6 +9,7 @@ __includes
   "nls_files/test.nls"
   "nls_files/behaviour.nls"
   "nls_files/waves.nls"
+  "nls_files/sensor.nls"
 ]
 
 globals
@@ -152,7 +153,7 @@ to go
   if ( count relation-quadrant-cars < count cars )
   [ setup-relation-quadrant-cars ]
 
-  emit-waves
+  ;emit-waves
 
   repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
   [
@@ -357,7 +358,7 @@ to start-reasoning
       ]
     ]
     [
-      back-up
+
     ]
   ]
 
@@ -407,45 +408,6 @@ to activate-searchers [ func-num-paces ]
 end
 
 
-to back-up
-
-  let help-var 0
-
-  repeat ( ( 360 / sweep-angle ) - ( 360 mod sweep-angle ) )
-  [
-    create-searchers 1
-    [
-      set help-var help-var + 1
-
-      setup-searcher-properties ( help-var )
-
-      fd 1
-
-      if ( [pcolor] of patch-here != black )
-      [ die ]
-    ]
-  ]
-
-  let temp-searcher-set searchers with [ who != [who] of searcher-zero and patch-here = [ last-visited-patch ] of searcher-zero ]
-
-  if ( any? temp-searcher-set )
-  [
-    ask searcher-zero
-    [
-      face one-of temp-searcher-set
-
-      set new-heading heading
-
-      set antenna-heading new-heading
-
-      move-agents ( 1 )
-    ]
-    ask searchers with [ who != [who] of searcher-zero ] [ die ]
-  ]
-
-  set need-to-back-up? false
-
-end
 
 to memory-fade
 
@@ -612,20 +574,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-to monitor-receiver
-
-  ask antenna
-  [
-    ask waves with [ distance myself <= 0.5 and bounced? ]
-    [
-      set anything-found? true
-      scope-activation ( found-goal? )
-    ]
-  ]
-
-end
 
 to scope-activation [ goal-found? ]
 
