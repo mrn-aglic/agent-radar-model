@@ -41,6 +41,5 @@ to project-patch-to-trail [ p searcher-zero-id mapping-function-x ]
       set pcolor trail-pcolor-max
     ] 
   ]
-    
 
 end

@@ -1,15 +1,5 @@
-globals 
-[
-   
-]
-
 to setup
   
-  ;; (for this model to work with NetLogo's new plotting features,
-  ;; __clear-all-and-reset-ticks should be replaced with clear-all at
-  ;; the beginning of your setup procedure and reset-ticks at the end
-  ;; of the procedure.)
-  ;;__clear-all-and-reset-ticks
   ca 
   reset-ticks 
   
@@ -177,7 +167,6 @@ to setup-relation-quadrant-cars
     hatch 1
     [
       set breed relation-quadrant-cars 
-      ;setxy [ xcor ] of self [ ycor ] of self
       setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
       set color violet + 1
       set cars-pair [ who ] of myself

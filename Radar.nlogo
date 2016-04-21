@@ -770,13 +770,13 @@ to scope-fade
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-504
+550
 10
-1385
-522
-33
-18
-13.0
+1384
+673
+51
+39
+8.0
 1
 10
 1
@@ -786,10 +786,10 @@ GRAPHICS-WINDOW
 0
 0
 1
--33
-33
--18
-18
+-51
+51
+-39
+39
 0
 0
 1
@@ -938,10 +938,10 @@ NIL
 1
 
 SLIDER
-5
-770
-246
-803
+10
+685
+251
+718
 memory-fade-parameter
 memory-fade-parameter
 0
@@ -1105,10 +1105,10 @@ The parameters weight-param-a and weight-param-b affect the selection of which h
 1
 
 SLIDER
-6
-719
-249
-752
+11
+634
+254
+667
 trail-memory-fade-parameter
 trail-memory-fade-parameter
 0
@@ -1178,7 +1178,7 @@ width-of-world
 width-of-world
 5
 133
-67
+103
 2
 1
 NIL
@@ -1210,7 +1210,7 @@ height-of-world
 height-of-world
 5
 133
-37
+79
 2
 1
 NIL
