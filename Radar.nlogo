@@ -602,9 +602,9 @@ to scope-fade
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-550
+207
 10
-1431
+1088
 522
 33
 18
@@ -661,9 +661,9 @@ NIL
 HORIZONTAL
 
 SLIDER
-1582
+1120
 431
-1743
+1281
 464
 sweep-angle
 sweep-angle
@@ -719,26 +719,9 @@ NIL
 HORIZONTAL
 
 BUTTON
-1611
-10
-1688
-43
-Go once
-go
-NIL
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
-BUTTON
-1592
+1130
 67
-1743
+1281
 100
 Draw static objects
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n    set pcolor gray\n    set goal? false\n  ]\n]
@@ -753,9 +736,9 @@ NIL
 1
 
 BUTTON
-1592
+1130
 125
-1804
+1342
 158
 Remove static objects or goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor black\n   set goal? false\n  ]\n]
@@ -815,9 +798,9 @@ NIL
 HORIZONTAL
 
 BUTTON
-1603
+1141
 174
-1689
+1227
 207
 Save map
 save-map
@@ -832,9 +815,9 @@ NIL
 1
 
 BUTTON
-1605
+1143
 226
-1687
+1225
 259
 NIL
 load-map
@@ -859,9 +842,9 @@ choose-path-method
 1
 
 SWITCH
-1588
+1126
 278
-1731
+1269
 311
 hide-searchers?
 hide-searchers?
@@ -870,9 +853,9 @@ hide-searchers?
 -1000
 
 SWITCH
-1590
+1128
 324
-1731
+1269
 357
 activate-cars?
 activate-cars?
@@ -881,9 +864,9 @@ activate-cars?
 -1000
 
 SLIDER
-1583
+1121
 376
-1740
+1278
 409
 num-cars
 num-cars
@@ -916,10 +899,10 @@ Change weight of deflection-angle
 1
 
 TEXTBOX
-553
-715
-1405
-774
+284
+557
+1136
+616
 The parameters weight-param-a and weight-param-b affect the selection of which heading to take only if the choose-path-method is set to function. The function calculating which heading to take is of the form: \n f = a * closest-patch-distance - b * deflection-angle
 11
 0.0
@@ -941,10 +924,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-613
-776
-736
-821
+298
+620
+421
+665
 trail fade quotient
 trail-memory-fade-parameter / 4
 17
@@ -952,9 +935,9 @@ trail-memory-fade-parameter / 4
 11
 
 BUTTON
-1769
+1428
 66
-1862
+1521
 99
 Draw goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor magenta\n   set goal? true\n  ]\n]
@@ -980,10 +963,10 @@ pen-down?
 -1000
 
 MONITOR
-608
-828
-736
-873
+293
+672
+421
+717
 memory fade quotient
 memory-fade-parameter / 4
 17
@@ -991,9 +974,9 @@ memory-fade-parameter / 4
 11
 
 SLIDER
-1588
+1126
 491
-1760
+1298
 524
 width-of-world
 width-of-world
@@ -1006,9 +989,9 @@ NIL
 HORIZONTAL
 
 BUTTON
-1586
+1124
 573
-1847
+1385
 606
 Set width and height to default values
 set width-of-world 67\nset height-of-world 37
@@ -1023,9 +1006,9 @@ NIL
 1
 
 SLIDER
-1586
+1124
 533
-1758
+1296
 566
 height-of-world
 height-of-world
@@ -1038,9 +1021,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-1708
+1246
 169
-1825
+1363
 214
 Loaded file name
 file-name
@@ -1049,10 +1032,10 @@ file-name
 11
 
 INPUTBOX
-748
-772
-1297
-918
+479
+614
+1028
+760
 command
 ask patches [set is-mapped? false]
 1
@@ -1060,10 +1043,10 @@ ask patches [set is-mapped? false]
 String (commands)
 
 BUTTON
-1306
-770
-1414
-829
+1050
+611
+1158
+670
 Fix
 choose-directory-and-fix-files-in-directory task command\n
 NIL
@@ -1088,10 +1071,10 @@ leave-trail?
 -1000
 
 BUTTON
-87
-729
-216
-762
+1127
+15
+1256
+48
 NIL
 start-behaviour
 T
@@ -1105,9 +1088,9 @@ NIL
 1
 
 TEXTBOX
-1684
+1222
 668
-1834
+1372
 710
 103\n79\n8
 11
