@@ -1,5 +1,9 @@
 to start-behaviour
 
+  ;; move this to go
+  if ( pen-down? )
+  [ ask antennas [ pd ] ]
+
   let phere [patch-here] of antennas
 
   if (any? antennas with [ [goal?] of patch-here ] )
@@ -28,46 +32,47 @@ to start-behaviour
     ]
   ]
 
-  antenna-sweep
-  emit-waves
-
-  repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
-  [
-    if ( any? waves )
-    [
-      wave-advancement
-      monitor-receiver
-    ]
-  ]
-
-  scope-fade
+  antenna-behaviour
+  
+  
+  
+;
+;  repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
+;  [
+;    if ( any? waves )
+;    [
+;      wave-advancement
+;      monitor-receiver
+;    ]
+;  ]
+;
+;  scope-fade
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-  if ( clock-state >= 360 )
-  [
-    if ( anything-found? )
-    [ setup-reason ]
+;  if ( clock-state >= 360 )
+;  [
+;    if ( anything-found? )
+;    [ setup-reason ]
+;
+;    basic-move-procedure ( 1 )
+;
+;    reset-for-new-scan
+;
+;    if ( leave-trail? )
+;    [
+;      foreach phere [
+;
+;        project-patch-to-trail ? ( [ who ] of searcher-zero ) ( task map-x-quadrant-first-fourth )
+;      ]
+;    ]
+;  ]
 
-    basic-move-procedure ( 1 )
-
-    reset-for-new-scan
-
-    if ( leave-trail? )
-    [
-      foreach phere [
-
-        project-patch-to-trail ? ( [who] of searcher-zero ) ( task map-x-quadrant-first-fourth )
-      ]
-    ]
-
-    memory-fade
-    ;;
-    trail-memory-fade
-  ]
+  memory-fade
+  trail-memory-fade
 
   make-environment-corrections
 
@@ -79,9 +84,27 @@ end
 
 to antenna-behaviour
   
-  antenna-sweep
+  while [ clock-state < 360 ] 
+  [
+    antenna-sweep
   
-  emit-waves
+    emit-waves
+    
+    repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
+    [
+      if ( any? waves )
+      [
+        wave-advancement
+        monitor-receiver
+      ]
+    ]
+    
+    set clock-state clock-state + sweep-angle
+    
+    scope-fade
+  ]
+  
+  set clock-state 0
   
 end
 
@@ -90,17 +113,11 @@ to antenna-sweep
 
   ask antenna
   [
-    set clock clock + sweep-angle
-
-    set clock-state clock-state + sweep-angle
-
     set antenna-heading antenna-heading + sweep-angle
-
-    if ( antenna-heading >= 360 ) [ set antenna-heading antenna-heading - 360 ]
-
+    
     set heading antenna-heading
 
-    ask scope [set heading antenna-heading]
+    ask scope [ set heading antenna-heading ]
   ]
 
 end
@@ -116,7 +133,8 @@ to emit-waves
     set size 1
     set time 0
     set color white
-    set hidden? not waves-visible?
+    set hidden? ( not waves-visible? )
+    
     set found-goal? false
   ]
 

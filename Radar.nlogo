@@ -82,7 +82,6 @@ searchers-own
 
 waves-own [ time bounced? found-goal? ]
 
-antennas-own [ clock ]
 scope-markers-own [ time ]
 
 patches-own [ goal? is-mapped? ]
@@ -152,7 +151,6 @@ to go
   if ( count relation-quadrant-cars < count cars )
   [ setup-relation-quadrant-cars ]
 
-  antenna-sweep
   emit-waves
 
   repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
@@ -780,7 +778,7 @@ scope-radius
 scope-radius
 2
 10
-6
+4
 2
 1
 NIL
@@ -918,9 +916,9 @@ SLIDER
 weight-param-a
 weight-param-a
 0
-10
 1
-2.5
+0.1
+0.1
 1
 NIL
 HORIZONTAL
@@ -933,9 +931,9 @@ SLIDER
 weight-param-b
 weight-param-b
 0
-10
 1
-2.5
+0.1
+0.1
 1
 NIL
 HORIZONTAL
