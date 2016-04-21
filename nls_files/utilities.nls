@@ -1,0 +1,21 @@
+to-report get-one-with-largest-turn-angle [patch_set]
+
+  report get-n-with-largest-turn-angle patch_set 1
+
+end
+
+to-report get-n-with-largest-turn-angle [patch_set n]
+
+  let chosen-patch max-n-of n patch_set [abs turn-amount]
+  
+  report chosen-patch
+
+end
+
+to-report turn-amount  
+
+  let this-patch self
+
+  report [subtract-headings (towards this-patch) heading] of myself
+
+end

@@ -1,0 +1,86 @@
+globals [ file-name ]
+
+extensions [ pathdir ]
+
+to save-map
+  
+  let filepath user-new-file
+  
+  if ( is-string? filepath )
+  [
+    ifelse user-yes-or-no? (word "File will be saved at: " filepath
+      "\nIf this file already exists, it will be overwritten.\nAre you sure you want to save?")
+    [
+      export-world filepath 
+      user-message "File Saved."
+    ]
+    [ user-message "Save Canceled. File not saved." ]
+  ]
+  
+end
+
+
+to load-map
+  
+  let filepath user-file
+  
+  if ( is-string? filepath )
+  [
+    ifelse ( user-yes-or-no? (word "Load File: " filepath
+      "\nThis will clear your current level and replace it with the level loaded."
+      "\nAre you sure you want to Load?") )
+    [
+      import-world filepath
+      
+      set-file-name filepath
+      
+      user-message "File Loaded."
+    ]
+    [ user-message "Load Canceled. File not loaded." ]
+  ]
+  
+  analysis-setup
+  
+end
+
+to set-file-name [filepath]
+  
+  let reversed reverse filepath
+  
+  let sub substring reversed 0 ( position "/" reversed )
+  
+  let name reverse sub
+  
+  set file-name name
+  
+end
+
+to choose-directory-and-fix-files-in-directory [ action ]
+  
+  let directory user-directory
+  
+  if ( not ( is-string? directory or directory ) )
+  [
+    stop
+  ]
+  
+  fix-files-in-directory directory action
+  
+end
+
+to fix-files-in-directory [ directory-path action ]
+  
+  let files filter [ first ? != "." ] pathdir:list directory-path
+  
+  foreach files [
+    
+    let full-file-path ( word directory-path ? )
+    
+    import-world full-file-path
+    
+    run action
+    
+    export-world full-file-path
+  ]
+  
+end

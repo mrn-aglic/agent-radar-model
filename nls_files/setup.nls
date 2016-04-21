@@ -1,0 +1,190 @@
+globals 
+[
+   
+]
+
+to setup
+  
+  ;; (for this model to work with NetLogo's new plotting features,
+  ;; __clear-all-and-reset-ticks should be replaced with clear-all at
+  ;; the beginning of your setup procedure and reset-ticks at the end
+  ;; of the procedure.)
+  ;;__clear-all-and-reset-ticks
+  ca 
+  reset-ticks 
+  
+  set-default-shape waves "wave"
+  set-default-shape antennas "antenna"
+  set-default-shape scope-markers "phosphor"
+  
+  reset-ticks
+  
+  my-resize-world
+  
+  let physical-world-middle ( floor ( floor ( world-width / 2 ) / 2 ) ) + 1
+  
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
+  set file-name ""
+  
+  set memory-pcolor-max 97
+  set memory-pcolor-min 91
+  
+  set trail-pcolor-max 47
+  set trail-pcolor-min 41
+  
+  set searcher-set nobody
+  
+  set anything-found? false
+  
+  set num-paces scope-radius - 2
+  set new-heading 0
+  
+  set need-to-back-up? false
+  
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
+  ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]
+  
+  antenna-setup physical-world-middle
+  
+  scope-setup
+  
+  searcher-zero-setup
+  
+  if ( activate-cars? = true )
+  [ setup-cars ]
+  
+  if ( count relation-quadrant-cars < count cars )
+  [ setup-relation-quadrant-cars ]
+  
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
+  analysis-setup
+  
+  ask patches [set goal? false set is-mapped? false]
+  
+  let goals patches with [pcolor = magenta]
+  
+  if ( any? goals )
+  [
+    ask goals [ set goal? true ]
+  ]
+  
+end
+
+to my-resize-world
+  
+  let min-x ( 0 - floor ( width-of-world / 2 ) )
+  let max-x ( floor ( width-of-world / 2 ) ) 
+  
+  let min-y ( 0 - floor ( height-of-world / 2 ) )
+  let max-y ( floor ( height-of-world / 2 ) )
+  
+  resize-world min-x max-x min-y max-y
+  
+end
+
+to analysis-setup
+  
+  set number-of-steps 0
+  set patches-trail []
+  
+  set number-of-collisions 0
+  set collisioned-with []
+  
+end
+
+to antenna-setup [ quadrant-one-middle ]
+  
+  let position-offset-x 0
+  let position-offset-y 2
+  
+  create-antennas 1
+  [
+    set antenna self
+    set antenna-x ( quadrant-one-middle - position-offset-x )
+    set antenna-y position-offset-y
+    setxy antenna-x antenna-y 
+    set size 1
+    set color green
+    
+    hatch 1
+    [
+      set breed relation-quadrant-antennas
+      set color green 
+      setxy ( map-x-quadrant-first-fourth xcor ) ( map-y-quadrant-second-third ycor ) 
+    ]
+  ]
+  
+end
+
+to scope-setup
+
+  set scope-x [xcor] of antenna
+  set scope-y ( map-y-quadrant-second-third [ycor] of antenna )
+  
+  create-scopes 1
+  [
+    set scope self
+    set size scope-radius * 2
+    setxy scope-x scope-y
+    set heading 0
+    set color red
+    set shape "scope-sweep"
+  ]
+
+end
+
+to searcher-zero-setup
+  
+  set searcher-zero-x ( map-x-quadrant-first-fourth [xcor] of antenna )
+  set searcher-zero-y [ycor] of antenna
+  
+  create-searchers 1
+  [
+    set searcher-zero self
+    set size 1
+    set heading 0
+    set color white
+    setxy searcher-zero-x searcher-zero-y
+    
+    set last-visited-patch nobody
+  ]
+  
+end
+
+to setup-cars
+  
+  create-cars num-cars
+  [
+    set size 1
+    set heading ( random 360 )
+    set color violet + 1
+    move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
+    set relation-quadrant-pair -1 
+  ]
+  
+end
+
+
+to setup-relation-quadrant-cars
+  
+  ask cars with [ relation-quadrant-pair = -1 ]
+  [
+    let help-var -1
+    
+    hatch 1
+    [
+      set breed relation-quadrant-cars 
+      ;setxy [ xcor ] of self [ ycor ] of self
+      setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
+      set color violet + 1
+      set cars-pair [ who ] of myself
+      set help-var who
+    ]
+    
+    set relation-quadrant-pair help-var
+  ]
+  
+end

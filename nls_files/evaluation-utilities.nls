@@ -1,0 +1,31 @@
+;; NOT USED
+to-report percentage-of-correctly-mapped [set1 set2]
+
+  let correct-set nobody
+  let wrong-set set2 
+  
+  let wrong-pairs []
+
+  ask set1 
+  [
+    let to-compare-x pxcor - ceiling ( world-width / 2 )
+    let to-compare-y pycor
+    
+    let to-compare (one-of set2 with [ pxcor = to-compare-x and pycor = to-compare-y ] )
+    
+    ifelse ( to-compare = nobody or ( pcolor != black and [ not is-mapped? ] of to-compare ) or ( pcolor = black and [ is-mapped? ] of to-compare ) ) 
+    [
+      let pair fput self ( fput to-compare [] )
+          
+      set wrong-pairs fput pair wrong-pairs
+    ]
+    [
+      set correct-set ( patch-set correct-set to-compare )
+      
+      set wrong-set ( set2 with [ self != to-compare ] )
+    ]
+  ]
+  
+  report count correct-set / count set2
+
+end
