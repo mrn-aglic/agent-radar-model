@@ -84,7 +84,7 @@ searchers-own
 
 waves-own [ time bounced? found-goal? ]
 
-scope-markers-own [ time ]
+scope-markers-own [ time found-goal? ]
 
 patches-own [ goal? is-mapped? ]
 

@@ -36,6 +36,10 @@ to start-behaviour
 
   antenna-behaviour
   
+  let markers scope-markers
+  
+  map-markers-to-mental-model markers ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
+  
   memory-fade
   trail-memory-fade
 

@@ -21,9 +21,11 @@ to scope-activation [ goal-found? ]
 
   ifelse ( goal-found? )
   [
+    set found-goal? true
     set color magenta + 1
   ]
   [
+    set found-goal? false
     set color red + 1
   ]
 
@@ -32,11 +34,7 @@ to scope-activation [ goal-found? ]
   set range time * 0.5
 
   fd range
-
-  ;; Move to separate file
-  ;; project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
-  ;;
-
+  
   show-turtle
 
 end
