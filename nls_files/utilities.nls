@@ -19,3 +19,10 @@ to-report turn-amount
   report [subtract-headings (towards this-patch) heading] of myself
 
 end
+
+
+to make-environment-corrections 
+  
+  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
+  
+end

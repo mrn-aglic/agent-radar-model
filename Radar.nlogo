@@ -7,6 +7,7 @@ __includes
   "nls_files/evaluation-utilities.nls"
   "nls_files/projections.nls"
   "nls_files/test.nls"
+  "nls_files/behaviour.nls"
 ]
 
 globals
@@ -613,45 +614,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-to antenna-sweep
-
-  ask antenna
-  [
-    set clock clock + sweep-angle
-
-    set clock-state clock-state + sweep-angle
-
-    set antenna-heading antenna-heading + sweep-angle
-
-    if ( antenna-heading >= 360 ) [ set antenna-heading antenna-heading - 360 ]
-
-    set heading antenna-heading
-
-    ask scope [set heading antenna-heading]
-  ]
-
-end
-
-
-to emit-waves
-
-  create-waves 1
-  [
-    set heading [heading] of antenna
-
-    setxy antenna-x antenna-y
-    set bounced? false
-    set size 1
-    set time 0
-    set color white
-    set hidden? not waves-visible?
-    set found-goal? false
-  ]
-
-end
-
 to wave-advancement
 
   ask waves
@@ -768,11 +730,11 @@ end
 GRAPHICS-WINDOW
 550
 10
-1384
-673
-51
-39
-8.0
+1431
+522
+33
+18
+13.0
 1
 10
 1
@@ -782,10 +744,10 @@ GRAPHICS-WINDOW
 0
 0
 1
--51
-51
--39
-39
+-33
+33
+-18
+18
 0
 0
 1
@@ -1040,7 +1002,7 @@ SWITCH
 357
 activate-cars?
 activate-cars?
-0
+1
 1
 -1000
 
@@ -1163,7 +1125,7 @@ width-of-world
 width-of-world
 5
 133
-103
+67
 2
 1
 NIL
@@ -1195,7 +1157,7 @@ height-of-world
 height-of-world
 5
 133
-79
+37
 2
 1
 NIL
@@ -1250,6 +1212,33 @@ leave-trail?
 1
 1
 -1000
+
+BUTTON
+87
+729
+216
+762
+NIL
+start-behaviour
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+TEXTBOX
+1684
+668
+1834
+710
+103\n79\n8
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?

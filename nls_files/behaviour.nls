@@ -27,20 +27,6 @@ to start-behaviour
       user-message (word "Dogodio se sudar na patch-u " patch-here )
     ]
   ]
-  
-  if ( ( not any? cars ) and activate-cars? = true )
-  [ setup-cars ]
-
-  if ( ( any? cars ) and activate-cars? = false )
-  [
-    ask cars [ die ]
-
-    if ( any? relation-quadrant-cars )
-    [ ask relation-quadrant-cars [ die ] ]
-  ]
-
-  if ( count relation-quadrant-cars < count cars )
-  [ setup-relation-quadrant-cars ]
 
   antenna-sweep
   emit-waves
@@ -56,7 +42,6 @@ to start-behaviour
 
   scope-fade
 
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -67,10 +52,7 @@ to start-behaviour
     if ( anything-found? )
     [ setup-reason ]
 
-
-    ifelse ( move-num-paces? = true )
-    [ repeat ( num-paces ) [ basic-move-procedure ( 1 ) wait 1 ] ]
-    [ basic-move-procedure ( 1 ) ]
+    basic-move-procedure ( 1 )
 
     reset-for-new-scan
 
@@ -87,10 +69,55 @@ to start-behaviour
     trail-memory-fade
   ]
 
-  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
+  make-environment-corrections
 
   ask patches with [ pcolor > memory-pcolor-min and pcolor < memory-pcolor-max ] [ set is-mapped? true ]
 
   tick
   
+end
+
+to antenna-behaviour
+  
+  antenna-sweep
+  
+  emit-waves
+  
+end
+
+
+to antenna-sweep
+
+  ask antenna
+  [
+    set clock clock + sweep-angle
+
+    set clock-state clock-state + sweep-angle
+
+    set antenna-heading antenna-heading + sweep-angle
+
+    if ( antenna-heading >= 360 ) [ set antenna-heading antenna-heading - 360 ]
+
+    set heading antenna-heading
+
+    ask scope [set heading antenna-heading]
+  ]
+
+end
+
+to emit-waves
+
+  create-waves 1
+  [
+    set heading [heading] of antenna
+
+    setxy antenna-x antenna-y
+    set bounced? false
+    set size 1
+    set time 0
+    set color white
+    set hidden? not waves-visible?
+    set found-goal? false
+  ]
+
 end
