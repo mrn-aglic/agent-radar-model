@@ -575,45 +575,7 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-to scope-activation [ goal-found? ]
 
-  set range 0
-
-  hide-turtle
-
-  set breed scope-markers
-  set shape "phosphor"
-
-  setxy scope-x scope-y
-
-  ifelse ( goal-found? )
-  [
-    set color magenta + 1
-  ]
-  [
-    set color red + 1
-  ]
-
-  set heading heading + 180
-
-  set range time * 0.5
-
-  ;; Zbog jump naredbe, u slucaju da je range prevelik, jump se nece izvrsit i turtle ce ostat na mjestu sto nam ne odgovara
-  ;; ovaj quick fix bi trebalo u jednom momentu izbacit
-  ;if( not can-move? range )
-  ;[ make-sure-move-is-possible ]
-
-  jump range
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
-
-  show-turtle
-
-end
 
 
 to make-sure-move-is-possible

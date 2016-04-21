@@ -96,6 +96,7 @@ to antenna-setup [ quadrant-one-middle ]
     set antenna-x ( quadrant-one-middle - position-offset-x )
     set antenna-y position-offset-y
     setxy antenna-x antenna-y 
+    set antenna-heading heading
     set size 1
     set color green
     
@@ -119,7 +120,7 @@ to scope-setup
     set scope self
     set size scope-radius * 2
     setxy scope-x scope-y
-    set heading 0
+    set heading antenna-heading
     set color red
     set shape "scope-sweep"
   ]
@@ -135,7 +136,7 @@ to searcher-zero-setup
   [
     set searcher-zero self
     set size 1
-    set heading 0
+    set heading antenna-heading
     set color white
     setxy searcher-zero-x searcher-zero-y
     

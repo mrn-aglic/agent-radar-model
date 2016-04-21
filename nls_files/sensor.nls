@@ -7,3 +7,36 @@ to monitor-receiver
   ]
 
 end
+
+to scope-activation [ goal-found? ]
+
+  set range 0
+
+  hide-turtle
+
+  set breed scope-markers
+  set shape "phosphor"
+
+  setxy scope-x scope-y
+
+  ifelse ( goal-found? )
+  [
+    set color magenta + 1
+  ]
+  [
+    set color red + 1
+  ]
+
+  set heading heading + 180
+
+  set range time * 0.5
+
+  fd range
+
+  ;; Move to separate file
+  project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
+  ;;
+
+  show-turtle
+
+end
