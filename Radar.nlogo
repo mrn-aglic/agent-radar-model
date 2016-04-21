@@ -770,10 +770,10 @@ to scope-fade
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-201
-13
-1082
-525
+504
+10
+1385
+522
 33
 18
 13.0
@@ -822,17 +822,17 @@ scope-radius
 scope-radius
 2
 10
-8
+6
 2
 1
 NIL
 HORIZONTAL
 
 SLIDER
-1088
-438
-1249
-471
+1582
+431
+1743
+464
 sweep-angle
 sweep-angle
 1
@@ -887,10 +887,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-1117
-17
-1194
-50
+1611
+10
+1688
+43
 Go once
 go
 NIL
@@ -904,10 +904,10 @@ NIL
 1
 
 BUTTON
-1098
-74
-1249
-107
+1592
+67
+1743
+100
 Draw static objects
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n    set pcolor gray\n    set goal? false\n  ]\n]
 T
@@ -921,10 +921,10 @@ NIL
 1
 
 BUTTON
-1098
-132
-1310
-165
+1592
+125
+1804
+158
 Remove static objects or goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor black\n   set goal? false\n  ]\n]
 T
@@ -938,10 +938,10 @@ NIL
 1
 
 SLIDER
-11
-656
-252
-689
+5
+770
+246
+803
 memory-fade-parameter
 memory-fade-parameter
 0
@@ -983,10 +983,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-1109
-181
-1195
-214
+1603
+174
+1689
+207
 Save map
 save-map
 NIL
@@ -1000,10 +1000,10 @@ NIL
 1
 
 BUTTON
-1111
-233
-1193
-266
+1605
+226
+1687
+259
 NIL
 load-map
 NIL
@@ -1038,10 +1038,10 @@ choose-path-method
 1
 
 SWITCH
-1094
-285
-1237
-318
+1588
+278
+1731
+311
 hide-searchers?
 hide-searchers?
 1
@@ -1049,10 +1049,10 @@ hide-searchers?
 -1000
 
 SWITCH
-1096
-331
-1237
-364
+1590
+324
+1731
+357
 activate-cars?
 activate-cars?
 0
@@ -1060,10 +1060,10 @@ activate-cars?
 -1000
 
 SLIDER
-1089
-383
-1246
-416
+1583
+376
+1740
+409
 num-cars
 num-cars
 1
@@ -1095,20 +1095,20 @@ Change weight of deflection-angle
 1
 
 TEXTBOX
-222
-537
-1074
-596
+553
+715
+1405
+774
 The parameters weight-param-a and weight-param-b affect the selection of which heading to take only if the choose-path-method is set to function. The function calculating which heading to take is of the form: \n f = a * closest-patch-distance - b * deflection-angle
 11
 0.0
 1
 
 SLIDER
-12
-605
-255
-638
+6
+719
+249
+752
 trail-memory-fade-parameter
 trail-memory-fade-parameter
 0
@@ -1120,10 +1120,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-282
-598
-405
-643
+613
+776
+736
+821
 trail fade quotient
 trail-memory-fade-parameter / 4
 17
@@ -1131,10 +1131,10 @@ trail-memory-fade-parameter / 4
 11
 
 BUTTON
-1275
-73
-1368
-106
+1769
+66
+1862
+99
 Draw goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor magenta\n   set goal? true\n  ]\n]
 T
@@ -1159,10 +1159,10 @@ pen-down?
 -1000
 
 MONITOR
-277
-650
-405
-695
+608
+828
+736
+873
 memory fade quotient
 memory-fade-parameter / 4
 17
@@ -1170,10 +1170,10 @@ memory-fade-parameter / 4
 11
 
 SLIDER
-1094
-498
-1266
-531
+1588
+491
+1760
+524
 width-of-world
 width-of-world
 5
@@ -1185,10 +1185,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-1092
-580
-1353
-613
+1586
+573
+1847
+606
 Set width and height to default values
 set width-of-world 67\nset height-of-world 37
 NIL
@@ -1202,10 +1202,10 @@ NIL
 1
 
 SLIDER
-1092
-540
-1264
-573
+1586
+533
+1758
+566
 height-of-world
 height-of-world
 5
@@ -1217,10 +1217,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-1214
-176
-1331
-221
+1708
+169
+1825
+214
 Loaded file name
 file-name
 17
@@ -1228,10 +1228,10 @@ file-name
 11
 
 INPUTBOX
-417
-594
-966
-740
+748
+772
+1297
+918
 command
 ask patches [set is-mapped? false]
 1
@@ -1239,10 +1239,10 @@ ask patches [set is-mapped? false]
 String (commands)
 
 BUTTON
-975
-592
-1083
-651
+1306
+770
+1414
+829
 Fix
 choose-directory-and-fix-files-in-directory task command\n
 NIL
@@ -1265,46 +1265,6 @@ leave-trail?
 1
 1
 -1000
-
-TEXTBOX
-654
-42
-717
-68
-Physical world
-11
-99.9
-1
-
-TEXTBOX
-222
-52
-372
-70
-Memory
-11
-129.9
-1
-
-TEXTBOX
-212
-290
-311
-329
-Relation between antennas and cars
-11
-119.9
-1
-
-TEXTBOX
-654
-288
-804
-316
-World shown through sensors
-11
-99.9
-1
 
 @#$#@#$#@
 ## WHAT IS IT?
