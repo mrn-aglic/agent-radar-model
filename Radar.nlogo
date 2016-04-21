@@ -8,6 +8,7 @@ __includes
   "nls_files/projections.nls"
   "nls_files/test.nls"
   "nls_files/behaviour.nls"
+  "nls_files/waves.nls"
 ]
 
 globals
@@ -612,41 +613,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-to wave-advancement
-
-  ask waves
-  [
-    set time time + resolution
-
-    ifelse ( precision ( distance antenna ) 1 >= scope-radius  ) ; or ( xcor >= max-pxcor  or ycor >= max-pycor ) ) ;+ 0.01 ;; dodano je + 0.01 na scope-radius zato sto se dogadalo da se ne detektira objekt koji je od antene
-    [ die ]                                                            ;; udaljen za tocno scope-radius ;; izbaceni uvjet -> and [pcolor] of patch-ahead 1 != black)
-    [
-     jump resolution
-
-
-     if ( not bounced? and
-       ( any? patches with [pcolor != black and distance myself < 0.1] or [pcolor] of patch-here != black )
-        or ( [ pxcor ] of patch-here >= max-pxcor or [ pycor ] of patch-here >= max-pycor ) or ( any? cars with [distance myself < 0.1] ) )
-        ;or ( xcor >= max-pxcor or ycor >= max-pycor ) or ( any? cars with [distance myself < 0.1] ) )
-     [ wave-bounce ]
-
-    ]
-  ]
-
-end
-
-
-to wave-bounce
-
-  set color yellow
-  set heading heading + 180
-  set shape "wave-return"
-  set bounced? true
-
-  if ( goal? )
-  [ set found-goal? true ]
-
-end
 
 to monitor-receiver
 
@@ -686,8 +652,8 @@ to scope-activation [ goal-found? ]
 
   ;; Zbog jump naredbe, u slucaju da je range prevelik, jump se nece izvrsit i turtle ce ostat na mjestu sto nam ne odgovara
   ;; ovaj quick fix bi trebalo u jednom momentu izbacit
-  if( not can-move? range )
-  [ make-sure-move-is-possible ]
+  ;if( not can-move? range )
+  ;[ make-sure-move-is-possible ]
 
   jump range
 
