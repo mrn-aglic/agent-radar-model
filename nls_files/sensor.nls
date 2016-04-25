@@ -2,7 +2,6 @@ to monitor-receiver
 
   ask waves with [ distance myself <= 0.5 and bounced? ]
   [
-    set anything-found? true
     scope-activation ( found-goal? )
   ]
 

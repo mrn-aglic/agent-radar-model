@@ -1,3 +1,57 @@
-to setup-decision-making
+to start-decision-making
   
+  let heading-step sweep-angle
+  
+  let N floor ( 360 / heading-step ) 
+  
+  setup-decision-making N heading-step
+  
+end
+
+to setup-searchers [ N heading-step ]
+
+  let help-var 0
+
+  repeat N
+  [
+    create-searchers 1
+    [
+      let k count searchers with [ who != [ who ] of searcher-zero ]
+
+      configure-searchers k heading-step
+
+      ;searcher-live-or-die
+    ]
+  ]
+
+end
+
+
+to configure-searchers [ k heading-step ]
+
+  setxy searcher-zero-x searcher-zero-y
+ 
+  set heading k * heading-step
+
+  set hidden? ifelse-value hide-searchers? [ true ] [ false ]
+
+  set on-goal? false
+
+end
+
+to setup-decision-making [ N heading-step ]
+  
+  setup-searchers N heading-step
+  
+end
+
+
+to setup-reason
+
+  ;set num-paces scope-radius ;;- 2
+
+  ;start-reasoning
+
+  ;ask searchers with [who != [who] of searcher-zero] [ die ]
+
 end

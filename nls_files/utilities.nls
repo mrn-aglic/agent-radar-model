@@ -20,9 +20,20 @@ to-report turn-amount
 
 end
 
+to-report get-memory-fade-quotient
+
+  report memory-fade-parameter / 4
+
+end
+
+to-report get-trail-fade-quotient
+
+  report trail-memory-fade-parameter / 4
+
+end
 
 to make-environment-corrections 
   
-  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
+  ask patches with [ pycor = 0 or pxcor = 0 ] [set pcolor green]
   
 end

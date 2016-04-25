@@ -10,6 +10,7 @@ __includes
   "nls_files/behaviour.nls"
   "nls_files/waves.nls"
   "nls_files/sensor.nls"
+  "nls_files/decisionmaking.nls"
 ]
 
 globals
@@ -172,8 +173,6 @@ to go
 
   if ( clock-state >= 360 )
   [
-    setup-reason
-
 
     basic-move-procedure ( 1 )
 
@@ -217,53 +216,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-to setup-reason
-
-  set num-paces scope-radius ;;- 2
-
-  setup-searchers
-
-  start-reasoning
-
-  ask searchers with [who != [who] of searcher-zero] [ die ]
-
-end
-
-
-to setup-searchers
-
-  let help-var 0
-
-  repeat ( ( 360 / sweep-angle ) - ( 360 mod sweep-angle ) )
-  [
-    create-searchers 1
-    [
-      set help-var help-var + 1
-
-      setup-searcher-properties ( help-var )
-
-      searcher-live-or-die
-    ]
-  ]
-
-end
-
-
-to setup-searcher-properties [ help-var ]
-
-  setxy searcher-zero-x searcher-zero-y
-  set help-var help-var + 1
-
-  set heading help-var * sweep-angle
-
-  if ( hide-searchers? )
-  [ set hidden? true ]
-
-  set on-goal? false
-
-end
 
 to-report should-searcher-die? [p]
 
@@ -402,8 +354,6 @@ to activate-searchers [ func-num-paces ]
 
 end
 
-
-
 to memory-fade
 
   let fade-quotient get-memory-fade-quotient
@@ -431,18 +381,6 @@ to trail-memory-fade
     if (pcolor <= forget-border)
     [ set pcolor black ]
   ]
-
-end
-
-to-report get-memory-fade-quotient
-
-  report memory-fade-parameter / 4
-
-end
-
-to-report get-trail-fade-quotient
-
-  report trail-memory-fade-parameter / 4
 
 end
 
