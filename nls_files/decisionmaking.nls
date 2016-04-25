@@ -1,4 +1,4 @@
-to make-decision
+to-report make-decision
   
   let heading-step sweep-angle
   
@@ -10,9 +10,11 @@ to make-decision
   
   explore-area-of-interest lmax N
   
-  
+  let result ifelse-value ( any? searchers with [ who != [ who ] of searcher-zero ] ) [ choose-based-on-score ] [ choose-based-on-score-from-history ] 
   
   ;cleanup-decision-making
+  
+  report result
   
 end
 
@@ -63,6 +65,7 @@ end
 
 to explore-area-of-interest [ lmax N ] 
   
+  ;let R [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ] 
   let F n-values N [ 0 ]
   
   repeat lmax 
@@ -75,6 +78,8 @@ to explore-area-of-interest [ lmax N ]
       [
         fd 1 
         calculate-score-function
+        
+        set F replace-item ( k - 1 ) F df
       ]
       [
         die
@@ -112,9 +117,17 @@ to calculate-score-function
   
 end
 
-to choose-based-on-score
+to-report choose-based-on-score
   
+  let schs searchers with [ who != [ who ] of searcher-zero ]
   
+  report [ heading ] of max-one-of schs [ df ]
+  
+end
+
+to-report choose-based-on-score-from-history
+  
+  report 0
   
 end
 
@@ -122,9 +135,9 @@ end
 ;; TO DO: Decide what to do with this
 to go-to-goal [ searchers-on-goal ]
 
-  set new-heading [heading] of one-of searchers-on-goal
+  ;set new-heading [heading] of one-of searchers-on-goal
 
-  set antenna-heading new-heading
+  ;set antenna-heading new-heading
 
 end
 

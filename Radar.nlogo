@@ -26,9 +26,6 @@ globals
   searcher-zero-x
   searcher-zero-y
 
-  new-heading
-  searcher-set
-
   clock-state
 
   ;; parameters for analysis
@@ -241,27 +238,6 @@ to searcher-live-or-die
 end
 
 
-to start-reasoning
-
-  set searcher-set searchers with [ who != [who] of searcher-zero ]
-
-  let searchers-on-goal searcher-set with [on-goal?]
-
-  ifelse ( any? searchers-on-goal )
-  [
-    go-to-goal searchers-on-goal
-  ]
-  [
-  ]
-
-  set any-searcher-survived? ( any? searcher-set )
-
-  ask searcher-set [ die ]
-
-end
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -278,7 +254,7 @@ to basic-move-procedure [ move-step ]
 
   ask searcher-zero
   [
-    set heading new-heading
+    ;set heading new-heading
 
     if (any-searcher-survived? and any? patches with [ ( ( pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ) or pcolor = black ) or goal? ] in-cone in-cone-length 100 )
     [
@@ -326,14 +302,14 @@ to move-agents [ move-step ]
     resize-scope
   ]
 
-  ask relation-quadrant-antennas [ set heading new-heading fd 1 ]
+  ;ask relation-quadrant-antennas [ set heading new-heading fd 1 ]
 
 end
 
 
 to move-function [ move-step ]
 
-  set heading new-heading
+  ;set heading new-heading
   fd move-step
 
 end

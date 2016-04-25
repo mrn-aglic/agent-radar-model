@@ -40,10 +40,7 @@ to start-behaviour
   
   map-markers-to-mental-model markers ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
   
-  memory-fade
-  trail-memory-fade
-  
-  make-decision
+  let decision make-decision
 
   memory-fade
   trail-memory-fade
