@@ -272,10 +272,10 @@ to start-reasoning
           ; choose-path-function
           let object_set get-temp-object-set memory-pcolor-min memory-pcolor-max
 
-          let f_task (task [ linear-decision-function searcher-zero object_set searcher-set scope-radius ])
-          let g_task (task [ one-through-x ( agent-distance-to-goal one-of patches with [goal?] ) ])
+          let f_task ( task [ linear-decision-function searcher-zero object_set searcher-set scope-radius ] )
+          let g_task ( task [ one-through-x ( agent-distance-to-goal one-of patches with [goal?] ) ] )
 
-          let h_task (task +)
+          let h_task ( task + )
 
           let decided-heading ( compose-decision searcher-set f_task g_task h_task )
 

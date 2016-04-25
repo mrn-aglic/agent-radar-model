@@ -10,6 +10,8 @@ to make-decision
   
   explore-area-of-interest lmax
   
+  cleanup-decision-making
+  
 end
 
 to setup-decision-making [ N heading-step ]
@@ -29,9 +31,14 @@ to setup-searchers [ N heading-step ]
       let k count searchers with [ who != [ who ] of searcher-zero ]
 
       configure-searchers k heading-step
-
-      ;searcher-live-or-die
     ]
+  ]
+  
+  ask searchers with [ who != [ who ] of searcher-zero ]
+  [
+    let is-valid? searcher-is-valid?
+      
+    if ( not is-valid? ) [ die ]
   ]
 
 end
@@ -57,7 +64,8 @@ to explore-area-of-interest [ lmax ]
       let is-valid? searcher-is-valid?
       
       ifelse ( is-valid? )
-      [ 
+      [
+        fd 1 
       ]
       [
         die
@@ -74,6 +82,13 @@ to-report searcher-is-valid?
   report all? cells-to-test [ pcolor = black or goal? ]
  
 end
+
+to cleanup-decision-making
+  
+  ask searchers with [ who != [ who ] of searcher-zero ] [ die ]
+  
+end
+
 
 to-report should-searcher-die? [p]
 
