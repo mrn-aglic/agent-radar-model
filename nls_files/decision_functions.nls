@@ -6,9 +6,7 @@ to-report compose-decision [searcher_set f g h]
     let f_result runresult f
     let g_result runresult g
     
-    set df (runresult h f_result g_result)
-    
-    ;;show (word who " :> f_result:> " f_result " | g_result :> " g_result " | df :> " df)
+    set df (runresult h f_result g_result)    
   ]
   
   let the-one max-one-of searcher-set [ df ]
@@ -145,12 +143,6 @@ to decision-default
  
   set antenna-heading new-heading
   
-  
-  ;repeat ( num-paces + 1 ) [ basic-move-procedure wait 1 ] ;; num-paces + 1 zato sto je num-paces postavljen u pocetku kao scope-radius - 2... 
-                                                 ;; zasto -2? -1 da budemo sigurni zbog greske, i -1 zbog pomaka koji searcheri naprave u trenutku kad su stvoreni
-                                                 ;; buduci da searcher-zero nije napravio taj korak kad je stvoren, onda je na num-paces potrebno dodati +1 
-  
-  
 end
 
 
@@ -177,13 +169,7 @@ to choose-path-function
     let the-one max-one-of searcher-set [ df ]
     
     show the-one
-    
-    ;set new-heading [ heading ] of the-one
   ]
-  
-  ;set antenna-heading new-heading
-  
-  ;( decision-linear-function searcher-zero searcher-set scope-radius memory-pcolor-min memory-pcolor-max )
   
 end
 
@@ -226,10 +212,5 @@ to choose-path-default
  
   set antenna-heading new-heading
   
-  
-  ;repeat ( num-paces + 1 ) [ basic-move-procedure wait 1 ] ;; num-paces + 1 zato sto je num-paces postavljen u pocetku kao scope-radius - 2... 
-                                                 ;; zasto -2? -1 da budemo sigurni zbog greske, i -1 zbog pomaka koji searcheri naprave u trenutku kad su stvoreni
-                                                 ;; buduci da searcher-zero nije napravio taj korak kad je stvoren, onda je na num-paces potrebno dodati +1 
-  
-  
+    
 end
