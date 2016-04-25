@@ -250,13 +250,6 @@ to start-reasoning
 
   let searchers-on-goal searcher-set with [on-goal?]
 
-  if ( not any? searchers-on-goal )
-  [
-
-  ]
-
-  set searchers-on-goal searcher-set with [on-goal?]
-
   ifelse ( any? searchers-on-goal )
   [
     go-to-goal searchers-on-goal
