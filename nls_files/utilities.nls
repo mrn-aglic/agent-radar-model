@@ -6,7 +6,7 @@ end
 
 to-report get-n-with-largest-turn-angle [patch_set n]
 
-  let chosen-patch max-n-of n patch_set [abs turn-amount]
+  let chosen-patch max-n-of n patch_set [ abs turn-amount ]
   
   report chosen-patch
 
