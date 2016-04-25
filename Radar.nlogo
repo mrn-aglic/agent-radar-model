@@ -33,8 +33,6 @@ globals
   clock-state
   range
 
-  anything-found?
-
   need-to-back-up?
 
   ;; parameters for analysis
@@ -174,8 +172,7 @@ to go
 
   if ( clock-state >= 360 )
   [
-    if ( anything-found? )
-    [ setup-reason ]
+    setup-reason
 
 
     basic-move-procedure ( 1 )
@@ -231,8 +228,6 @@ to setup-reason
   start-reasoning
 
   ask searchers with [who != [who] of searcher-zero] [ die ]
-
-  set anything-found? false
 
 end
 
