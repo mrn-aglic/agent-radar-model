@@ -8,7 +8,7 @@ to make-decision
   
   let lmax floor ( area-of-interest-r / step-size ) 
   
-  explore-area-of-interest lmax
+  explore-area-of-interest lmax N
   
   cleanup-decision-making
   
@@ -55,7 +55,9 @@ to configure-searchers [ k heading-step ]
 
 end
 
-to explore-area-of-interest [ lmax ] 
+to explore-area-of-interest [ lmax N ] 
+  
+  let F n-values N [ 0 ]
   
   repeat lmax 
   [
