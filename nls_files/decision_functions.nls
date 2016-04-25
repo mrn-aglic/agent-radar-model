@@ -79,30 +79,24 @@ to-report normalize-deflection-angle [ value ]
   
 end
 
-to decision-default
+to-report decision-default
   
-  if ( any? searcher-set )
+  let temp-object-set patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
+    
+  ask searcher-set
   [
-    let temp-object-set patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
-    
-    ask searcher-set
-    [
-      let closest-object-to-me min-one-of temp-object-set [ distance myself ]
+    let closest-object-to-me min-one-of temp-object-set [ distance myself ]
       
-      set closest-patch-distance ( distance closest-object-to-me )
-    ]
-    
-    let min-searcher-set searcher-set
-    
-    ifelse ( count searcher-set >= 3 )
-    [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    
-    let the-one max-one-of min-searcher-set [ closest-patch-distance ]
-    set new-heading [heading] of the-one
+    set closest-patch-distance ( distance closest-object-to-me )
   ]
-   
-  set antenna-heading new-heading
+    
+  let min-searcher-set searcher-set
+    
+  ifelse ( count searcher-set >= 3 )
+  [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
+  [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
+    
+  report max-one-of min-searcher-set [ closest-patch-distance ]
   
 end
 
