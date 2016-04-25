@@ -17,12 +17,12 @@ to-report get-decision
   
 end
 
-to-report linear-decision-function [ main_searcher object_set ]
+to-report score-function-preferred [ main-searcher object-set ]
   
-  let closest-object-to-me ( get-closest-object-to-agent object_set self )
+  let closest-object-to-me ( get-closest-object-to-agent object-set self )
       
   let closest_patch_distance ( distance closest-object-to-me ) 
-  let heading_diff ( abs ( subtract-headings [ heading ] of main_searcher heading ) )
+  let heading_diff ( abs ( subtract-headings [ heading ] of main-searcher heading ) )
       
   report ( get-df scope-radius closest_patch_distance heading_diff )
   
@@ -79,24 +79,15 @@ to-report normalize-deflection-angle [ value ]
   
 end
 
-to-report decision-default
+to-report score-function-default [ main-searcher object-set ]
   
-  let temp-object-set patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
+  let closest-object-to-me ( get-closest-object-to-agent object-set self )
     
-  ask searcher-set
-  [
-    let closest-object-to-me min-one-of temp-object-set [ distance myself ]
-      
-    set closest-patch-distance ( distance closest-object-to-me )
-  ]
+  let diff abs ( subtract-headings [heading] of searcher-zero [heading] of self )  
     
-  let min-searcher-set searcher-set
+  let comparison-set other searchers with [ who != [ who ] of searcher-zero ]
     
-  ifelse ( count searcher-set >= 3 )
-  [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-  [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
+  report ( distance closest-object-to-me ) * ifelse-value ( count comparison-set with [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) < diff ] < 3 ) [ 1 ] [ -1 ] 
     
-  report max-one-of min-searcher-set [ closest-patch-distance ]
-  
 end
 

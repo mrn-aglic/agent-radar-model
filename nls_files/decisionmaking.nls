@@ -12,7 +12,7 @@ to make-decision
   
   
   
-  cleanup-decision-making
+  ;cleanup-decision-making
   
 end
 
@@ -30,9 +30,9 @@ to setup-searchers [ N heading-step ]
   [
     create-searchers 1
     [
-      let k count searchers with [ who != [ who ] of searcher-zero ]
+      set k count searchers with [ who != [ who ] of searcher-zero ]
 
-      configure-searchers k heading-step
+      configure-searchers heading-step
     ]
   ]
   
@@ -40,12 +40,16 @@ to setup-searchers [ N heading-step ]
   [
     let is-valid? searcher-is-valid?
       
-    if ( not is-valid? ) [ die ]
+    ifelse ( is-valid? ) 
+    [ 
+      calculate-score-function 
+    ] 
+    [ die ]
   ]
 
 end
 
-to configure-searchers [ k heading-step ]
+to configure-searchers [ heading-step ]
 
   setxy searcher-zero-x searcher-zero-y
  
@@ -70,6 +74,7 @@ to explore-area-of-interest [ lmax N ]
       ifelse ( is-valid? )
       [
         fd 1 
+        calculate-score-function
       ]
       [
         die
@@ -93,16 +98,23 @@ to cleanup-decision-making
   
 end
 
-to calculate-decision-function
+to calculate-score-function
   
   ifelse ( decision-function = "function" )
   [
     let object-set get-temp-object-set 
 
-    set df ( linear-decision-function searcher-zero object-set )
+    set df ( score-function-preferred searcher-zero object-set )
   ]
   [
+    set df ( score-function-default searcher-zero get-temp-object-set )
   ]
+  
+end
+
+to choose-based-on-score
+  
+  
   
 end
 

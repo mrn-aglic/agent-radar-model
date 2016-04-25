@@ -68,11 +68,10 @@ breed [ searchers ]
 
 searchers-own
 [
-  closest-patch-distance ;; will be obsolete
-  deflection-angle       ;; will be obsolete
   df
   last-visited-patch
   on-goal?
+  k
 ]
 
 
