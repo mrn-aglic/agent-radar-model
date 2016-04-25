@@ -45,6 +45,9 @@ to start-behaviour
   
   make-decision
 
+  memory-fade
+  trail-memory-fade
+
   make-environment-corrections
 
   ask patches with [ pcolor > memory-pcolor-min and pcolor < memory-pcolor-max ] [ set is-mapped? true ]

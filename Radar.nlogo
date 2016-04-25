@@ -291,15 +291,6 @@ to start-reasoning
 
 end
 
-to go-to-goal [ searchers-on-goal ]
-
-  set new-heading [heading] of one-of searchers-on-goal
-
-  set antenna-heading new-heading
-
-end
-
-
 to activate-searchers [ func-num-paces ]
 
   ask searcher-set [ hatch 1 ]
@@ -322,36 +313,6 @@ to activate-searchers [ func-num-paces ]
 
     set num-paces ( num-paces - 1 )
     activate-searchers ( func-num-paces - 1 )
-  ]
-
-end
-
-to memory-fade
-
-  let fade-quotient get-memory-fade-quotient
-  let forget-border ( memory-pcolor-min - fade-quotient )
-
-  ask patches with [ pcolor >= memory-pcolor-min and pcolor <= memory-pcolor-max ]
-  [
-    set pcolor pcolor - fade-quotient
-
-    if ( pcolor <= forget-border )
-    [ set pcolor black ]
-  ]
-
-end
-
-to trail-memory-fade
-
-  let fade-quotient get-trail-fade-quotient
-  let forget-border (trail-pcolor-min - fade-quotient)
-
-  ask patches with [ pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ]
-  [
-    set pcolor pcolor - fade-quotient
-
-    if (pcolor <= forget-border)
-    [ set pcolor black ]
   ]
 
 end

@@ -90,6 +90,16 @@ to cleanup-decision-making
 end
 
 
+
+;; TO DO: Decide what to do with this
+to go-to-goal [ searchers-on-goal ]
+
+  set new-heading [heading] of one-of searchers-on-goal
+
+  set antenna-heading new-heading
+
+end
+
 to-report should-searcher-die? [p]
 
   report p = nobody or ( [pcolor] of p != black and not [goal?] of p )
