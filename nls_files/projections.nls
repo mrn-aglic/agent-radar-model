@@ -12,6 +12,8 @@ end
 
 to map-markers-to-mental-model [ markers mapping-function-x mapping-function-y ]
   
+  let positions []
+  
   ask markers 
   [
     let mapped-x ( runresult mapping-function-x [pxcor] of patch-here )
@@ -20,15 +22,17 @@ to map-markers-to-mental-model [ markers mapping-function-x mapping-function-y ]
     let x ifelse-value ( abs mapped-x <= max-pxcor ) [ mapped-x ] [ ifelse-value ( mapped-x < 0 ) [ min-pxcor ] [ max-pxcor ] ]
     let y ifelse-value ( abs mapped-y <= max-pycor ) [ mapped-y ] [ ifelse-value ( mapped-y < 0 ) [ min-pycor ] [ max-pycor ] ]
   
-    ifelse ( found-goal? )
-    [ 
-      ask patch x y 
-      [ 
+    ask patch x y 
+    [
+      ifelse ( [ found-goal? ] of myself )
+      [
         set pcolor magenta 
         set goal? true 
-      ] 
+      ]
+      [
+        set pcolor memory-pcolor-max 
+      ]
     ]
-    [ ask patch x y [ set pcolor memory-pcolor-max ] ]
   ]
   
 end
