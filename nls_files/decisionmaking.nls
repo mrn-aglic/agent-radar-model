@@ -93,9 +93,16 @@ to cleanup-decision-making
   
 end
 
-to decision-function-apply
+to calculate-decision-function
   
-  
+  ifelse ( decision-function = "function" )
+  [
+    let object-set get-temp-object-set 
+
+    set df ( linear-decision-function searcher-zero object-set )
+  ]
+  [
+  ]
   
 end
 

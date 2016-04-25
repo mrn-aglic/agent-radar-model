@@ -27,11 +27,9 @@ globals
   searcher-zero-y
 
   new-heading
-  num-paces
   searcher-set
 
   clock-state
-  range
 
   ;; parameters for analysis
   number-of-steps
@@ -255,27 +253,6 @@ to start-reasoning
     go-to-goal searchers-on-goal
   ]
   [
-      ifelse ( decision-function = "default" )
-      [
-        decision-default
-      ]
-      [
-        if ( any? searcher-set )
-        [
-          ; choose-path-function
-          let object_set get-temp-object-set memory-pcolor-min memory-pcolor-max
-
-          let f_task ( task [ linear-decision-function searcher-zero object_set searcher-set scope-radius ] )
-          let g_task ( task [ one-through-x ( agent-distance-to-goal one-of patches with [goal?] ) ] )
-
-          let h_task ( task + )
-
-          let decided-heading ( compose-decision searcher-set f_task g_task h_task )
-
-          set new-heading decided-heading
-          ;;( decision-linear-function searcher-zero searcher-set scope-radius memory-pcolor-min memory-pcolor-max )
-        ]
-      ]
   ]
 
   set any-searcher-survived? ( any? searcher-set )

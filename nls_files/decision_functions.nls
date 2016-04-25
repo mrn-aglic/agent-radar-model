@@ -1,40 +1,30 @@
 ;; f, g, h -> procedures
-to-report compose-decision [searcher_set f g h]
+to compose-decision [ f g h ]
   
-  ask searcher_set 
+  ask searchers with [ who != [ who ] of searcher-zero ]
   [
     let f_result runresult f
     let g_result runresult g
     
-    set df (runresult h f_result g_result)    
+    set df ( runresult h f_result g_result )    
   ]
   
-  let the-one max-one-of searcher-set [ df ]
+end
+
+to-report get-decision 
   
-  report [ heading ] of the-one
+  report max-one-of searchers with [ who != [ who ] of searcher-zero ] [ df ]
   
 end
 
-to-report unit-number 
-  
-  report 0
-  
-end
-
-to-report unit-agent
-  
-  report nobody
-  
-end
-
-to-report linear-decision-function [ main_searcher object_set searcher_set scope_radius ]
+to-report linear-decision-function [ main_searcher object_set ]
   
   let closest-object-to-me ( get-closest-object-to-agent object_set self )
       
   let closest_patch_distance ( distance closest-object-to-me ) 
   let heading_diff ( abs ( subtract-headings [ heading ] of main_searcher heading ) )
       
-  report ( get-df scope_radius closest_patch_distance heading_diff )
+  report ( get-df scope-radius closest_patch_distance heading_diff )
   
 end
 
@@ -56,9 +46,9 @@ to-report one-through-x [x]
   
 end
 
-to-report get-temp-object-set [mem-pcolor-min mem-pcolor-max]
+to-report get-temp-object-set 
 
-  report patches with [ pcolor <= mem-pcolor-max and pcolor >= mem-pcolor-min ]
+  report patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
 
 end
 

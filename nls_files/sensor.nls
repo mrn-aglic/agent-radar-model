@@ -9,7 +9,7 @@ end
 
 to scope-activation [ goal-found? ]
 
-  set range 0
+  let range 0
 
   hide-turtle
 

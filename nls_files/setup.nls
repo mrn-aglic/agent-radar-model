@@ -25,7 +25,6 @@ to setup
   
   set searcher-set nobody
   
-  set num-paces scope-radius - 2
   set new-heading 0
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
