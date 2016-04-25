@@ -252,7 +252,7 @@ to start-reasoning
 
   if ( not any? searchers-on-goal )
   [
-    activate-searchers ( num-paces )
+
   ]
 
   set searchers-on-goal searcher-set with [on-goal?]
@@ -291,31 +291,7 @@ to start-reasoning
 
 end
 
-to activate-searchers [ func-num-paces ]
 
-  ask searcher-set [ hatch 1 ]
-
-  repeat func-num-paces
-  [
-    if( any? searcher-set )
-    [
-      ask searcher-set
-      [ searcher-live-or-die ]
-    ]
-
-    if ( any? searcher-set with [on-goal?] )
-    [ stop ]
-  ]
-
-  if ( not any? searcher-set and func-num-paces > 0 )
-  [
-    set searcher-set searchers with [ who != [ who ] of searcher-zero ]
-
-    set num-paces ( num-paces - 1 )
-    activate-searchers ( func-num-paces - 1 )
-  ]
-
-end
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
