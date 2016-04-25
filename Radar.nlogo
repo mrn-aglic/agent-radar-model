@@ -26,15 +26,12 @@ globals
   searcher-zero-x
   searcher-zero-y
 
-
   new-heading
   num-paces
   searcher-set
 
   clock-state
   range
-
-  need-to-back-up?
 
   ;; parameters for analysis
   number-of-steps
@@ -152,8 +149,6 @@ to go
   if ( count relation-quadrant-cars < count cars )
   [ setup-relation-quadrant-cars ]
 
-  ;emit-waves
-
   repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
   [
     if ( any? waves )
@@ -217,19 +212,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-to-report should-searcher-die? [p]
-
-  report p = nobody or ( [pcolor] of p != black and not [goal?] of p )
-
-end
-
-to-report death-condition
-
-  report pcolor != black and not goal?
-
-end
-
-
 to searcher-live-or-die
 
   let left-patch patch-right-and-ahead -90 0.5
@@ -280,8 +262,6 @@ to start-reasoning
     go-to-goal searchers-on-goal
   ]
   [
-    ifelse ( not need-to-back-up? )
-    [
       ifelse ( choose-path-method = "default" )
       [
         decision-default
@@ -303,10 +283,6 @@ to start-reasoning
           ;;( decision-linear-function searcher-zero searcher-set scope-radius memory-pcolor-min memory-pcolor-max )
         ]
       ]
-    ]
-    [
-
-    ]
   ]
 
   set any-searcher-survived? ( any? searcher-set )
@@ -339,10 +315,6 @@ to activate-searchers [ func-num-paces ]
     if ( any? searcher-set with [on-goal?] )
     [ stop ]
   ]
-
-
-  if ( not any? searcher-set and func-num-paces = 0)
-  [ set need-to-back-up? true ]
 
   if ( not any? searcher-set and func-num-paces > 0 )
   [
@@ -501,24 +473,10 @@ to move-relation-quadrant-agents
 
 end
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
-to make-sure-move-is-possible
-
-  while [ not can-move? range ]
-  [
-    set range range - 0.05
-  ]
-
-end
 
 to scope-fade
 
@@ -686,10 +644,10 @@ NIL
 1
 
 SLIDER
-14
-607
-255
-640
+12
+659
+253
+692
 memory-fade-parameter
 memory-fade-parameter
 0
@@ -702,9 +660,9 @@ HORIZONTAL
 
 SLIDER
 14
-329
+401
 170
-362
+434
 weight-param-a
 weight-param-a
 0
@@ -717,9 +675,9 @@ HORIZONTAL
 
 SLIDER
 8
-401
+473
 168
-434
+506
 weight-param-b
 weight-param-b
 0
@@ -765,10 +723,10 @@ NIL
 1
 
 CHOOSER
-14
-230
-168
-275
+13
+310
+167
+355
 choose-path-method
 choose-path-method
 "default" "function"
@@ -813,9 +771,9 @@ HORIZONTAL
 
 TEXTBOX
 17
-293
+365
 135
-321
+393
 Change weight of closest-patch-distance
 11
 0.0
@@ -823,9 +781,9 @@ Change weight of closest-patch-distance
 
 TEXTBOX
 11
-371
+443
 179
-399
+471
 Change weight of deflection-angle
 11
 0.0
@@ -842,10 +800,10 @@ The parameters weight-param-a and weight-param-b affect the selection of which h
 1
 
 SLIDER
-15
-556
-258
-589
+13
+608
+256
+641
 trail-memory-fade-parameter
 trail-memory-fade-parameter
 0
@@ -886,9 +844,9 @@ NIL
 
 SWITCH
 12
-453
+525
 138
-486
+558
 pen-down?
 pen-down?
 0
@@ -994,9 +952,9 @@ NIL
 
 SWITCH
 12
-490
+562
 137
-523
+595
 leave-trail?
 leave-trail?
 1
@@ -1040,6 +998,36 @@ enable-user-message?
 1
 1
 -1000
+
+SLIDER
+14
+229
+186
+262
+area-of-interest-r
+area-of-interest-r
+0
+scope-radius
+4
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+15
+268
+187
+301
+step-size
+step-size
+0.1
+1
+1
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

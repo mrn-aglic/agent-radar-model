@@ -28,8 +28,6 @@ to setup
   set num-paces scope-radius - 2
   set new-heading 0
   
-  set need-to-back-up? false
-  
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]

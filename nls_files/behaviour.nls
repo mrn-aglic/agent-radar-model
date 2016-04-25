@@ -43,7 +43,7 @@ to start-behaviour
   memory-fade
   trail-memory-fade
   
-  start-decision-making
+  make-decision
 
   make-environment-corrections
 
