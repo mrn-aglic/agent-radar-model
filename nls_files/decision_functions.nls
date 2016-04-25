@@ -27,7 +27,7 @@ to-report unit-agent
   
 end
 
-to-report linear-decision-function [main_searcher object_set searcher_set scope_radius]
+to-report linear-decision-function [ main_searcher object_set searcher_set scope_radius ]
   
   let closest-object-to-me ( get-closest-object-to-agent object_set self )
       
@@ -56,44 +56,19 @@ to-report one-through-x [x]
   
 end
 
-to decision-linear-function [main_searcher searcher_set scope_radius mem-pcolor-min mem-pcolor-max]
-  
-  if ( any? searcher_set )
-  [
-    let temp-object-set (get-temp-object-set mem-pcolor-min mem-pcolor-max)
-    
-    ask searcher_set
-    [
-      let closest-object-to-me ( get-closest-object-to-agent temp-object-set self )
-      
-      let closest_patch_distance ( distance closest-object-to-me ) 
-      let heading_diff ( abs ( subtract-headings [ heading ] of main_searcher heading ) )
-      
-      set df ( get-df scope_radius closest_patch_distance heading_diff )
-    ]
-    
-    let the-one max-one-of searcher-set [ df ]
-  
-    set new-heading [ heading ] of the-one
-  ]
-  
-  set antenna-heading new-heading
-  
-end
-
 to-report get-temp-object-set [mem-pcolor-min mem-pcolor-max]
 
   report patches with [ pcolor <= mem-pcolor-max and pcolor >= mem-pcolor-min ]
 
 end
 
-to-report get-closest-object-to-agent [temp-object-set agent]
+to-report get-closest-object-to-agent [ temp-object-set agent ]
   
   report min-one-of temp-object-set [ distance agent ]
   
 end
 
-to-report get-df [scope_radius closest_patch_distance heading_diff]
+to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   
   let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance scope_radius )
   let norm-deflection-angle-value ( normalize-deflection-angle       ( abs heading_diff ) )
@@ -102,24 +77,23 @@ to-report get-df [scope_radius closest_patch_distance heading_diff]
     
 end
 
-to-report normalize-closest-patch-distance [value scope_radius]
+to-report normalize-closest-patch-distance [ value scope_radius ]
   
   report value / ( 2 * scope_radius )
   
 end
 
-to-report normalize-deflection-angle [value]
+to-report normalize-deflection-angle [ value ]
   
   report value / 180
   
 end
 
-
 to decision-default
   
   if ( any? searcher-set )
   [
-    let temp-object-set patches with [ pcolor <= 97 and pcolor >= 91 ]
+    let temp-object-set patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
     
     ask searcher-set
     [
@@ -128,19 +102,16 @@ to decision-default
       set closest-patch-distance ( distance closest-object-to-me )
     ]
     
-    
     let min-searcher-set searcher-set
     
     ifelse ( count searcher-set >= 3 )
     [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
     [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
     
-    
     let the-one max-one-of min-searcher-set [ closest-patch-distance ]
     set new-heading [heading] of the-one
   ]
-  
- 
+   
   set antenna-heading new-heading
   
 end
