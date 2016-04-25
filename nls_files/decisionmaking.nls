@@ -10,6 +10,8 @@ to make-decision
   
   explore-area-of-interest lmax N
   
+  
+  
   cleanup-decision-making
   
 end
@@ -91,6 +93,11 @@ to cleanup-decision-making
   
 end
 
+to decision-function-apply
+  
+  
+  
+end
 
 
 ;; TO DO: Decide what to do with this
@@ -114,14 +121,3 @@ to-report death-condition
 
 end
 
-
-
-to setup-reason
-
-  ;set num-paces scope-radius ;;- 2
-
-  ;start-reasoning
-
-  ;ask searchers with [who != [who] of searcher-zero] [ die ]
-
-end

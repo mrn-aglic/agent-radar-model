@@ -255,7 +255,7 @@ to start-reasoning
     go-to-goal searchers-on-goal
   ]
   [
-      ifelse ( choose-path-method = "default" )
+      ifelse ( decision-function = "default" )
       [
         decision-default
       ]
@@ -657,8 +657,8 @@ CHOOSER
 310
 167
 355
-choose-path-method
-choose-path-method
+decision-function
+decision-function
 "default" "function"
 1
 
