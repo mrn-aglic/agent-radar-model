@@ -65,15 +65,13 @@ end
 
 to explore-area-of-interest [ lmax N ] 
   
-  let F [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ]
+  set f_array [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ]
   
   repeat lmax 
   [
     ask searchers with [ who != [ who ] of searcher-zero ]
     [
-      let is-valid? searcher-is-valid?
-      
-      ifelse ( is-valid? )
+      ifelse ( searcher-is-valid? )
       [
         fd 1 
         
@@ -81,17 +79,14 @@ to explore-area-of-interest [ lmax N ]
         
         let new-item ( list heading df ) 
         
-        set F replace-item ( k - 1 ) F new-item
+        set f_array replace-item ( k - 1 ) f_array new-item
       ]
       [
         die
       ]
     ]
   ]
-  
-  show length F
-  show F
-  
+    
 end
 
 to-report searcher-is-valid?
@@ -132,7 +127,7 @@ end
 
 to-report choose-based-on-score-from-history
   
-  report 0
+  report max map first f_array
   
 end
 

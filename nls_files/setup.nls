@@ -23,6 +23,8 @@ to setup
   set trail-pcolor-max 47
   set trail-pcolor-min 41
   
+  set f_array []
+  
   ;set new-heading 0
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

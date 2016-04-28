@@ -45,6 +45,8 @@ globals
 
   any-searcher-survived?
 
+  f_array
+
   ;; testing
   counter
 ]
