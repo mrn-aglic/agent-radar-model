@@ -43,7 +43,7 @@ to start-behaviour
   let decision make-decision
 
   use-decision decision
-
+ 
   memory-fade
   trail-memory-fade
 
@@ -57,8 +57,12 @@ end
 
 to use-decision [ decision ]
   
-  ;set heading decision
-  
+  ask ( turtle-set antenna scope searcher-zero rq-antenna ) 
+  [
+    set heading decision
+    fd 1
+  ]
+    
 end
 
 to antenna-behaviour

@@ -16,10 +16,9 @@ __includes
 globals
 [
   antenna
-
   scope
-
   searcher-zero
+  rq-antenna
 
   clock-state
 
@@ -54,7 +53,8 @@ breed [ searchers ]
 
 breed [ cars ]
 
-breed [ relation-quadrant-antennas relation-quadrant-antenna ]
+breed [ relation-quadrant-antennas ]
+
 breed [ relation-quadrant-cars relation-quadrant-car ]
 
 waves-own [ time bounced? found-goal? ]

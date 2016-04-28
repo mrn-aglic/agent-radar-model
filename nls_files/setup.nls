@@ -99,6 +99,8 @@ to antenna-setup [ quadrant-one-middle ]
       set breed relation-quadrant-antennas
       set color green 
       setxy ( map-x-quadrant-first-fourth xcor ) ( map-y-quadrant-second-third ycor ) 
+      
+      set rq-antenna self
     ]
   ]
   
