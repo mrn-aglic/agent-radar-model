@@ -54,9 +54,8 @@ breed [ searchers ]
 
 breed [ m-objects ]
 
-breed [ relation-quadrant-antennas ]
-
-breed [ relation-quadrant-cars relation-quadrant-car ]
+breed [ rq-antennas ]
+breed [ rq-m-objects ]
 
 waves-own [ time bounced? found-goal? ]
 
@@ -386,7 +385,7 @@ SWITCH
 342
 activate-m-objects?
 activate-m-objects?
-1
+0
 1
 -1000
 
