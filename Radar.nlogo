@@ -12,6 +12,7 @@ __includes
   "nls_files/sensor.nls"
   "nls_files/decisionmaking.nls"
   "nls_files/movableobjects.nls"
+  "nls_files/relationquadrant.nls"
 ]
 
 globals

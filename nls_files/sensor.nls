@@ -1,3 +1,20 @@
+to scope-setup
+
+  create-scopes 1
+  [
+    set xcor [ xcor ] of antenna
+    set ycor ( map-y-quadrant-second-third [ycor] of antenna )
+      
+    set scope self
+    set size scope-radius * 2
+    
+    set heading [ heading ] of antenna
+    set color red
+    set shape "scope-sweep"
+  ]
+
+end
+
 to monitor-receiver
 
   ask waves with [ distance myself <= 0.5 and bounced? ]

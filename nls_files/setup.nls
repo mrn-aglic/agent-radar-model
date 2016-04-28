@@ -31,17 +31,13 @@ to setup
   
   ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]
   
-  antenna-setup physical-world-middle
-  
-  scope-setup
-  
-  searcher-zero-setup
+  setup-agent physical-world-middle
   
   if ( activate-m-objects? )
   [ setup-m-objects ]
   
   if ( count rq-m-objects < count m-objects )
-  [ setup-rq-objects ]
+  [ setup-rq-m-objects ]
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
@@ -55,6 +51,20 @@ to setup
   [
     ask goals [ set goal? true ]
   ]
+  
+end
+
+to setup-agent [ physical-world-middle ]
+  
+  antenna-setup physical-world-middle
+  
+  scope-setup
+  
+  searcher-zero-setup
+  
+  setup-rq-antenna
+  
+  ;link-antenna-to-representations
   
 end
 
@@ -92,34 +102,8 @@ to antenna-setup [ quadrant-one-middle ]
     set ycor position-offset-y
     
     set color green
-    
-    hatch 1
-    [
-      set breed rq-antennas
-      set color green 
-      setxy ( map-x-quadrant-first-fourth xcor ) ( map-y-quadrant-second-third ycor ) 
-      
-      set rq-antenna self
-    ]
   ]
   
-end
-
-to scope-setup
-
-  create-scopes 1
-  [
-    set xcor [ xcor ] of antenna
-    set ycor ( map-y-quadrant-second-third [ycor] of antenna )
-      
-    set scope self
-    set size scope-radius * 2
-    
-    set heading [ heading ] of antenna
-    set color red
-    set shape "scope-sweep"
-  ]
-
 end
 
 to searcher-zero-setup
@@ -133,6 +117,18 @@ to searcher-zero-setup
     
     set heading [ heading ] of antenna
     set color white    
+  ]
+  
+end
+
+to link-antenna-to-representations 
+  
+  ask ( turtle-set scope searcher-zero rq-antenna )
+  [
+    create-link-from antenna 
+    [
+      tie
+    ]
   ]
   
 end

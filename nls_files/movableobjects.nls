@@ -11,28 +11,6 @@ to setup-m-objects
   
 end
 
-to setup-rq-objects
-  
-  ask m-objects
-  [
-    hatch 1
-    [
-      set breed rq-m-objects 
-      setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
-      set color violet + 1
-      
-      set shape "circle" 
-      
-      create-link-from myself 
-      [
-        tie
-        set hidden? true
-      ]
-    ]
-  ]
-  
-end
-
 to move-objects
   
   ask m-objects 
