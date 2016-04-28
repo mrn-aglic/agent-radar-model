@@ -52,9 +52,9 @@ to-report get-temp-object-set
 
 end
 
-to-report get-closest-object-to-agent [ temp-object-set agent ]
+to-report get-closest-object-to-agent [ temp-object-set _agent ]
   
-  report min-one-of temp-object-set [ distance agent ]
+  report min-one-of temp-object-set [ distance _agent ]
   
 end
 

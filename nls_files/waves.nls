@@ -4,7 +4,7 @@ to wave-advancement
   [
     set time time + resolution
     
-    ifelse ( precision ( distance antenna ) 1 >= scope-radius  ) 
+    ifelse ( precision ( distance agent ) 1 >= scope-radius  ) 
     [ die ]                                                        
     [
      fd resolution

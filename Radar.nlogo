@@ -17,7 +17,8 @@ __includes
 
 globals
 [
-  antenna
+  ;; agents
+  agent
   scope
   searcher-zero
   rq-antenna
@@ -39,8 +40,7 @@ globals
   trail-pcolor-min
   trail-pcolor-max
 
-  any-searcher-survived?
-
+  ;; failsafe if all searchers die
   f_array
 
   ;; testing

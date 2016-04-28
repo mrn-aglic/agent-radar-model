@@ -2,13 +2,13 @@ to scope-setup
 
   create-scopes 1
   [
-    set xcor [ xcor ] of antenna
-    set ycor ( map-y-quadrant-second-third [ycor] of antenna )
+    set xcor [ xcor ] of agent
+    set ycor ( map-y-quadrant-second-third [ycor] of agent )
       
     set scope self
     set size scope-radius * 2
     
-    set heading [ heading ] of antenna
+    set heading [ heading ] of agent
     set color red
     set shape "scope-sweep"
   ]

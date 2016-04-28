@@ -25,8 +25,6 @@ to setup
   
   set f_array []
   
-  ;set new-heading 0
-  
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]
@@ -64,8 +62,6 @@ to setup-agent [ physical-world-middle ]
   
   setup-rq-antenna
   
-  ;link-antenna-to-representations
-  
 end
 
 to my-resize-world
@@ -97,7 +93,7 @@ to antenna-setup [ quadrant-one-middle ]
   
   create-antennas 1
   [
-    set antenna self
+    set agent self
     set xcor ( quadrant-one-middle - position-offset-x )
     set ycor position-offset-y
     
@@ -110,25 +106,14 @@ to searcher-zero-setup
   
   create-searchers 1
   [
-    set xcor ( map-x-quadrant-first-fourth [xcor] of antenna )
-    set ycor [ ycor ] of antenna
+    set xcor ( map-x-quadrant-first-fourth [xcor] of agent )
+    set ycor [ ycor ] of agent
     
     set searcher-zero self
     
-    set heading [ heading ] of antenna
+    set heading [ heading ] of agent
     set color white    
   ]
   
 end
 
-to link-antenna-to-representations 
-  
-  ask ( turtle-set scope searcher-zero rq-antenna )
-  [
-    create-link-from antenna 
-    [
-      tie
-    ]
-  ]
-  
-end

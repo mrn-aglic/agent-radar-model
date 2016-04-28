@@ -30,7 +30,7 @@ to start-behaviour
     ]
   ]
 
-  antenna-behaviour
+  agent-behaviour
   
   let markers scope-markers
   
@@ -53,7 +53,7 @@ end
 
 to use-decision [ decision ]
   
-  ask ( turtle-set antenna scope searcher-zero rq-antenna ) 
+  ask ( turtle-set agent scope searcher-zero rq-antenna ) 
   [
     set heading decision
     fd 1
@@ -61,9 +61,9 @@ to use-decision [ decision ]
     
 end
 
-to antenna-behaviour
+to agent-behaviour
   
-  ask antenna 
+  ask agent 
   [
     while [ clock-state < 360 ] 
     [
@@ -95,7 +95,7 @@ to antenna-sweep
 
   set heading ( heading + sweep-angle )
 
-  ask scope [ set heading [ heading ] of antenna ]
+  ask scope [ set heading [ heading ] of agent ]
 
 end
 
@@ -103,12 +103,12 @@ to emit-waves
 
   hatch-waves 1
   [
-    set heading [heading] of antenna
+    set heading [heading] of agent
 
     pu
 
-    set xcor [ xcor ] of antenna 
-    set ycor [ ycor ] of antenna
+    set xcor [ xcor ] of agent 
+    set ycor [ ycor ] of agent
 
     set bounced? false
     set size 1
