@@ -12,7 +12,7 @@ to-report make-decision
   
   let result ifelse-value ( any? searchers with [ who != [ who ] of searcher-zero ] ) [ choose-based-on-score ] [ choose-based-on-score-from-history ] 
   
-  ;cleanup-decision-making
+  cleanup-decision-making
   
   report result
   
@@ -65,8 +65,7 @@ end
 
 to explore-area-of-interest [ lmax N ] 
   
-  ;let R [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ] 
-  let F n-values N [ 0 ]
+  let F [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ]
   
   repeat lmax 
   [
@@ -77,15 +76,21 @@ to explore-area-of-interest [ lmax N ]
       ifelse ( is-valid? )
       [
         fd 1 
+        
         calculate-score-function
         
-        set F replace-item ( k - 1 ) F df
+        let new-item ( list heading df ) 
+        
+        set F replace-item ( k - 1 ) F new-item
       ]
       [
         die
       ]
     ]
   ]
+  
+  show length F
+  show F
   
 end
 
