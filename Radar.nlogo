@@ -801,16 +801,16 @@ INPUTBOX
 1028
 760
 command
-ask patches [set is-mapped? false]
+NIL
 1
 1
 String (commands)
 
 BUTTON
-1050
-611
-1158
-670
+768
+777
+876
+836
 Fix
 choose-directory-and-fix-files-in-directory task command\n
 NIL
