@@ -88,10 +88,9 @@ to antenna-setup [ quadrant-one-middle ]
   create-antennas 1
   [
     set antenna self
-    set antenna-x ( quadrant-one-middle - position-offset-x )
-    set antenna-y position-offset-y
-    setxy antenna-x antenna-y 
-    set antenna-heading heading
+    set xcor ( quadrant-one-middle - position-offset-x )
+    set ycor position-offset-y
+    
     set size 1
     set color green
     
@@ -107,15 +106,15 @@ end
 
 to scope-setup
 
-  set scope-x [xcor] of antenna
-  set scope-y ( map-y-quadrant-second-third [ycor] of antenna )
-  
   create-scopes 1
   [
+    set xcor [ xcor ] of antenna
+    set ycor ( map-y-quadrant-second-third [ycor] of antenna )
+      
     set scope self
     set size scope-radius * 2
-    setxy scope-x scope-y
-    set heading antenna-heading
+    
+    set heading [ heading ] of antenna
     set color red
     set shape "scope-sweep"
   ]
@@ -124,16 +123,15 @@ end
 
 to searcher-zero-setup
   
-  set searcher-zero-x ( map-x-quadrant-first-fourth [xcor] of antenna )
-  set searcher-zero-y [ycor] of antenna
-  
   create-searchers 1
   [
+    set xcor ( map-x-quadrant-first-fourth [xcor] of antenna )
+    set ycor [ ycor ] of antenna
+    
     set searcher-zero self
     set size 1
-    set heading antenna-heading
-    set color white
-    setxy searcher-zero-x searcher-zero-y
+    set heading [ heading ] of antenna
+    set color white    
   ]
   
 end

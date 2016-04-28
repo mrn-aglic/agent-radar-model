@@ -53,7 +53,8 @@ end
 
 to configure-searchers [ heading-step ]
 
-  setxy searcher-zero-x searcher-zero-y
+  set xcor [ xcor ] of searcher-zero
+  set ycor [ ycor ] of searcher-zero
  
   set heading ( k * heading-step + [ heading ] of searcher-zero ) mod 360
 

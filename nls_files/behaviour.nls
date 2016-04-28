@@ -93,11 +93,9 @@ end
 
 to antenna-sweep
 
-  set antenna-heading antenna-heading + sweep-angle
-  
-  set heading antenna-heading
+  set heading ( heading + sweep-angle )
 
-  ask scope [ set heading antenna-heading ]
+  ask scope [ set heading [ heading ] of antenna ]
 
 end
 
@@ -109,7 +107,9 @@ to emit-waves
 
     pu
 
-    setxy antenna-x antenna-y
+    set xcor [ xcor ] of antenna 
+    set ycor [ ycor ] of antenna
+
     set bounced? false
     set size 1
     set time 0

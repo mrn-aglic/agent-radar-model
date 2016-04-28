@@ -16,15 +16,10 @@ __includes
 globals
 [
   antenna
-  antenna-x antenna-y
-  antenna-heading
 
   scope
-  scope-x scope-y
 
   searcher-zero
-  searcher-zero-x
-  searcher-zero-y
 
   clock-state
 
@@ -187,15 +182,15 @@ to go
 
 end
 
-
+;; Currently unused
 to reset-for-new-scan
 
-    set antenna-heading clock-state mod 360
-    ask antenna [lt antenna-heading]
-    ask scope [lt antenna-heading]
-    set antenna-heading 0
+    ;set antenna-heading clock-state mod 360
+    ;ask antenna [lt antenna-heading]
+    ;ask scope [lt antenna-heading]
+    ;set antenna-heading 0
 
-    set clock-state 0
+    ;set clock-state 0
 
 end
 
@@ -273,8 +268,8 @@ to move-agents [ move-step ]
 
   move-function ( move-step )
 
-  set searcher-zero-x [xcor] of searcher-zero
-  set searcher-zero-y [ycor] of searcher-zero
+  ;set searcher-zero-x [xcor] of searcher-zero
+  ;set searcher-zero-y [ycor] of searcher-zero
 
   ask antenna
   [
@@ -283,8 +278,8 @@ to move-agents [ move-step ]
     set number-of-steps (number-of-steps + 1)
     set patches-trail (lput patch-here patches-trail)
 
-    set antenna-x [xcor] of antenna
-    set antenna-y [ycor] of antenna
+    ;set antenna-x [xcor] of antenna
+    ;set antenna-y [ycor] of antenna
 
   ]
 
@@ -292,8 +287,8 @@ to move-agents [ move-step ]
   [
     move-function ( move-step )
 
-    set scope-x [ xcor ] of scope
-    set scope-y [ ycor ] of scope
+    ;set scope-x [ xcor ] of scope
+    ;set scope-y [ ycor ] of scope
 
     resize-scope
   ]

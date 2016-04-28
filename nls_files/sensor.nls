@@ -15,8 +15,9 @@ to scope-activation [ goal-found? ]
 
   set breed scope-markers
   set shape "phosphor"
-
-  setxy scope-x scope-y
+  
+  set xcor [ xcor ] of scope
+  set ycor [ ycor ] of scope
 
   ifelse ( goal-found? )
   [
