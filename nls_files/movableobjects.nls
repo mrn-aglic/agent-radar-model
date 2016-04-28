@@ -1,5 +1,23 @@
+to setup-m-objects
+  
+  create-m-objects num-m-objects
+  [
+    set size 1
+    set heading ( random 360 )
+    set color violet + 1
+    
+    move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
+    
+    set relation-quadrant-pair -1 
+  ]
+  
+end
+
 to move-objects
   
-  
+  if any? neighbors with [ pcolor = black ]
+  [
+    move-to one-of neighbors with [ pcolor = black ]
+  ]
   
 end

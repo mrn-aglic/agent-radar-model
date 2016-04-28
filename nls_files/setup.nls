@@ -37,8 +37,8 @@ to setup
   
   searcher-zero-setup
   
-  if ( activate-m-objects? = true )
-  [ setup-cars ]
+  if ( activate-m-objects? )
+  [ setup-m-objects ]
   
   if ( count relation-quadrant-cars < count m-objects )
   [ setup-relation-quadrant-cars ]
@@ -138,19 +138,6 @@ to searcher-zero-setup
   
 end
 
-to setup-cars
-  
-  create-m-objects num-m-objects
-  [
-    set size 1
-    set heading ( random 360 )
-    set color violet + 1
-    move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
-    set relation-quadrant-pair -1 
-  ]
-  
-end
-
 
 to setup-relation-quadrant-cars
   
@@ -163,11 +150,7 @@ to setup-relation-quadrant-cars
       set breed relation-quadrant-cars 
       setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
       set color violet + 1
-      set cars-pair [ who ] of myself
-      set help-var who
     ]
-    
-    set relation-quadrant-pair help-var
   ]
   
 end

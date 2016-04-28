@@ -67,11 +67,7 @@ searchers-own
   k
 ]
 
-m-objects-own [ relation-quadrant-pair ]
-
 scope-markers-own [ time found-goal? ]
-
-relation-quadrant-cars-own [ cars-pair ]
 
 patches-own [ goal? is-mapped? ]
 
@@ -153,29 +149,6 @@ to resize-scope
 
 end
 
-
-to move-cars
-
-  if ( ( not can-move? 1 ) or [ pcolor ] of patch-ahead 1 != black )
-  [
-    ifelse ( any? neighbors with [ pcolor = black ] )
-    [ face one-of neighbors with [ pcolor = black ] ]
-    [
-      user-message "The car cannot move anywhere, so it will die. If activate-car? is on, a new one will be created"
-      die
-    ]
-  ]
-
-  fd 1
-
-end
-
-
-to move-relation-quadrant-agents
-
-  ask relation-quadrant-cars [ set heading [ heading ] of turtle cars-pair fd 1 ]
-
-end
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
