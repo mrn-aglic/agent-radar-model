@@ -134,8 +134,6 @@ to searcher-zero-setup
     set heading antenna-heading
     set color white
     setxy searcher-zero-x searcher-zero-y
-    
-    set last-visited-patch nobody
   ]
   
 end

@@ -42,6 +42,8 @@ to start-behaviour
   
   let decision make-decision
 
+  use-decision decision
+
   memory-fade
   trail-memory-fade
 
@@ -50,6 +52,12 @@ to start-behaviour
   ask patches with [ pcolor > memory-pcolor-min and pcolor < memory-pcolor-max ] [ set is-mapped? true ]
 
   tick
+  
+end
+
+to use-decision [ decision ]
+  
+  ;set heading decision
   
 end
 

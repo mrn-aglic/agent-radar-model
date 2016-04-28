@@ -55,28 +55,27 @@ breed [ waves ]
 breed [ antennas ]
 breed [ scopes ]
 breed [ scope-markers ]
+breed [ searchers ]
 
 breed [ cars ]
-cars-own [ relation-quadrant-pair ]
 
-breed [ relation-quadrant-antennas ]
-breed [ relation-quadrant-cars ]
-relation-quadrant-cars-own [ cars-pair ]
+breed [ relation-quadrant-antennas relation-quadrant-antenna ]
+breed [ relation-quadrant-cars relation-quadrant-car ]
 
-breed [ searchers ]
+waves-own [ time bounced? found-goal? ]
 
 searchers-own
 [
   df
-  last-visited-patch
   on-goal?
   k
 ]
 
-
-waves-own [ time bounced? found-goal? ]
+cars-own [ relation-quadrant-pair ]
 
 scope-markers-own [ time found-goal? ]
+
+relation-quadrant-cars-own [ cars-pair ]
 
 patches-own [ goal? is-mapped? ]
 
@@ -156,11 +155,9 @@ to go
 
   scope-fade
 
-
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
   if ( clock-state >= 360 )
   [
@@ -273,9 +270,6 @@ end
 
 
 to move-agents [ move-step ]
-
-  if ( patch-here != last-visited-patch )
-  [ set last-visited-patch patch-here ]
 
   move-function ( move-step )
 
