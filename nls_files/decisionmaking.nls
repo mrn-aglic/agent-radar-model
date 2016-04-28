@@ -10,6 +10,7 @@ to-report make-decision
   
   explore-area-of-interest lmax N
   
+  ;; TO DO: What would be result if f_array has all default values - i.e. searcher-zero is surrounded by walls
   let result ifelse-value ( any? searchers with [ who != [ who ] of searcher-zero ] ) [ choose-based-on-score ] [ choose-based-on-score-from-history ] 
   
   cleanup-decision-making
