@@ -33,9 +33,13 @@ to setup-searchers [ N heading-step ]
   [
     create-searchers 1
     [
+      hide-turtle
+      
       set k count searchers with [ who != [ who ] of searcher-zero ]
 
       configure-searchers heading-step
+      
+      show-turtle
     ]
   ]
   
