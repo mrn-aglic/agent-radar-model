@@ -20,7 +20,7 @@ to-report bounce?
   
   report not bounced? and
        ( any? patches with [ pcolor != black and distance myself < 0.1 ] or [ pcolor ] of patch-here != black )
-        or ( [ pxcor ] of patch-here >= max-pxcor or [ pycor ] of patch-here >= max-pycor ) or ( any? cars with [distance myself < 0.1] )
+        or ( [ pxcor ] of patch-here >= max-pxcor or [ pycor ] of patch-here >= max-pycor ) or ( any? m-objects with [distance myself < 0.1] )
   
 end
 

@@ -37,10 +37,10 @@ to setup
   
   searcher-zero-setup
   
-  if ( activate-cars? = true )
+  if ( activate-m-objects? = true )
   [ setup-cars ]
   
-  if ( count relation-quadrant-cars < count cars )
+  if ( count relation-quadrant-cars < count m-objects )
   [ setup-relation-quadrant-cars ]
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -140,7 +140,7 @@ end
 
 to setup-cars
   
-  create-cars num-cars
+  create-m-objects num-m-objects
   [
     set size 1
     set heading ( random 360 )
@@ -154,7 +154,7 @@ end
 
 to setup-relation-quadrant-cars
   
-  ask cars with [ relation-quadrant-pair = -1 ]
+  ask m-objects with [ relation-quadrant-pair = -1 ]
   [
     let help-var -1
     

@@ -11,11 +11,11 @@ to start-behaviour
   
   ask antennas
   [
-    if( any? cars with [ distance myself < 0.5 ] or any? patches with [ pcolor = gray and ( distance myself < 0.5 ) ] )
+    if( any? m-objects with [ distance myself < 0.5 ] or any? patches with [ pcolor = gray and ( distance myself < 0.5 ) ] )
     [
       set number-of-collisions ( number-of-collisions + 1 )
       
-      ask cars with [ distance myself < 0.5 ] 
+      ask m-objects with [ distance myself < 0.5 ] 
       [
         set collisioned-with ( lput self collisioned-with )
       ]

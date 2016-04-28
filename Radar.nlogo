@@ -11,6 +11,7 @@ __includes
   "nls_files/waves.nls"
   "nls_files/sensor.nls"
   "nls_files/decisionmaking.nls"
+  "nls_files/movableobjects.nls"
 ]
 
 globals
@@ -51,7 +52,7 @@ breed [ scopes ]
 breed [ scope-markers ]
 breed [ searchers ]
 
-breed [ cars ]
+breed [ m-objects ]
 
 breed [ relation-quadrant-antennas ]
 
@@ -66,7 +67,7 @@ searchers-own
   k
 ]
 
-cars-own [ relation-quadrant-pair ]
+m-objects-own [ relation-quadrant-pair ]
 
 scope-markers-own [ time found-goal? ]
 
@@ -449,10 +450,10 @@ hide-searchers?
 SWITCH
 1115
 309
-1256
+1295
 342
-activate-cars?
-activate-cars?
+activate-m-objects?
+activate-m-objects?
 1
 1
 -1000
@@ -462,8 +463,8 @@ SLIDER
 402
 1274
 435
-num-cars
-num-cars
+num-m-objects
+num-m-objects
 1
 10
 5
