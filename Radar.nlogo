@@ -89,19 +89,6 @@ to go
 
 end
 
-;; Currently unused
-to reset-for-new-scan
-
-    ;set antenna-heading clock-state mod 360
-    ;ask antenna [lt antenna-heading]
-    ;ask scope [lt antenna-heading]
-    ;set antenna-heading 0
-
-    ;set clock-state 0
-
-end
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
