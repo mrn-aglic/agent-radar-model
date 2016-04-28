@@ -7,8 +7,6 @@ to setup-m-objects
     set color violet + 1
     
     move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
-    
-    set relation-quadrant-pair -1 
   ]
   
 end

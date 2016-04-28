@@ -141,10 +141,8 @@ end
 
 to setup-relation-quadrant-cars
   
-  ask m-objects with [ relation-quadrant-pair = -1 ]
+  ask m-objects
   [
-    let help-var -1
-    
     hatch 1
     [
       set breed relation-quadrant-cars 
