@@ -146,16 +146,3 @@ to go-to-goal [ searchers-on-goal ]
   ;set antenna-heading new-heading
 
 end
-
-to-report should-searcher-die? [p]
-
-  report p = nobody or ( [pcolor] of p != black and not [goal?] of p )
-
-end
-
-to-report death-condition
-
-  report pcolor != black and not goal?
-
-end
-
