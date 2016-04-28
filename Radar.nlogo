@@ -135,29 +135,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-to basic-move-procedure [ move-step ]
-
-  let in-cone-length 1.5
-
-  ask searcher-zero
-  [
-    ;set heading new-heading
-
-    if (any-searcher-survived? and any? patches with [ ( ( pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ) or pcolor = black ) or goal? ] in-cone in-cone-length 100 )
-    [
-      move-agents ( move-step )
-    ]
-  ]
-
-  if ( any? cars )
-  [ ask cars [ move-cars ] ]
-
-  move-relation-quadrant-agents
-
-end
-
-
 to move-agents [ move-step ]
 
   move-function ( move-step )
