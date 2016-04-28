@@ -135,40 +135,6 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-to move-agents [ move-step ]
-
-  move-function ( move-step )
-
-  ;set searcher-zero-x [xcor] of searcher-zero
-  ;set searcher-zero-y [ycor] of searcher-zero
-
-  ask antenna
-  [
-    move-function ( move-step )
-
-    set number-of-steps (number-of-steps + 1)
-    set patches-trail (lput patch-here patches-trail)
-
-    ;set antenna-x [xcor] of antenna
-    ;set antenna-y [ycor] of antenna
-
-  ]
-
-  ask scope
-  [
-    move-function ( move-step )
-
-    ;set scope-x [ xcor ] of scope
-    ;set scope-y [ ycor ] of scope
-
-    resize-scope
-  ]
-
-  ;ask relation-quadrant-antennas [ set heading new-heading fd 1 ]
-
-end
-
-
 to move-function [ move-step ]
 
   ;set heading new-heading
