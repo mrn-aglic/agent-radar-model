@@ -84,48 +84,6 @@ to go
   start-behaviour
 
 end
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-to resize-scope
-
-  set shape "scope-sweep"
-
-  let temp patches with [ ( pcolor != black ) and ( distance myself <= scope-radius ) ]
-
-  if ( any? temp )
-    [
-      let dtemp distance min-one-of temp [ distance myself ]
-
-      set size dtemp * 2
-    ]
-
-  if ( not any? temp )[ set size scope-radius * 2]
-
-end
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-to scope-fade
-
-  ask scope-markers
-  [
-    ifelse ( color > red - 4 )
-    [
-      set color ( color - resolution * 0.09 )
-      set size ( size - resolution * 0.05 )
-    ]
-    [ die ]
-  ]
-
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
 207
@@ -385,7 +343,7 @@ SWITCH
 342
 activate-m-objects?
 activate-m-objects?
-0
+1
 1
 -1000
 
@@ -461,9 +419,9 @@ trail-memory-fade-parameter / 4
 11
 
 BUTTON
-1428
+1289
 66
-1521
+1382
 99
 Draw goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor magenta\n   set goal? true\n  ]\n]

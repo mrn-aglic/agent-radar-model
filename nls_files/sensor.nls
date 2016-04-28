@@ -38,3 +38,17 @@ to scope-activation [ goal-found? ]
   show-turtle
 
 end
+
+to scope-fade
+
+  ask scope-markers
+  [
+    ifelse ( color > red - 4 )
+    [
+      set color ( color - resolution * 0.09 )
+      set size ( size - resolution * 0.05 )
+    ]
+    [ die ]
+  ]
+
+end
