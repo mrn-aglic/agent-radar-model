@@ -80,105 +80,12 @@ to startup
 
 end
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 to go
-
-  let phere [patch-here] of antennas
 
   if ( pen-down? )
   [ ask antennas [ pd ] ]
 
-  ask antennas
-  [
-    if ( [ goal? ] of patch-here )
-    [
-      ;; user-message "Made it to goal"
-      stop
-    ]
-
-    if ( ( any? cars-on patch-here and any? cars with [distance myself < 0.5] ) or [ pcolor ] of patch-here != black )
-    [
-      set number-of-collisions (number-of-collisions + 1)
-
-      ifelse (any? cars-on patch-here and any? cars with [distance myself < 0.5])
-      [
-        let cars-here cars-on patch-here
-
-        ask cars-here with [distance myself < 0.5] [
-
-          set collisioned-with (lput self collisioned-with)
-        ]
-      ]
-      [
-        set collisioned-with (lput patch-here collisioned-with)
-      ]
-
-      user-message (word "Dogodio se sudar na patch-u " patch-here )
-      stop
-    ]
-  ]
-
-  if (any? antennas with [ [goal?] of patch-here ] )
-  [ stop ]
-
-  if ( ( not any? cars ) and activate-cars? = true )
-  [ setup-cars ]
-
-  if ( ( any? cars ) and activate-cars? = false )
-  [
-    ask cars [ die ]
-
-    if ( any? relation-quadrant-cars )
-    [ ask relation-quadrant-cars [ die ] ]
-  ]
-
-  if ( count relation-quadrant-cars < count cars )
-  [ setup-relation-quadrant-cars ]
-
-  repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
-  [
-    if ( any? waves )
-    [
-      wave-advancement
-      monitor-receiver
-    ]
-  ]
-
-  scope-fade
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  if ( clock-state >= 360 )
-  [
-
-    basic-move-procedure ( 1 )
-
-    reset-for-new-scan
-
-    if ( leave-trail? )
-    [
-      foreach phere [
-
-        project-patch-to-trail ? ( [who] of searcher-zero ) ( task map-x-quadrant-first-fourth )
-      ]
-    ]
-
-    memory-fade
-    ;;
-    trail-memory-fade
-  ]
-
-  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
-
-  ask patches with [ pcolor > memory-pcolor-min and pcolor < memory-pcolor-max ] [ set is-mapped? true ]
-
-  tick
+  start-behaviour
 
 end
 
@@ -833,23 +740,6 @@ leave-trail?
 1
 1
 -1000
-
-BUTTON
-1127
-15
-1256
-48
-NIL
-start-behaviour
-T
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
 
 TEXTBOX
 1222

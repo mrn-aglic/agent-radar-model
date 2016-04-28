@@ -1,9 +1,5 @@
 to start-behaviour
 
-  ;; move this to go
-  if ( pen-down? )
-  [ ask antennas [ pd ] ]
-
   let phere [patch-here] of antennas
 
   if (any? antennas with [ [goal?] of patch-here ] )
