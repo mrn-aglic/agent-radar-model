@@ -39,6 +39,8 @@ to start-behaviour
   let decision make-decision
 
   use-decision decision
+  
+  move-objects
  
   memory-fade
   trail-memory-fade
