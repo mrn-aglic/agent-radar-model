@@ -9,6 +9,7 @@ to start-behaviour
     stop 
   ]
   
+ 
   ask antennas
   [
     if( any? m-objects with [ distance myself < 0.5 ] or any? patches with [ pcolor = gray and ( distance myself < 0.5 ) ] )
@@ -35,6 +36,8 @@ to start-behaviour
   let markers scope-markers
   
   map-markers-to-mental-model markers ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
+  
+  ask scope-markers [ die ]
   
   let decision make-decision
 
@@ -84,7 +87,7 @@ to agent-behaviour
       
       set clock-state clock-state + sweep-angle
       
-      scope-fade
+      ;scope-fade
     ]
   ]
   

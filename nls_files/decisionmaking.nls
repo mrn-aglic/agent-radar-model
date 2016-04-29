@@ -121,6 +121,13 @@ to calculate-score-function
     set df ( score-function-default searcher-zero get-temp-object-set )
   ]
   
+  if ( any? patches with [ goal? ] )
+  [
+    let gd ( distance min-one-of patches with [ goal? ] [ distance myself ] )
+      
+    set df ( df + ( one-through-x gd ) )
+  ]
+  
 end
 
 to-report choose-based-on-score

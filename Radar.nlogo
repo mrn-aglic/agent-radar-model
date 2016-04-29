@@ -248,7 +248,7 @@ memory-fade-parameter
 memory-fade-parameter
 0
 28
-0
+2
 1
 1
 NIL
@@ -263,7 +263,7 @@ weight-param-a
 weight-param-a
 0
 1
-0.1
+1
 0.1
 1
 NIL
@@ -278,7 +278,7 @@ weight-param-b
 weight-param-b
 0
 1
-0.1
+1
 0.1
 1
 NIL
@@ -346,7 +346,7 @@ SWITCH
 342
 activate-m-objects?
 activate-m-objects?
-0
+1
 1
 -1000
 
@@ -359,7 +359,7 @@ num-m-objects
 num-m-objects
 1
 10
-5
+3
 1
 1
 NIL

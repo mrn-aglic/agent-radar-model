@@ -21,6 +21,8 @@ to-report score-function-preferred [ main-searcher object-set ]
   
   let closest-object-to-me ( get-closest-object-to-agent object-set self )
       
+  if ( closest-object-to-me ) = nobody [ report get-max-distance ]    
+  
   let closest_patch_distance ( distance closest-object-to-me ) 
   let heading_diff ( abs ( subtract-headings [ heading ] of main-searcher heading ) )
       
@@ -28,7 +30,7 @@ to-report score-function-preferred [ main-searcher object-set ]
   
 end
 
-to-report agent-distance-to-goal [goal]
+to-report agent-distance-to-goal [ goal ]
   
   if goal = nobody
   [ report 0 ]
@@ -37,8 +39,8 @@ to-report agent-distance-to-goal [goal]
   
 end
 
-to-report one-through-x [x]
-  
+to-report one-through-x [ x ]
+   
   if (x = 0)
   [ report 0 ]
   
@@ -67,9 +69,17 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
     
 end
 
+to-report get-max-distance
+  
+  report sqrt ( max-pxcor ^ 2 + max-pycor ^ 2 ) 
+  
+end
+
 to-report normalize-closest-patch-distance [ value scope_radius ]
   
-  report value / ( 2 * scope_radius )
+  ;report value / ( 2 * scope_radius )
+  
+  report value / get-max-distance
   
 end
 
