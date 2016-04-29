@@ -1,9 +1,71 @@
+to scope-setup
+
+  create-scopes 1
+  [
+    set xcor [ xcor ] of agent
+    set ycor ( map-y-quadrant-second-third [ycor] of agent )
+      
+    set scope self
+    set size scope-radius * 2
+    
+    set heading [ heading ] of agent
+    set color red
+    set shape "scope-sweep"
+  ]
+
+end
+
 to monitor-receiver
 
   ask waves with [ distance myself <= 0.5 and bounced? ]
   [
-    set anything-found? true
     scope-activation ( found-goal? )
+  ]
+
+end
+
+to scope-activation [ goal-found? ]
+
+  let range 0
+
+  hide-turtle
+
+  set breed scope-markers
+  set shape "phosphor"
+  
+  set xcor [ xcor ] of scope
+  set ycor [ ycor ] of scope
+
+  ifelse ( goal-found? )
+  [
+    set found-goal? true
+    set color magenta + 1
+  ]
+  [
+    set found-goal? false
+    set color red + 1
+  ]
+
+  set heading heading + 180
+
+  set range time * 0.5
+
+  fd range
+  
+  show-turtle
+
+end
+
+to scope-fade
+
+  ask scope-markers
+  [
+    ifelse ( color > red - 4 )
+    [
+      set color ( color - resolution * 0.09 )
+      set size ( size - resolution * 0.05 )
+    ]
+    [ die ]
   ]
 
 end

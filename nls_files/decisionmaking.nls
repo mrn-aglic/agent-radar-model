@@ -1,0 +1,155 @@
+to-report make-decision
+  
+  let heading-step sweep-angle
+  
+  let N floor ( 360 / heading-step ) 
+  
+  setup-decision-making N heading-step
+  
+  let lmax floor ( area-of-interest-r / step-size ) 
+  
+  explore-area-of-interest lmax N
+  
+  ;; TO DO: What would be result if f_array has all default values - i.e. searcher-zero is surrounded by walls
+  let result ifelse-value ( any? searchers with [ who != [ who ] of searcher-zero ] ) [ choose-based-on-score ] [ choose-based-on-score-from-history ] 
+  
+  cleanup-decision-making
+  
+  report result
+  
+end
+
+to setup-decision-making [ N heading-step ]
+  
+  setup-searchers N heading-step
+  
+end
+
+to setup-searchers [ N heading-step ]
+
+  let help-var 0
+
+  repeat N
+  [
+    create-searchers 1
+    [
+      hide-turtle
+      
+      set k count searchers with [ who != [ who ] of searcher-zero ]
+
+      configure-searchers heading-step
+      
+      show-turtle
+    ]
+  ]
+  
+  ask searchers with [ who != [ who ] of searcher-zero ]
+  [
+    let is-valid? searcher-is-valid?
+      
+    ifelse ( is-valid? ) 
+    [ 
+      calculate-score-function 
+    ] 
+    [ die ]
+  ]
+
+end
+
+to configure-searchers [ heading-step ]
+
+  set xcor [ xcor ] of searcher-zero
+  set ycor [ ycor ] of searcher-zero
+ 
+  set heading ( k * heading-step + [ heading ] of searcher-zero ) mod 360
+
+  set hidden? ifelse-value hide-searchers? [ true ] [ false ]
+
+  set on-goal? false
+
+end
+
+to explore-area-of-interest [ lmax N ] 
+  
+  set f_array [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ]
+  
+  repeat lmax 
+  [
+    ask searchers with [ who != [ who ] of searcher-zero ]
+    [
+      ifelse ( searcher-is-valid? )
+      [
+        fd 1 
+        
+        calculate-score-function
+        
+        let new-item ( list heading df ) 
+        
+        set f_array replace-item ( k - 1 ) f_array new-item
+      ]
+      [
+        die
+      ]
+    ]
+  ]
+    
+end
+
+to-report searcher-is-valid?
+
+  let cells-to-test patches with [ distance myself < 1 ]
+  
+  report all? cells-to-test [ pcolor = black or goal? ]
+ 
+end
+
+to cleanup-decision-making
+  
+  ask searchers with [ who != [ who ] of searcher-zero ] [ die ]
+  
+end
+
+to calculate-score-function
+  
+  ifelse ( decision-function = "function" )
+  [
+    let object-set get-temp-object-set 
+
+    set df ( score-function-preferred searcher-zero object-set )
+  ]
+  [
+    set df ( score-function-default searcher-zero get-temp-object-set )
+  ]
+  
+  if ( any? patches with [ goal? ] )
+  [
+    let gd ( distance min-one-of patches with [ goal? ] [ distance myself ] )
+      
+    set df ( df + ( one-through-x gd ) )
+  ]
+  
+end
+
+to-report choose-based-on-score
+  
+  let schs searchers with [ who != [ who ] of searcher-zero ]
+  
+  report [ heading ] of max-one-of schs [ df ]
+  
+end
+
+to-report choose-based-on-score-from-history
+  
+  report max map first f_array
+  
+end
+
+
+;; TO DO: Decide what to do with this
+to go-to-goal [ searchers-on-goal ]
+
+  ;set new-heading [heading] of one-of searchers-on-goal
+
+  ;set antenna-heading new-heading
+
+end

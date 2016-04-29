@@ -23,30 +23,21 @@ to setup
   set trail-pcolor-max 47
   set trail-pcolor-min 41
   
-  set searcher-set nobody
-  
-  set anything-found? false
-  
-  set num-paces scope-radius - 2
-  set new-heading 0
-  
-  set need-to-back-up? false
+  set f_array []
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]
   
-  antenna-setup physical-world-middle
+  ask patches with [ ( pxcor = max-pxcor  or pycor = max-pycor or pxcor = 1 or pycor = 1 ) and ( pxcor > 0 and pycor > 0 ) ] [ set pcolor gray ]
   
-  scope-setup
+  setup-agent physical-world-middle
   
-  searcher-zero-setup
+  if ( activate-m-objects? )
+  [ setup-m-objects ]
   
-  if ( activate-cars? = true )
-  [ setup-cars ]
-  
-  if ( count relation-quadrant-cars < count cars )
-  [ setup-relation-quadrant-cars ]
+  if ( count rq-m-objects < count m-objects )
+  [ setup-rq-m-objects ]
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
@@ -60,6 +51,18 @@ to setup
   [
     ask goals [ set goal? true ]
   ]
+  
+end
+
+to setup-agent [ physical-world-middle ]
+  
+  antenna-setup physical-world-middle
+  
+  scope-setup
+  
+  searcher-zero-setup
+  
+  setup-rq-antenna
   
 end
 
@@ -92,88 +95,27 @@ to antenna-setup [ quadrant-one-middle ]
   
   create-antennas 1
   [
-    set antenna self
-    set antenna-x ( quadrant-one-middle - position-offset-x )
-    set antenna-y position-offset-y
-    setxy antenna-x antenna-y 
-    set size 1
-    set color green
+    set agent self
+    set xcor ( quadrant-one-middle - position-offset-x )
+    set ycor position-offset-y
     
-    hatch 1
-    [
-      set breed relation-quadrant-antennas
-      set color green 
-      setxy ( map-x-quadrant-first-fourth xcor ) ( map-y-quadrant-second-third ycor ) 
-    ]
+    set color green
   ]
   
-end
-
-to scope-setup
-
-  set scope-x [xcor] of antenna
-  set scope-y ( map-y-quadrant-second-third [ycor] of antenna )
-  
-  create-scopes 1
-  [
-    set scope self
-    set size scope-radius * 2
-    setxy scope-x scope-y
-    set heading 0
-    set color red
-    set shape "scope-sweep"
-  ]
-
 end
 
 to searcher-zero-setup
   
-  set searcher-zero-x ( map-x-quadrant-first-fourth [xcor] of antenna )
-  set searcher-zero-y [ycor] of antenna
-  
   create-searchers 1
   [
+    set xcor ( map-x-quadrant-first-fourth [xcor] of agent )
+    set ycor [ ycor ] of agent
+    
     set searcher-zero self
-    set size 1
-    set heading 0
-    set color white
-    setxy searcher-zero-x searcher-zero-y
     
-    set last-visited-patch nobody
+    set heading [ heading ] of agent
+    set color white    
   ]
   
 end
 
-to setup-cars
-  
-  create-cars num-cars
-  [
-    set size 1
-    set heading ( random 360 )
-    set color violet + 1
-    move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
-    set relation-quadrant-pair -1 
-  ]
-  
-end
-
-
-to setup-relation-quadrant-cars
-  
-  ask cars with [ relation-quadrant-pair = -1 ]
-  [
-    let help-var -1
-    
-    hatch 1
-    [
-      set breed relation-quadrant-cars 
-      setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
-      set color violet + 1
-      set cars-pair [ who ] of myself
-      set help-var who
-    ]
-    
-    set relation-quadrant-pair help-var
-  ]
-  
-end

@@ -1,0 +1,35 @@
+to setup-rq-antenna
+  
+  create-rq-antennas 1
+  [
+    set color green 
+    
+    set xcor map-x-quadrant-first-fourth [ xcor ] of agent 
+    set ycor map-y-quadrant-second-third [ ycor ] of agent
+    
+    set rq-antenna self
+  ]
+  
+end
+
+to setup-rq-m-objects
+  
+  ask m-objects
+  [
+    let t nobody
+    
+    hatch 1
+    [
+      set breed rq-m-objects 
+      setxy ( min-pxcor + xcor - 1 ) ( min-pycor + ycor - 1 )
+      set color violet + 1
+      
+      set shape "circle" 
+      
+      set t self
+    ]
+    
+    set rq-object t
+  ]
+  
+end

@@ -1,24 +1,22 @@
 to start-behaviour
 
-  ;; move this to go
-  if ( pen-down? )
-  [ ask antennas [ pd ] ]
-
   let phere [patch-here] of antennas
 
   if (any? antennas with [ [goal?] of patch-here ] )
   [
-    ;; user-message ( word [who] of antennas with [ [ goal? ] of patch-here ] " Made it to goal" )
+    if ( enable-user-message? )
+    [ user-message ( word [who] of antennas with [ [ goal? ] of patch-here ] " Made it to goal" ) ]
     stop 
   ]
   
+ 
   ask antennas
   [
-    if( any? cars with [ distance myself < 0.5 ] or any? patches with [ pcolor = gray and ( distance myself < 0.5 ) ] )
+    if( any? m-objects with [ distance myself < 0.5 ] or any? patches with [ pcolor = gray and ( distance myself < 0.5 ) ] )
     [
       set number-of-collisions ( number-of-collisions + 1 )
       
-      ask cars with [ distance myself < 0.5 ] 
+      ask m-objects with [ distance myself < 0.5 ] 
       [
         set collisioned-with ( lput self collisioned-with )
       ]
@@ -28,12 +26,25 @@ to start-behaviour
         set collisioned-with ( lput self collisioned-with )
       ]
       
-      user-message (word "Dogodio se sudar na patch-u " patch-here )
+      if ( enable-user-message? )
+      [ user-message (word "Dogodio se sudar na patch-u " patch-here ) ]
     ]
   ]
 
-  antenna-behaviour
+  agent-behaviour
   
+  let markers scope-markers
+  
+  map-markers-to-mental-model markers ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
+  
+  ask scope-markers [ die ]
+  
+  let decision make-decision
+
+  use-decision decision
+  
+  move-objects
+ 
   memory-fade
   trail-memory-fade
 
@@ -45,9 +56,19 @@ to start-behaviour
   
 end
 
-to antenna-behaviour
+to use-decision [ decision ]
   
-  ask antenna 
+  ask ( turtle-set agent scope searcher-zero rq-antenna ) 
+  [
+    set heading decision
+    fd 1
+  ]
+    
+end
+
+to agent-behaviour
+  
+  ask agent 
   [
     while [ clock-state < 360 ] 
     [
@@ -66,7 +87,7 @@ to antenna-behaviour
       
       set clock-state clock-state + sweep-angle
       
-      scope-fade
+      ;scope-fade
     ]
   ]
   
@@ -77,11 +98,9 @@ end
 
 to antenna-sweep
 
-  set antenna-heading antenna-heading + sweep-angle
-  
-  set heading antenna-heading
+  set heading ( heading + sweep-angle )
 
-  ask scope [ set heading antenna-heading ]
+  ask scope [ set heading [ heading ] of agent ]
 
 end
 
@@ -89,11 +108,13 @@ to emit-waves
 
   hatch-waves 1
   [
-    set heading [heading] of antenna
+    set heading [heading] of agent
 
     pu
 
-    setxy antenna-x antenna-y
+    set xcor [ xcor ] of agent 
+    set ycor [ ycor ] of agent
+
     set bounced? false
     set size 1
     set time 0

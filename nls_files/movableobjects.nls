@@ -1,0 +1,63 @@
+to setup-m-objects
+  
+  create-m-objects num-m-objects
+  [
+    set heading ( random 360 )
+    set color violet + 1
+    set shape "circle"
+    
+    move-to one-of patches with [ pcolor = black and ( pxcor > 1 and pycor > 1 ) and ( not any? antennas in-radius 2 ) ]
+  ]
+  
+end
+
+to move-objects
+  
+  ask m-objects 
+  [
+    let moved? false
+    
+    let p ifelse-value ( patch-ahead 1 != nobody ) [ patch-ahead 1 ] [ patch-here ]
+    
+    ifelse patch-ahead 1 != nobody and [ pcolor ] of p = black 
+    [
+      fd 1
+      set moved? true
+    ]
+    [
+      if any? neighbors with [ pcolor = black ] 
+      [
+        set heading get-new-heading [ pxcor ] of p [ pycor ] of p
+        fd 1
+        set moved? true
+      ]
+    ]
+    
+    ask rq-object 
+    [ 
+      set heading [ heading ] of myself 
+      
+      if moved? 
+      [ fd 1 ]
+    ]
+  ]
+  
+end
+
+to-report get-new-heading [ x y ]
+  
+  report ifelse-value ( is-hit-left-right? x ) [ ( - heading ) ] [ 180 - heading ]
+  
+end
+
+to-report is-hit-left-right? [ x ]
+  
+  report max-pxcor = abs x or x = 0
+  
+end
+
+to-report is-hit-up-down? [ y ]
+  
+  report max-pycor = abs y or y = 0
+  
+end

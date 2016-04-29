@@ -1,46 +1,36 @@
 ;; f, g, h -> procedures
-to-report compose-decision [searcher_set f g h]
+to compose-decision [ f g h ]
   
-  ask searcher_set 
+  ask searchers with [ who != [ who ] of searcher-zero ]
   [
     let f_result runresult f
     let g_result runresult g
     
-    set df (runresult h f_result g_result)
-    
-    ;;show (word who " :> f_result:> " f_result " | g_result :> " g_result " | df :> " df)
+    set df ( runresult h f_result g_result )    
   ]
   
-  let the-one max-one-of searcher-set [ df ]
+end
+
+to-report get-decision 
   
-  report [ heading ] of the-one
+  report max-one-of searchers with [ who != [ who ] of searcher-zero ] [ df ]
   
 end
 
-to-report unit-number 
+to-report score-function-preferred [ main-searcher object-set ]
   
-  report 0
-  
-end
-
-to-report unit-agent
-  
-  report nobody
-  
-end
-
-to-report linear-decision-function [main_searcher object_set searcher_set scope_radius]
-  
-  let closest-object-to-me ( get-closest-object-to-agent object_set self )
+  let closest-object-to-me ( get-closest-object-to-agent object-set self )
       
+  if ( closest-object-to-me ) = nobody [ report get-max-distance ]    
+  
   let closest_patch_distance ( distance closest-object-to-me ) 
-  let heading_diff ( abs ( subtract-headings [ heading ] of main_searcher heading ) )
+  let heading_diff ( abs ( subtract-headings [ heading ] of main-searcher heading ) )
       
-  report ( get-df scope_radius closest_patch_distance heading_diff )
+  report ( get-df scope-radius closest_patch_distance heading_diff )
   
 end
 
-to-report agent-distance-to-goal [goal]
+to-report agent-distance-to-goal [ goal ]
   
   if goal = nobody
   [ report 0 ]
@@ -49,8 +39,8 @@ to-report agent-distance-to-goal [goal]
   
 end
 
-to-report one-through-x [x]
-  
+to-report one-through-x [ x ]
+   
   if (x = 0)
   [ report 0 ]
   
@@ -58,44 +48,19 @@ to-report one-through-x [x]
   
 end
 
-to decision-linear-function [main_searcher searcher_set scope_radius mem-pcolor-min mem-pcolor-max]
-  
-  if ( any? searcher_set )
-  [
-    let temp-object-set (get-temp-object-set mem-pcolor-min mem-pcolor-max)
-    
-    ask searcher_set
-    [
-      let closest-object-to-me ( get-closest-object-to-agent temp-object-set self )
-      
-      let closest_patch_distance ( distance closest-object-to-me ) 
-      let heading_diff ( abs ( subtract-headings [ heading ] of main_searcher heading ) )
-      
-      set df ( get-df scope_radius closest_patch_distance heading_diff )
-    ]
-    
-    let the-one max-one-of searcher-set [ df ]
-  
-    set new-heading [ heading ] of the-one
-  ]
-  
-  set antenna-heading new-heading
-  
-end
+to-report get-temp-object-set 
 
-to-report get-temp-object-set [mem-pcolor-min mem-pcolor-max]
-
-  report patches with [ pcolor <= mem-pcolor-max and pcolor >= mem-pcolor-min ]
+  report patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
 
 end
 
-to-report get-closest-object-to-agent [temp-object-set agent]
+to-report get-closest-object-to-agent [ temp-object-set _agent ]
   
-  report min-one-of temp-object-set [ distance agent ]
+  report min-one-of temp-object-set [ distance _agent ]
   
 end
 
-to-report get-df [scope_radius closest_patch_distance heading_diff]
+to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   
   let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance scope_radius )
   let norm-deflection-angle-value ( normalize-deflection-angle       ( abs heading_diff ) )
@@ -104,132 +69,35 @@ to-report get-df [scope_radius closest_patch_distance heading_diff]
     
 end
 
-to-report normalize-closest-patch-distance [value scope_radius]
+to-report get-max-distance
   
-  report value / ( 2 * scope_radius )
+  report sqrt ( max-pxcor ^ 2 + max-pycor ^ 2 ) 
   
 end
 
-to-report normalize-deflection-angle [value]
+to-report normalize-closest-patch-distance [ value scope_radius ]
+  
+  ;report value / ( 2 * scope_radius )
+  
+  report value / get-max-distance
+  
+end
+
+to-report normalize-deflection-angle [ value ]
   
   report value / 180
   
 end
 
-
-to decision-default
+to-report score-function-default [ main-searcher object-set ]
   
-  if ( any? searcher-set )
-  [
-    let temp-object-set patches with [ pcolor <= 97 and pcolor >= 91 ]
+  let closest-object-to-me ( get-closest-object-to-agent object-set self )
     
-    ask searcher-set
-    [
-      let closest-object-to-me min-one-of temp-object-set [ distance myself ]
-      
-      set closest-patch-distance ( distance closest-object-to-me )
-    ]
+  let diff abs ( subtract-headings [heading] of searcher-zero [heading] of self )  
     
+  let comparison-set other searchers with [ who != [ who ] of searcher-zero ]
     
-    let min-searcher-set searcher-set
+  report ( distance closest-object-to-me ) * ifelse-value ( count comparison-set with [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) < diff ] < 3 ) [ 1 ] [ -1 ] 
     
-    ifelse ( count searcher-set >= 3 )
-    [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    
-    
-    let the-one max-one-of min-searcher-set [ closest-patch-distance ]
-    set new-heading [heading] of the-one
-  ]
-  
- 
-  set antenna-heading new-heading
-  
-  
-  ;repeat ( num-paces + 1 ) [ basic-move-procedure wait 1 ] ;; num-paces + 1 zato sto je num-paces postavljen u pocetku kao scope-radius - 2... 
-                                                 ;; zasto -2? -1 da budemo sigurni zbog greske, i -1 zbog pomaka koji searcheri naprave u trenutku kad su stvoreni
-                                                 ;; buduci da searcher-zero nije napravio taj korak kad je stvoren, onda je na num-paces potrebno dodati +1 
-  
-  
 end
 
-
-;; OLD - PLAN TO REMOVE
-
-to choose-path-function
-    
-  if ( any? searcher-set )
-  [
-    let temp-object-set patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
-    
-    ask searcher-set
-    [
-      let closest-object-to-me min-one-of temp-object-set [ distance myself ]
-      
-      set closest-patch-distance ( distance closest-object-to-me )
-      set deflection-angle abs ( subtract-headings [ heading ] of searcher-zero [ heading ] of self )
-      
-      normalize-closest-patch-distance-and-deflection-angle
-      
-      set df ( weight-param-a * closest-patch-distance - weight-param-b * deflection-angle )
-    ]
-    
-    let the-one max-one-of searcher-set [ df ]
-    
-    show the-one
-    
-    ;set new-heading [ heading ] of the-one
-  ]
-  
-  ;set antenna-heading new-heading
-  
-  ;( decision-linear-function searcher-zero searcher-set scope-radius memory-pcolor-min memory-pcolor-max )
-  
-end
-
-
-to normalize-closest-patch-distance-and-deflection-angle
-  
-  set closest-patch-distance closest-patch-distance / ( 2 * scope-radius ) ;- 1)
-  
-  set deflection-angle ( deflection-angle / 180 )
-  
-end
-
-
-to choose-path-default
-  
-  
-  if ( any? searcher-set )
-  [
-    let temp-object-set patches with [ pcolor <= 97 and pcolor >= 91 ]
-    
-    ask searcher-set
-    [
-      let closest-object-to-me min-one-of temp-object-set [ distance myself ]
-      
-      set closest-patch-distance ( distance closest-object-to-me )
-    ]
-    
-    
-    let min-searcher-set searcher-set
-    
-    ifelse ( count searcher-set >= 3 )
-    [ set min-searcher-set min-n-of 3 searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    [ set min-searcher-set min-n-of ( count searcher-set ) searcher-set [ abs ( subtract-headings [heading] of searcher-zero [heading] of self ) ] ]
-    
-    
-    let the-one max-one-of min-searcher-set [ closest-patch-distance ]
-    set new-heading [heading] of the-one
-  ]
-  
- 
-  set antenna-heading new-heading
-  
-  
-  ;repeat ( num-paces + 1 ) [ basic-move-procedure wait 1 ] ;; num-paces + 1 zato sto je num-paces postavljen u pocetku kao scope-radius - 2... 
-                                                 ;; zasto -2? -1 da budemo sigurni zbog greske, i -1 zbog pomaka koji searcheri naprave u trenutku kad su stvoreni
-                                                 ;; buduci da searcher-zero nije napravio taj korak kad je stvoren, onda je na num-paces potrebno dodati +1 
-  
-  
-end

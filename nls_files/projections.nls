@@ -10,23 +10,30 @@ to-report map-y-quadrant-second-third [ y ]
   
 end
 
-to project-scope-markers-to-patches-in-reasoning [ goal-found? mapping-function-x mapping-function-y ]
+to map-markers-to-mental-model [ markers mapping-function-x mapping-function-y ]
   
-  let mapped-x ( runresult mapping-function-x [pxcor] of patch-here )
-  let mapped-y ( runresult mapping-function-y ( [pycor] of patch-here + world-height + 1 ) )
+  let positions []
   
-  let x ifelse-value ( abs mapped-x <= max-pxcor ) [ mapped-x ] [ ifelse-value ( mapped-x < 0 ) [ min-pxcor ] [ max-pxcor ] ]
-  let y ifelse-value ( abs mapped-y <= max-pycor ) [ mapped-y ] [ ifelse-value ( mapped-y < 0 ) [ min-pycor ] [ max-pycor ] ]
+  ask markers 
+  [
+    let mapped-x ( runresult mapping-function-x [pxcor] of patch-here )
+    let mapped-y ( runresult mapping-function-y ( [pycor] of patch-here + world-height + 1 ) )
+    
+    let x ifelse-value ( abs mapped-x <= max-pxcor ) [ mapped-x ] [ ifelse-value ( mapped-x < 0 ) [ min-pxcor ] [ max-pxcor ] ]
+    let y ifelse-value ( abs mapped-y <= max-pycor ) [ mapped-y ] [ ifelse-value ( mapped-y < 0 ) [ min-pycor ] [ max-pycor ] ]
   
-  ifelse ( goal-found? )
-  [ 
     ask patch x y 
-    [ 
-      set pcolor magenta 
-      set goal? true 
-    ] 
+    [
+      ifelse ( [ found-goal? ] of myself )
+      [
+        set pcolor magenta 
+        set goal? true 
+      ]
+      [
+        set pcolor memory-pcolor-max 
+      ]
+    ]
   ]
-  [ ask patch x y [ set pcolor memory-pcolor-max ] ]
   
 end
 

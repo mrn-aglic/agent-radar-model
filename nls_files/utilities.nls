@@ -6,7 +6,7 @@ end
 
 to-report get-n-with-largest-turn-angle [patch_set n]
 
-  let chosen-patch max-n-of n patch_set [abs turn-amount]
+  let chosen-patch max-n-of n patch_set [ abs turn-amount ]
   
   report chosen-patch
 
@@ -20,9 +20,50 @@ to-report turn-amount
 
 end
 
+to-report get-memory-fade-quotient
+
+  report memory-fade-parameter / 4
+
+end
+
+to-report get-trail-fade-quotient
+
+  report trail-memory-fade-parameter / 4
+
+end
+
+to memory-fade
+
+  let fade-quotient get-memory-fade-quotient
+  let forget-border ( memory-pcolor-min - fade-quotient )
+
+  ask patches with [ pcolor >= memory-pcolor-min and pcolor <= memory-pcolor-max ]
+  [
+    set pcolor pcolor - fade-quotient
+
+    if ( pcolor <= forget-border )
+    [ set pcolor black ]
+  ]
+
+end
+
+to trail-memory-fade
+
+  let fade-quotient get-trail-fade-quotient
+  let forget-border (trail-pcolor-min - fade-quotient)
+
+  ask patches with [ pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ]
+  [
+    set pcolor pcolor - fade-quotient
+
+    if (pcolor <= forget-border)
+    [ set pcolor black ]
+  ]
+
+end
 
 to make-environment-corrections 
   
-  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
+  ask patches with [ pycor = 0 or pxcor = 0 ] [set pcolor green]
   
 end

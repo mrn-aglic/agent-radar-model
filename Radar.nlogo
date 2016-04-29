@@ -10,32 +10,20 @@ __includes
   "nls_files/behaviour.nls"
   "nls_files/waves.nls"
   "nls_files/sensor.nls"
+  "nls_files/decisionmaking.nls"
+  "nls_files/movableobjects.nls"
+  "nls_files/relationquadrant.nls"
 ]
 
 globals
 [
-  antenna
-  antenna-x antenna-y
-  antenna-heading
-
+  ;; agents
+  agent
   scope
-  scope-x scope-y
-
   searcher-zero
-  searcher-zero-x
-  searcher-zero-y
-
-
-  new-heading
-  num-paces
-  searcher-set
+  rq-antenna
 
   clock-state
-  range
-
-  anything-found?
-
-  need-to-back-up?
 
   ;; parameters for analysis
   number-of-steps
@@ -52,7 +40,8 @@ globals
   trail-pcolor-min
   trail-pcolor-max
 
-  any-searcher-survived?
+  ;; failsafe if all searchers die
+  f_array
 
   ;; testing
   counter
@@ -62,29 +51,25 @@ breed [ waves ]
 breed [ antennas ]
 breed [ scopes ]
 breed [ scope-markers ]
-
-breed [ cars ]
-cars-own [ relation-quadrant-pair ]
-
-breed [ relation-quadrant-antennas ]
-breed [ relation-quadrant-cars ]
-relation-quadrant-cars-own [ cars-pair ]
-
 breed [ searchers ]
 
-searchers-own
-[
-  closest-patch-distance ;; will be obsolete
-  deflection-angle       ;; will be obsolete
-  df
-  last-visited-patch
-  on-goal?
-]
+breed [ m-objects ]
 
+breed [ rq-antennas ]
+breed [ rq-m-objects ]
 
 waves-own [ time bounced? found-goal? ]
 
-scope-markers-own [ time ]
+searchers-own
+[
+  df
+  on-goal?
+  k
+]
+
+scope-markers-own [ time found-goal? ]
+
+m-objects-own [ rq-object ]
 
 patches-own [ goal? is-mapped? ]
 
@@ -94,555 +79,19 @@ to startup
 
 end
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 to go
-
-  let phere [patch-here] of antennas
 
   if ( pen-down? )
   [ ask antennas [ pd ] ]
 
-  ask antennas
-  [
-    if ( [ goal? ] of patch-here )
-    [
-      ;; user-message "Made it to goal"
-      stop
-    ]
-
-    if ( ( any? cars-on patch-here and any? cars with [distance myself < 0.5] ) or [ pcolor ] of patch-here != black )
-    [
-      set number-of-collisions (number-of-collisions + 1)
-
-      ifelse (any? cars-on patch-here and any? cars with [distance myself < 0.5])
-      [
-        let cars-here cars-on patch-here
-
-        ask cars-here with [distance myself < 0.5] [
-
-          set collisioned-with (lput self collisioned-with)
-        ]
-      ]
-      [
-        set collisioned-with (lput patch-here collisioned-with)
-      ]
-
-      user-message (word "Dogodio se sudar na patch-u " patch-here )
-      stop
-    ]
-  ]
-
-  if (any? antennas with [ [goal?] of patch-here ] )
-  [ stop ]
-
-  if ( ( not any? cars ) and activate-cars? = true )
-  [ setup-cars ]
-
-  if ( ( any? cars ) and activate-cars? = false )
-  [
-    ask cars [ die ]
-
-    if ( any? relation-quadrant-cars )
-    [ ask relation-quadrant-cars [ die ] ]
-  ]
-
-  if ( count relation-quadrant-cars < count cars )
-  [ setup-relation-quadrant-cars ]
-
-  ;emit-waves
-
-  repeat ( scope-radius + 1 ) * ( 2.0 / resolution )
-  [
-    if ( any? waves )
-    [
-      wave-advancement
-      monitor-receiver
-    ]
-  ]
-
-  scope-fade
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-  if ( clock-state >= 360 )
-  [
-    if ( anything-found? )
-    [ setup-reason ]
-
-
-    basic-move-procedure ( 1 )
-
-    reset-for-new-scan
-
-    if ( leave-trail? )
-    [
-      foreach phere [
-
-        project-patch-to-trail ? ( [who] of searcher-zero ) ( task map-x-quadrant-first-fourth )
-      ]
-    ]
-
-    memory-fade
-    ;;
-    trail-memory-fade
-  ]
-
-  ask patches with [pycor = 0 or pxcor = 0 ] [set pcolor green]
-
-  ask patches with [ pcolor > memory-pcolor-min and pcolor < memory-pcolor-max ] [ set is-mapped? true ]
-
-  tick
-
-end
-
-
-to reset-for-new-scan
-
-    set antenna-heading clock-state mod 360
-    ask antenna [lt antenna-heading]
-    ask scope [lt antenna-heading]
-    set antenna-heading 0
-
-    set clock-state 0
-
-end
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-to setup-reason
-
-  set num-paces scope-radius ;;- 2
-
-  setup-searchers
-
-  start-reasoning
-
-  ask searchers with [who != [who] of searcher-zero] [ die ]
-
-  set anything-found? false
-
-end
-
-
-to setup-searchers
-
-  let help-var 0
-
-  repeat ( ( 360 / sweep-angle ) - ( 360 mod sweep-angle ) )
-  [
-    create-searchers 1
-    [
-      set help-var help-var + 1
-
-      setup-searcher-properties ( help-var )
-
-      searcher-live-or-die
-    ]
-  ]
-
-end
-
-
-to setup-searcher-properties [ help-var ]
-
-  setxy searcher-zero-x searcher-zero-y
-  set help-var help-var + 1
-
-  set heading help-var * sweep-angle
-
-  if ( hide-searchers? )
-  [ set hidden? true ]
-
-  set on-goal? false
-
-end
-
-to-report should-searcher-die? [p]
-
-  report p = nobody or ( [pcolor] of p != black and not [goal?] of p )
-
-end
-
-to-report death-condition
-
-  report pcolor != black and not goal?
-
-end
-
-
-to searcher-live-or-die
-
-  let left-patch patch-right-and-ahead -90 0.5
-  let right-patch patch-right-and-ahead 90 0.5
-
-  let should-die? false
-
-  if ( ( should-searcher-die? left-patch ) and ( should-searcher-die? right-patch ) )
-  [ set should-die? true ]
-
-  ifelse ( not any? patches with [ death-condition ] in-cone 1.6 90 )
-  [ fd 1 ]
-  [ set should-die? true ]
-
-  let phere patch-here
-
-  if ( should-searcher-die? phere )
-  [ set should-die? true ]
-
-  if [goal?] of phere
-  [
-    set on-goal? true
-  ]
-
-  if ( should-die? )
-  [
-    die
-  ]
-
-end
-
-
-to start-reasoning
-
-  set searcher-set searchers with [ who != [who] of searcher-zero ]
-
-  let searchers-on-goal searcher-set with [on-goal?]
-
-  if ( not any? searchers-on-goal )
-  [
-    activate-searchers ( num-paces )
-  ]
-
-  set searchers-on-goal searcher-set with [on-goal?]
-
-  ifelse ( any? searchers-on-goal )
-  [
-    go-to-goal searchers-on-goal
-  ]
-  [
-    ifelse ( not need-to-back-up? )
-    [
-      ifelse ( choose-path-method = "default" )
-      [
-        decision-default
-      ]
-      [
-        if ( any? searcher-set )
-        [
-          ; choose-path-function
-          let object_set get-temp-object-set memory-pcolor-min memory-pcolor-max
-
-          let f_task (task [ linear-decision-function searcher-zero object_set searcher-set scope-radius ])
-          let g_task (task [ one-through-x ( agent-distance-to-goal one-of patches with [goal?] ) ])
-
-          let h_task (task +)
-
-          let decided-heading ( compose-decision searcher-set f_task g_task h_task )
-
-          set new-heading decided-heading
-          ;;( decision-linear-function searcher-zero searcher-set scope-radius memory-pcolor-min memory-pcolor-max )
-        ]
-      ]
-    ]
-    [
-
-    ]
-  ]
-
-  set any-searcher-survived? ( any? searcher-set )
-
-  ask searcher-set [ die ]
-
-end
-
-to go-to-goal [ searchers-on-goal ]
-
-  set new-heading [heading] of one-of searchers-on-goal
-
-  set antenna-heading new-heading
-
-end
-
-
-to activate-searchers [ func-num-paces ]
-
-  ask searcher-set [ hatch 1 ]
-
-  repeat func-num-paces
-  [
-    if( any? searcher-set )
-    [
-      ask searcher-set
-      [ searcher-live-or-die ]
-    ]
-
-    if ( any? searcher-set with [on-goal?] )
-    [ stop ]
-  ]
-
-
-  if ( not any? searcher-set and func-num-paces = 0)
-  [ set need-to-back-up? true ]
-
-  if ( not any? searcher-set and func-num-paces > 0 )
-  [
-    set searcher-set searchers with [ who != [ who ] of searcher-zero ]
-
-    set num-paces ( num-paces - 1 )
-    activate-searchers ( func-num-paces - 1 )
-  ]
-
-end
-
-
-
-to memory-fade
-
-  let fade-quotient get-memory-fade-quotient
-  let forget-border ( memory-pcolor-min - fade-quotient )
-
-  ask patches with [ pcolor >= memory-pcolor-min and pcolor <= memory-pcolor-max ]
-  [
-    set pcolor pcolor - fade-quotient
-
-    if ( pcolor <= forget-border )
-    [ set pcolor black ]
-  ]
-
-end
-
-to trail-memory-fade
-
-  let fade-quotient get-trail-fade-quotient
-  let forget-border (trail-pcolor-min - fade-quotient)
-
-  ask patches with [ pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ]
-  [
-    set pcolor pcolor - fade-quotient
-
-    if (pcolor <= forget-border)
-    [ set pcolor black ]
-  ]
-
-end
-
-to-report get-memory-fade-quotient
-
-  report memory-fade-parameter / 4
-
-end
-
-to-report get-trail-fade-quotient
-
-  report trail-memory-fade-parameter / 4
-
-end
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-to basic-move-procedure [ move-step ]
-
-  let in-cone-length 1.5
-
-  ask searcher-zero
-  [
-    set heading new-heading
-
-    if (any-searcher-survived? and any? patches with [ ( ( pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ) or pcolor = black ) or goal? ] in-cone in-cone-length 100 )
-    [
-      move-agents ( move-step )
-    ]
-  ]
-
-  if ( any? cars )
-  [ ask cars [ move-cars ] ]
-
-  move-relation-quadrant-agents
-
-end
-
-
-to move-agents [ move-step ]
-
-  if ( patch-here != last-visited-patch )
-  [ set last-visited-patch patch-here ]
-
-  move-function ( move-step )
-
-  set searcher-zero-x [xcor] of searcher-zero
-  set searcher-zero-y [ycor] of searcher-zero
-
-  ask antenna
-  [
-    move-function ( move-step )
-
-    set number-of-steps (number-of-steps + 1)
-    set patches-trail (lput patch-here patches-trail)
-
-    set antenna-x [xcor] of antenna
-    set antenna-y [ycor] of antenna
-
-  ]
-
-  ask scope
-  [
-    move-function ( move-step )
-
-    set scope-x [ xcor ] of scope
-    set scope-y [ ycor ] of scope
-
-    resize-scope
-  ]
-
-  ask relation-quadrant-antennas [ set heading new-heading fd 1 ]
-
-end
-
-
-to move-function [ move-step ]
-
-  set heading new-heading
-  fd move-step
-
-end
-
-to resize-scope
-
-  set shape "scope-sweep"
-
-  let temp patches with [ ( pcolor != black ) and ( distance myself <= scope-radius ) ]
-
-  if ( any? temp )
-    [
-      let dtemp distance min-one-of temp [ distance myself ]
-
-      set size dtemp * 2
-    ]
-
-  if ( not any? temp )[ set size scope-radius * 2]
-
-end
-
-
-to move-cars
-
-  if ( ( not can-move? 1 ) or [ pcolor ] of patch-ahead 1 != black )
-  [
-    ifelse ( any? neighbors with [ pcolor = black ] )
-    [ face one-of neighbors with [ pcolor = black ] ]
-    [
-      user-message "The car cannot move anywhere, so it will die. If activate-car? is on, a new one will be created"
-      die
-    ]
-  ]
-
-  fd 1
-
-end
-
-
-to move-relation-quadrant-agents
-
-  ask relation-quadrant-cars [ set heading [ heading ] of turtle cars-pair fd 1 ]
-
-end
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-to scope-activation [ goal-found? ]
-
-  set range 0
-
-  hide-turtle
-
-  set breed scope-markers
-  set shape "phosphor"
-
-  setxy scope-x scope-y
-
-  ifelse ( goal-found? )
-  [
-    set color magenta + 1
-  ]
-  [
-    set color red + 1
-  ]
-
-  set heading heading + 180
-
-  set range time * 0.5
-
-  ;; Zbog jump naredbe, u slucaju da je range prevelik, jump se nece izvrsit i turtle ce ostat na mjestu sto nam ne odgovara
-  ;; ovaj quick fix bi trebalo u jednom momentu izbacit
-  ;if( not can-move? range )
-  ;[ make-sure-move-is-possible ]
-
-  jump range
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  project-scope-markers-to-patches-in-reasoning goal-found? ( task map-x-quadrant-first-fourth ) ( task map-y-quadrant-second-third )
-
-  show-turtle
-
-end
-
-
-to make-sure-move-is-possible
-
-  while [ not can-move? range ]
-  [
-    set range range - 0.05
-  ]
-
-end
-
-to scope-fade
-
-  ask scope-markers
-  [
-    ifelse ( color > red - 4 )
-    [
-      set color ( color - resolution * 0.09 )
-      set size ( size - resolution * 0.05 )
-    ]
-    [ die ]
-  ]
+  start-behaviour
 
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-550
+207
 10
-1431
+1088
 522
 33
 18
@@ -699,10 +148,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1582
-431
-1743
-464
+1124
+448
+1285
+481
 sweep-angle
 sweep-angle
 1
@@ -757,26 +206,9 @@ NIL
 HORIZONTAL
 
 BUTTON
-1611
-10
-1688
-43
-Go once
-go
-NIL
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
-BUTTON
-1592
+1130
 67
-1743
+1281
 100
 Draw static objects
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n    set pcolor gray\n    set goal? false\n  ]\n]
@@ -791,9 +223,9 @@ NIL
 1
 
 BUTTON
-1592
+1130
 125
-1804
+1342
 158
 Remove static objects or goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor black\n   set goal? false\n  ]\n]
@@ -808,15 +240,15 @@ NIL
 1
 
 SLIDER
-14
-607
-255
-640
+12
+659
+253
+692
 memory-fade-parameter
 memory-fade-parameter
 0
 28
-0
+2
 1
 1
 NIL
@@ -824,14 +256,14 @@ HORIZONTAL
 
 SLIDER
 14
-329
+401
 170
-362
+434
 weight-param-a
 weight-param-a
 0
 1
-0.1
+1
 0.1
 1
 NIL
@@ -839,23 +271,23 @@ HORIZONTAL
 
 SLIDER
 8
-401
+473
 168
-434
+506
 weight-param-b
 weight-param-b
 0
 1
-0.1
+1
 0.1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-1603
+1141
 174
-1689
+1227
 207
 Save map
 save-map
@@ -870,10 +302,10 @@ NIL
 1
 
 BUTTON
-1605
-226
-1687
-259
+1142
+216
+1224
+249
 NIL
 load-map
 NIL
@@ -887,20 +319,20 @@ NIL
 1
 
 CHOOSER
-14
-230
-168
-275
-choose-path-method
-choose-path-method
+13
+310
+167
+355
+decision-function
+decision-function
 "default" "function"
 1
 
 SWITCH
-1588
-278
-1731
-311
+1113
+263
+1256
+296
 hide-searchers?
 hide-searchers?
 1
@@ -908,26 +340,26 @@ hide-searchers?
 -1000
 
 SWITCH
-1590
-324
-1731
-357
-activate-cars?
-activate-cars?
+1115
+309
+1295
+342
+activate-m-objects?
+activate-m-objects?
 1
 1
 -1000
 
 SLIDER
-1583
-376
-1740
-409
-num-cars
-num-cars
+1117
+402
+1274
+435
+num-m-objects
+num-m-objects
 1
 10
-5
+3
 1
 1
 NIL
@@ -935,9 +367,9 @@ HORIZONTAL
 
 TEXTBOX
 17
-293
+365
 135
-321
+393
 Change weight of closest-patch-distance
 11
 0.0
@@ -945,29 +377,29 @@ Change weight of closest-patch-distance
 
 TEXTBOX
 11
-371
+443
 179
-399
+471
 Change weight of deflection-angle
 11
 0.0
 1
 
 TEXTBOX
-553
-715
-1405
-774
+284
+557
+1136
+616
 The parameters weight-param-a and weight-param-b affect the selection of which heading to take only if the choose-path-method is set to function. The function calculating which heading to take is of the form: \n f = a * closest-patch-distance - b * deflection-angle
 11
 0.0
 1
 
 SLIDER
-15
-556
-258
-589
+13
+608
+256
+641
 trail-memory-fade-parameter
 trail-memory-fade-parameter
 0
@@ -979,10 +411,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-613
-776
-736
-821
+298
+620
+421
+665
 trail fade quotient
 trail-memory-fade-parameter / 4
 17
@@ -990,9 +422,9 @@ trail-memory-fade-parameter / 4
 11
 
 BUTTON
-1769
+1289
 66
-1862
+1382
 99
 Draw goal
 if ( mouse-down? )\n[\n  ask patch mouse-xcor mouse-ycor \n  [\n   set pcolor magenta\n   set goal? true\n  ]\n]
@@ -1008,9 +440,9 @@ NIL
 
 SWITCH
 12
-453
+525
 138
-486
+558
 pen-down?
 pen-down?
 0
@@ -1018,10 +450,10 @@ pen-down?
 -1000
 
 MONITOR
-608
-828
-736
-873
+293
+672
+421
+717
 memory fade quotient
 memory-fade-parameter / 4
 17
@@ -1029,9 +461,9 @@ memory-fade-parameter / 4
 11
 
 SLIDER
-1588
+1126
 491
-1760
+1298
 524
 width-of-world
 width-of-world
@@ -1044,9 +476,9 @@ NIL
 HORIZONTAL
 
 BUTTON
-1586
+1124
 573
-1847
+1385
 606
 Set width and height to default values
 set width-of-world 67\nset height-of-world 37
@@ -1061,9 +493,9 @@ NIL
 1
 
 SLIDER
-1586
+1124
 533
-1758
+1296
 566
 height-of-world
 height-of-world
@@ -1076,9 +508,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-1708
+1246
 169
-1825
+1363
 214
 Loaded file name
 file-name
@@ -1087,21 +519,21 @@ file-name
 11
 
 INPUTBOX
-748
-772
-1297
-918
+479
+614
+1028
+760
 command
-ask patches [set is-mapped? false]
+NIL
 1
 1
 String (commands)
 
 BUTTON
-1306
-770
-1414
-829
+768
+777
+876
+836
 Fix
 choose-directory-and-fix-files-in-directory task command\n
 NIL
@@ -1116,41 +548,65 @@ NIL
 
 SWITCH
 12
-490
+562
 137
-523
+595
 leave-trail?
 leave-trail?
 1
 1
 -1000
 
-BUTTON
-87
-729
-216
-762
-NIL
-start-behaviour
-T
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
 TEXTBOX
-1684
+1222
 668
-1834
+1372
 710
 103\n79\n8
 11
 0.0
 1
+
+SWITCH
+1120
+355
+1292
+388
+enable-user-message?
+enable-user-message?
+1
+1
+-1000
+
+SLIDER
+14
+229
+186
+262
+area-of-interest-r
+area-of-interest-r
+0
+scope-radius
+4
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+15
+268
+187
+301
+step-size
+step-size
+0.1
+1
+1
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
