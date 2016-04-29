@@ -263,7 +263,7 @@ weight-param-a
 weight-param-a
 0
 1
-1
+0.4
 0.1
 1
 NIL
@@ -278,7 +278,7 @@ weight-param-b
 weight-param-b
 0
 1
-1
+0.1
 0.1
 1
 NIL
@@ -346,7 +346,7 @@ SWITCH
 342
 activate-m-objects?
 activate-m-objects?
-1
+0
 1
 -1000
 
@@ -607,6 +607,23 @@ step-size
 1
 NIL
 HORIZONTAL
+
+BUTTON
+1409
+247
+1526
+280
+NIL
+move-objects
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?

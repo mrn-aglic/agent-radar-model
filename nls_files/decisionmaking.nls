@@ -144,12 +144,3 @@ to-report choose-based-on-score-from-history
   
 end
 
-
-;; TO DO: Decide what to do with this
-to go-to-goal [ searchers-on-goal ]
-
-  ;set new-heading [heading] of one-of searchers-on-goal
-
-  ;set antenna-heading new-heading
-
-end
