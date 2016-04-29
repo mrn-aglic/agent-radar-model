@@ -52,12 +52,12 @@ end
 
 to-report is-hit-left-right? [ x ]
   
-  report max-pxcor = abs x or x = 0
+  report max-pxcor = abs x or x = 1
   
 end
 
 to-report is-hit-up-down? [ y ]
   
-  report max-pycor = abs y or y = 0
+  report max-pycor = abs y or y = 1
   
 end

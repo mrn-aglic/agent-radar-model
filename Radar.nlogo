@@ -25,6 +25,8 @@ globals
 
   clock-state
 
+  max-distance
+
   ;; parameters for analysis
   number-of-steps
   patches-trail
@@ -263,7 +265,7 @@ weight-param-a
 weight-param-a
 0
 1
-0.4
+0.1
 0.1
 1
 NIL

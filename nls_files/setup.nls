@@ -25,6 +25,8 @@ to setup
   
   set f_array []
   
+  set max-distance get-max-distance
+  
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   ask patches with [pxcor = 0 or pycor = 0 ] [set pcolor green]
