@@ -1,0 +1,19 @@
+to-report normalize-closest-patch-distance-with-max-distance [ value ]
+  
+  let norm value / max-distance
+  
+  set dis-distances fput norm dis-distances
+  
+  report norm
+  
+end
+
+to-report normalize-closest-patch-distance-with-circle-area [ value scope_radius ]
+  
+  let norm value / ( ( scope_radius ^ 2 ) * pi )
+  
+  set dis-distances fput norm dis-distances
+  
+  report norm
+  
+end

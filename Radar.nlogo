@@ -13,6 +13,7 @@ __includes
   "nls_files/decisionmaking.nls"
   "nls_files/movableobjects.nls"
   "nls_files/relationquadrant.nls"
+  "nls_files/experimental.nls"
 ]
 
 globals
@@ -698,6 +699,16 @@ false
 "set dis-headings []" ""
 PENS
 "default" 1.0 1 -16777216 true "" ""
+
+CHOOSER
+1037
+618
+1214
+663
+normalize-distance-with
+normalize-distance-with
+"default" "circle area" "max-distance"
+0
 
 @#$#@#$#@
 ## WHAT IS IT?

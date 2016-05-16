@@ -60,7 +60,16 @@ end
 
 to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   
-  let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance scope_radius )
+  let norm-distance-f ifelse-value ( normalize-distance-with = "default") [ task [ normalize-closest-patch-distance closest_patch_distance ] ] 
+  [ 
+    ifelse-value ( normalize-distance-with = "circle area" ) 
+    [ task [ normalize-closest-patch-distance-with-circle-area closest_patch_distance scope_radius ] ] 
+    [ task [ normalize-closest-patch-distance-with-max-distance closest_patch_distance ] ] 
+  ]
+  
+  let norm-closest-patch-distance ( run-result norm-distance-f )
+  
+  ;let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance )
   let norm-deflection-angle-value ( normalize-deflection-angle       ( abs heading_diff ) )
   
   report ( weight-param-a * norm-closest-patch-distance ) - ( weight-param-b * norm-deflection-angle-value )
@@ -73,23 +82,18 @@ to-report get-max-distance
   
 end
 
-to-report normalize-closest-patch-distance [ value scope_radius ]
+to-report normalize-closest-patch-distance [ value ]
   
-  let norm ( value - minn ) / ( maxx - minn ) ;ifelse-value ( maxx != minn and ( minn <= value and value <= maxx )) [ ( value - minn ) / ( maxx - minn ) ] [ value / max-dis ] 
+  let norm ( value - minn ) / ( maxx - minn ) 
   
   if norm > 1
   [
     user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" m "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
   ]
   
-  ;set norm value / ( ( scope_radius ^ 2 ) * pi )
-  
-  set dis-distances fput norm dis-distances ; ( value / ( scope_radius * pi ) ) dis-distances
+  set dis-distances fput norm dis-distances
   
   report norm
-  
-  ;report value / ( scope_radius * pi ) 
-  ;report value / max-distance
   
 end
 
