@@ -26,6 +26,10 @@ globals
   clock-state
 
   max-distance
+  ms
+  max-dis
+  minn
+  maxx
 
   ;; parameters for analysis
   number-of-steps
@@ -47,6 +51,9 @@ globals
 
   ;; testing
   counter
+
+  dis-distances
+  dis-headings
 ]
 
 breed [ waves ]
@@ -67,6 +74,7 @@ searchers-own
   df
   on-goal?
   k
+  m
 ]
 
 scope-markers-own [ time found-goal? ]
@@ -87,6 +95,34 @@ to go
   [ ask antennas [ pd ] ]
 
   start-behaviour
+
+  distances-distribution
+  headings-distribution
+
+end
+
+
+to distances-distribution
+
+  set-current-plot "Histogram distance"
+
+  set-current-plot-pen "default"
+
+  set-histogram-num-bars 10
+
+  histogram dis-distances
+
+end
+
+to headings-distribution
+
+  set-current-plot "Histogram heading"
+
+  set-current-plot-pen "default"
+
+  set-histogram-num-bars 10
+
+  histogram dis-headings
 
 end
 @#$#@#$#@
@@ -611,10 +647,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-1409
-247
-1526
-280
+1117
+19
+1234
+52
 NIL
 move-objects
 T
@@ -626,6 +662,42 @@ NIL
 NIL
 NIL
 1
+
+PLOT
+1416
+10
+1848
+340
+Histogram distance
+NIL
+NIL
+0.0
+1.0
+0.0
+1.0
+true
+false
+"set dis-distances []" ""
+PENS
+"default" 1.0 1 -16777216 true "" ""
+
+PLOT
+1415
+370
+1853
+712
+Histogram heading
+NIL
+NIL
+0.0
+1.0
+0.0
+10.0
+true
+false
+"set dis-headings []" ""
+PENS
+"default" 1.0 1 -16777216 true "" ""
 
 @#$#@#$#@
 ## WHAT IS IT?

@@ -8,7 +8,6 @@ to start-behaviour
     [ user-message ( word [who] of antennas with [ [ goal? ] of patch-here ] " Made it to goal" ) ]
     stop 
   ]
-  
  
   ask antennas
   [

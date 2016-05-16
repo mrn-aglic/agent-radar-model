@@ -48,7 +48,7 @@ end
 
 to-report get-temp-object-set 
 
-  report patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min ]
+  report patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min and distance searcher-zero <= area-of-interest-r ]
 
 end
 
@@ -63,7 +63,7 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance scope_radius )
   let norm-deflection-angle-value ( normalize-deflection-angle       ( abs heading_diff ) )
   
-  report ( weight-param-a * norm-closest-patch-distance - weight-param-b * norm-deflection-angle-value )
+  report ( weight-param-a * norm-closest-patch-distance ) - ( weight-param-b * norm-deflection-angle-value )
     
 end
 
@@ -75,13 +75,27 @@ end
 
 to-report normalize-closest-patch-distance [ value scope_radius ]
   
-  ;report value / ( 2 * scope_radius )
+  let norm ( value - minn ) / ( maxx - minn ) ;ifelse-value ( maxx != minn and ( minn <= value and value <= maxx )) [ ( value - minn ) / ( maxx - minn ) ] [ value / max-dis ] 
   
-  report value / get-max-distance
+  if norm > 1
+  [
+    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" m "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
+  ]
+  
+  ;set norm value / ( ( scope_radius ^ 2 ) * pi )
+  
+  set dis-distances fput norm dis-distances ; ( value / ( scope_radius * pi ) ) dis-distances
+  
+  report norm
+  
+  ;report value / ( scope_radius * pi ) 
+  ;report value / max-distance
   
 end
 
 to-report normalize-deflection-angle [ value ]
+  
+  set dis-headings fput ( value / 180 ) dis-headings
   
   report value / 180
   

@@ -43,16 +43,30 @@ to setup-searchers [ N heading-step ]
     ]
   ]
   
-  ask searchers with [ who != [ who ] of searcher-zero ]
-  [
-    let is-valid? searcher-is-valid?
-      
-    ifelse ( is-valid? ) 
-    [ 
-      calculate-score-function 
-    ] 
-    [ die ]
-  ]
+;  ask searchers with [ who != [ who ] of searcher-zero ]
+;  [
+;    let closest ( get-closest-object-to-agent get-temp-object-set self )
+;    
+;    set m ifelse-value ( closest != nobody ) [ distance closest ] [ max-distance ]
+;  ]
+;  
+;  set ms [ m ] of searchers with [ who != [ who ] of searcher-zero ]
+;  
+;  set minn min ms
+;  set maxx max ms
+;  
+;  set minn ifelse-value ( minn = maxx ) [ 0 ] [ minn ]
+;  
+;  ask searchers with [ who != [ who ] of searcher-zero ]
+;  [
+;    let is-valid? searcher-is-valid?
+;      
+;    ifelse ( is-valid? ) 
+;    [ 
+;      calculate-score-function 
+;    ] 
+;    [ die ]
+;  ]
 
 end
 
@@ -77,10 +91,25 @@ to explore-area-of-interest [ lmax N ]
   [
     ask searchers with [ who != [ who ] of searcher-zero ]
     [
+      fd 1 
+      
+      let obj-set get-temp-object-set
+      let closest ( get-closest-object-to-agent obj-set self )
+      
+      set m ifelse-value ( closest != nobody ) [ distance closest ] [ max-distance ]
+    ]
+    
+    set ms [ m ] of searchers with [ who != [ who ] of searcher-zero ]
+    
+    set minn min ms
+    set maxx max ms
+    
+    set minn ifelse-value ( minn = maxx ) [ 0 ] [ minn ]
+    
+    ask searchers with [ who != [ who ] of searcher-zero ]
+    [
       ifelse ( searcher-is-valid? )
       [
-        fd 1 
-        
         calculate-score-function
         
         let new-item ( list heading df ) 
@@ -98,7 +127,7 @@ end
 to-report searcher-is-valid?
 
   let cells-to-test patches with [ distance myself < 1 ]
-  
+
   report all? cells-to-test [ pcolor = black or goal? ]
  
 end
