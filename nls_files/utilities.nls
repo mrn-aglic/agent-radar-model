@@ -68,9 +68,33 @@ to make-environment-corrections
   
 end
 
+to flush-record-distances
+  
+  show length record-distances
+  
+  let filename get-distance-normalizations-filename
+  
+  save-rows filename record-distances
+  
+  set record-distances [ ]
+  show length record-distances
+  
+end
+
+to flush-record-headings
+  
+  let filename get-heading-normalizations-filename
+  
+  save-rows filename record-headings
+  
+  set record-headings [ ]
+  
+end
+
 to record-normalized-distance [ value ]
   
   set dis-distances fput value dis-distances
+  
   set record-distances fput ( list value ticks ) record-distances 
   
 end
@@ -78,14 +102,18 @@ end
 to record-normalized-heading [ value ]
   
   set dis-headings fput value dis-headings
-  set record-headings fput ( list value ticks ) record-headings
   
+  set record-headings fput ( list value ticks ) record-headings
+    
 end
 
-to record-full-path [ observed ]
+to record-current-position [ observed ]
   
   let cors ( list [ xcor ] of observed [ ycor ] of observed )
   
-  set full-path lput cors full-path
+  let filename get-full-path-filename
+  
+  save-rows filename ( list cors )
   
 end
+

@@ -17,12 +17,12 @@ to start-behaviour
       
       ask m-objects with [ distance myself < 0.5 ] 
       [
-        set collisioned-with ( lput self collisioned-with )
+        set collisioned-with ( lput ( list ticks [ xcor ] of agent [ ycor ] of agent [ heading ] of agent xcor ycor who heading ) collisioned-with )
       ]
       
       ask patches with [ pcolor = gray and ( distance myself < 0.5 ) ] 
       [
-        set collisioned-with ( lput self collisioned-with )
+        set collisioned-with ( lput ( list ticks [ xcor ] of agent [ ycor ] of agent [ heading ] of agent  pxcor pycor ) collisioned-with )
       ]
       
       if ( enable-user-message? )
@@ -44,7 +44,7 @@ to start-behaviour
   
   move-objects
  
-  record-full-path agent
+  record-current-position agent
  
   memory-fade
   trail-memory-fade

@@ -32,8 +32,6 @@ to setup
   
   set f_array []
   
-  set full-path []
-  
   set max-distance get-max-distance
   set max-dis max-distance
   
@@ -84,7 +82,7 @@ to setup-agent [ physical-world-middle ]
   
   setup-rq-antenna
   
-  record-full-path agent
+  record-current-position agent
   
 end
 

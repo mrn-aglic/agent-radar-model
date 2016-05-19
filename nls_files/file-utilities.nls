@@ -1,6 +1,6 @@
 globals [ file-name ]
 
-extensions [ pathdir ]
+extensions [ pathdir csv ]
 
 to save-map
   
@@ -82,5 +82,25 @@ to fix-files-in-directory [ directory-path action ]
     
     export-world full-file-path
   ]
+  
+end
+
+to save-rows [ filename data ]
+  
+  if ( ticks = 0 and file-exists? filename )
+  [
+    file-delete filename
+  ] 
+    
+  file-open filename
+    
+  foreach data [
+    
+    let row csv:to-row ?
+      
+    file-print row
+  ]
+  
+  file-close 
   
 end
