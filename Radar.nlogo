@@ -293,7 +293,7 @@ memory-fade-parameter
 memory-fade-parameter
 0
 28
-2
+4
 1
 1
 NIL
@@ -715,6 +715,32 @@ normalize-distance-with
 normalize-distance-with
 "default" "circle area" "rpi" "max-distance"
 0
+
+SLIDER
+13
+766
+253
+799
+seed
+seed
+0
+500
+200
+1
+1
+NIL
+HORIZONTAL
+
+SWITCH
+12
+718
+130
+751
+set-seed?
+set-seed?
+1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?

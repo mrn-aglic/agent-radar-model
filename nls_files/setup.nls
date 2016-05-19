@@ -13,6 +13,13 @@ to setup
   
   let physical-world-middle ( floor ( floor ( world-width / 2 ) / 2 ) ) + 1
   
+  ;;;;;;;;;;;;;;set seed;;;;;;;;;;;;;;;;;;;;;
+  
+  if ( set-seed? )
+  [
+    random-seed ( seed * ( 1 + behaviorspace-run-number ) )
+  ]
+  
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   set file-name ""
