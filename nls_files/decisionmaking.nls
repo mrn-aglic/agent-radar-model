@@ -90,7 +90,7 @@ to explore-area-of-interest [ lmax N ]
   
   set f_array [ ( list heading 0 ) ] of searchers with [ who != [ who] of searcher-zero ]
   
-  repeat lmax 
+  foreach n-values lmax [ ? ] 
   [
     ask searchers with [ who != [ who ] of searcher-zero ]
     [
@@ -111,18 +111,34 @@ to explore-area-of-interest [ lmax N ]
     
     ask searchers with [ who != [ who ] of searcher-zero ]
     [
-      ifelse ( searcher-is-valid? )
+      ifelse ( not searcher-is-valid? )
       [
-        calculate-score-function
+        hide-turtle 
         
-        let new-item ( list heading df ) 
+        set xcor oldxcor
+        set ycor oldycor
         
-        set f_array replace-item ( k - 1 ) f_array new-item
-      ]
-      [
+        if ( ? != 0 )
+        [
+          calculate-score-function
+        
+          let new-item ( list heading df ) 
+        
+          set f_array replace-item ( k - 1 ) f_array new-item
+        ]
+        
         die
       ]
+      [
+        set oldxcor xcor
+        set oldycor ycor
+      ]
     ]
+  ]
+  
+  ask searchers with [ who != [ who ] of searcher-zero ] 
+  [
+    calculate-score-function
   ]
     
 end
@@ -172,7 +188,9 @@ end
 
 to-report choose-based-on-score-from-history
   
-  report max map first f_array
+  let mmax max map last f_array
+  
+  report first one-of filter [ last ? = mmax ] f_array
   
 end
 

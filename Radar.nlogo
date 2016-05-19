@@ -81,6 +81,8 @@ searchers-own
   on-goal?
   k
   m
+  oldxcor
+  oldycor
 ]
 
 scope-markers-own [ time found-goal? ]

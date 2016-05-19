@@ -70,14 +70,11 @@ end
 
 to flush-record-distances
   
-  show length record-distances
-  
   let filename get-distance-normalizations-filename
   
   save-rows filename record-distances
   
   set record-distances [ ]
-  show length record-distances
   
 end
 
