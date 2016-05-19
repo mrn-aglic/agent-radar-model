@@ -1,0 +1,59 @@
+extensions [ csv ]
+
+to output-distributions [ distances headings ]
+  
+  output-distance-normalizations distances
+  output-heading-normalizations headings
+  output-full-path full-path
+  output-collisions collisioned-with
+  
+end
+
+to output-heading-normalizations [ headings ]
+  
+  let filename ( get-filename "heading-normalizations" )
+  
+  output-data filename headings
+  
+end
+
+to output-distance-normalizations [ distances ]
+  
+  let filename ( get-filename ( word "heading-normalizations" normalize-distance-with ) )
+  
+  output-data filename distances
+  
+end
+
+to output-full-path [ path ]
+  
+  let filename ( get-filename "path" )
+  
+  output-data filename path
+  
+end
+
+to output-collisions [ collisionedwith ]
+  
+  let filename ( get-filename "collisions" )
+  
+  output-data filename collisionedwith
+  
+end
+
+to-report get-filename [ filename-part ]
+  
+  report ( word filename-part behaviorspace-run-number ".csv" )
+  
+end  
+
+to output-data [ filename data ]
+  
+  if ( file-exists? filename )
+  [
+    file-delete filename
+  ]
+  
+  csv:to-file filename data
+  
+end

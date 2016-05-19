@@ -67,3 +67,25 @@ to make-environment-corrections
   ask patches with [ pycor = 0 or pxcor = 0 ] [set pcolor green]
   
 end
+
+to record-normalized-distance [ value ]
+  
+  set dis-distances fput value dis-distances
+  set record-distances fput ( list value ticks ) record-distances 
+  
+end
+
+to record-normalized-heading [ value ]
+  
+  set dis-headings fput value dis-headings
+  set record-headings fput ( list value ticks ) record-headings
+  
+end
+
+to record-full-path [ observed ]
+  
+  let cors ( list [ xcor ] of observed [ ycor ] of observed )
+  
+  set full-path lput cors full-path
+  
+end

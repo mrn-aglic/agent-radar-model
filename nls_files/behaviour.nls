@@ -44,6 +44,8 @@ to start-behaviour
   
   move-objects
  
+  record-full-path agent
+ 
   memory-fade
   trail-memory-fade
 

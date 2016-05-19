@@ -25,6 +25,8 @@ to setup
   
   set f_array []
   
+  set full-path []
+  
   set max-distance get-max-distance
   set max-dis max-distance
   
@@ -43,6 +45,14 @@ to setup
   [ setup-rq-m-objects ]
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  
+  
+  ;; records for distributions ;;
+  
+  set record-distances []
+  set record-headings []
+  
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   analysis-setup
   
@@ -66,6 +76,8 @@ to setup-agent [ physical-world-middle ]
   searcher-zero-setup
   
   setup-rq-antenna
+  
+  record-full-path agent
   
 end
 

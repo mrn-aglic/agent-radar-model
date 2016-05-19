@@ -64,7 +64,11 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   [ 
     ifelse-value ( normalize-distance-with = "circle area" ) 
     [ task [ normalize-closest-patch-distance-with-circle-area closest_patch_distance scope_radius ] ] 
-    [ task [ normalize-closest-patch-distance-with-max-distance closest_patch_distance ] ] 
+    [
+      ifelse-value ( normalize-distance-with = "rpi" ) 
+      [ task [ normalize-closest-patch-distance-with-rpi closest_patch_distance scope_radius ] ] 
+      [ task [ normalize-closest-patch-distance-with-max-distance closest_patch_distance ] ]
+    ] 
   ]
   
   let norm-closest-patch-distance ( run-result norm-distance-f )
@@ -91,7 +95,7 @@ to-report normalize-closest-patch-distance [ value ]
     user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" m "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
   ]
   
-  set dis-distances fput norm dis-distances
+  record-normalized-distance norm 
   
   report norm
   
@@ -99,7 +103,9 @@ end
 
 to-report normalize-deflection-angle [ value ]
   
-  set dis-headings fput ( value / 180 ) dis-headings
+;  ;set dis-headings fput ( value / 180 ) dis-headings
+  
+  record-normalized-heading ( value / 180 )
   
   report value / 180
   

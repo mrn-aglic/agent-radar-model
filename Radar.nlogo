@@ -14,6 +14,7 @@ __includes
   "nls_files/movableobjects.nls"
   "nls_files/relationquadrant.nls"
   "nls_files/experimental.nls"
+  "nls_files/experiment-outputs.nls"
 ]
 
 globals
@@ -36,9 +37,6 @@ globals
   number-of-steps
   patches-trail
 
-  number-of-collisions
-  collisioned-with
-
   ;; obstacle memory patch color
   memory-pcolor-min
   memory-pcolor-max
@@ -53,8 +51,16 @@ globals
   ;; testing
   counter
 
+  record-distances
+  record-headings
+
   dis-distances
   dis-headings
+
+  number-of-collisions
+  collisioned-with
+
+  full-path
 ]
 
 breed [ waves ]
@@ -569,10 +575,10 @@ NIL
 String (commands)
 
 BUTTON
-768
-777
-876
-836
+707
+774
+815
+833
 Fix
 choose-directory-and-fix-files-in-directory task command\n
 NIL
@@ -613,7 +619,7 @@ SWITCH
 388
 enable-user-message?
 enable-user-message?
-1
+0
 1
 -1000
 
@@ -707,7 +713,7 @@ CHOOSER
 663
 normalize-distance-with
 normalize-distance-with
-"default" "circle area" "max-distance"
+"default" "circle area" "rpi" "max-distance"
 0
 
 @#$#@#$#@
@@ -1077,44 +1083,6 @@ NetLogo 5.3
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
-<experiments>
-  <experiment name="experiment3b" repetitions="20" runMetricsEveryStep="false">
-    <setup>setup
-import-world "Experiments/experiment3b.csv"
-ask patch 3 3 [set pcolor magenta set goal? true]</setup>
-    <go>go</go>
-    <timeLimit steps="30000"/>
-    <exitCondition>[goal?] of [patch-here] of turtle 3 or [pcolor] of [patch-here] of turtle 0 != black</exitCondition>
-    <metric>ticks</metric>
-    <metric>[goal?] of [patch-here] of turtle 3</metric>
-    <metric>[pcolor] of [patch-here] of turtle 0 != black</metric>
-    <enumeratedValueSet variable="scope-radius">
-      <value value="2"/>
-      <value value="4"/>
-      <value value="6"/>
-      <value value="8"/>
-      <value value="10"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="experiment2c" repetitions="20" runMetricsEveryStep="false">
-    <setup>setup
-import-world "Experiments/experiment2c.csv"
-ask patch -2 13 [set pcolor magenta set goal? true]</setup>
-    <go>go</go>
-    <timeLimit steps="30000"/>
-    <exitCondition>[goal?] of [patch-here] of turtle 3 or [pcolor] of [patch-here] of turtle 0 != black</exitCondition>
-    <metric>ticks</metric>
-    <metric>[goal?] of [patch-here] of turtle 3</metric>
-    <metric>[pcolor] of [patch-here] of turtle 0 != black</metric>
-    <enumeratedValueSet variable="scope-radius">
-      <value value="2"/>
-      <value value="4"/>
-      <value value="6"/>
-      <value value="8"/>
-      <value value="10"/>
-    </enumeratedValueSet>
-  </experiment>
-</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
