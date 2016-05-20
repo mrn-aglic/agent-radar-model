@@ -19,12 +19,24 @@ end
 
 to-report score-function-preferred [ main-searcher object-set ]
   
-  let closest-object-to-me ( get-closest-object-to-agent object-set self )
-      
-  let closest_patch_distance ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ max-distance ]
-  let heading_diff ( abs ( subtract-headings [ heading ] of main-searcher heading ) )
+  let closest_patch_distance ( get-distance-to-closest-object object-set )
+  let heading_diff ( get-my-heading-diff-from-main main-searcher )
       
   report ( get-df scope-radius closest_patch_distance heading_diff )
+  
+end
+
+to-report get-distance-to-closest-object [ object-set ]
+
+  let closest-object-to-me ( get-closest-object-to-agent object-set self )
+ 
+  report ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ max-distance ]
+
+end
+
+to-report get-my-heading-diff-from-main [ main-searcher ]
+  
+  report abs ( subtract-headings [ heading ] of main-searcher heading )
   
 end
 
@@ -46,6 +58,7 @@ to-report one-through-x [ x ]
   
 end
 
+;; called from calculate-score-function
 to-report get-temp-object-set 
 
   report patches with [ pcolor <= memory-pcolor-max and pcolor >= memory-pcolor-min and distance searcher-zero <= area-of-interest-r ]
@@ -60,7 +73,7 @@ end
 
 to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   
-  let norm-distance-f ifelse-value ( normalize-distance-with = "default") [ task [ normalize-closest-patch-distance closest_patch_distance ] ] 
+  let norm-distance-f ifelse-value ( normalize-distance-with = "default") [ task [ feature-scaling-normalize-distance closest_patch_distance ] ] 
   [ 
     ifelse-value ( normalize-distance-with = "circle area" ) 
     [ task [ normalize-closest-patch-distance-with-circle-area closest_patch_distance scope_radius ] ] 
@@ -74,7 +87,7 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
   let norm-closest-patch-distance ( run-result norm-distance-f )
   
   ;let norm-closest-patch-distance ( normalize-closest-patch-distance closest_patch_distance )
-  let norm-deflection-angle-value ( normalize-deflection-angle       ( abs heading_diff ) )
+  let norm-deflection-angle-value ( feature-scaling-normalize-deflection-angle heading_diff )
   
   report ( weight-param-a * norm-closest-patch-distance ) - ( weight-param-b * norm-deflection-angle-value )
     
@@ -86,26 +99,23 @@ to-report get-max-distance
   
 end
 
-to-report normalize-closest-patch-distance [ value ]
+to-report feature-scaling-normalize-distance [ value ]
   
   let norm ( value - minn ) / ( maxx - minn ) 
   
   if norm > 1
   [
-    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" m "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
+    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
   ]
   
-  record-normalized-distance norm 
+  if d-closest != value and not hidden? [ show "different" ]
+  if norm < 0 [ show self ]
   
   report norm
   
 end
 
-to-report normalize-deflection-angle [ value ]
-  
-;  ;set dis-headings fput ( value / 180 ) dis-headings
-  
-  record-normalized-heading ( value / 180 )
+to-report feature-scaling-normalize-deflection-angle [ value ]
   
   report value / 180
   

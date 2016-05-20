@@ -10,25 +10,25 @@ end
 
 to-report get-heading-normalizations-filename
   
-  report get-filename ( word "heading-normalizations" normalize-distance-with ) 
+  report get-filename ( word "results/headings/heading-normalizations" normalize-distance-with ) 
   
 end
 
 to-report get-distance-normalizations-filename
   
-  report get-filename ( word "distance-normalizations" normalize-distance-with ) 
+  report get-filename ( word "results/distances/distance-normalizations" normalize-distance-with ) 
   
 end
 
 to-report get-full-path-filename 
   
-  report get-filename ( word "path" normalize-distance-with ) 
+  report get-filename ( word "results/paths/path" normalize-distance-with ) 
   
 end
 
 to-report get-collisions-filename
   
-  report get-filename ( word "collisions" normalize-distance-with ) 
+  report get-filename ( word "results/collisions/collisions" normalize-distance-with ) 
   
 end
 

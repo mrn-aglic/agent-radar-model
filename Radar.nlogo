@@ -80,9 +80,7 @@ searchers-own
   df
   on-goal?
   k
-  m
-  oldxcor
-  oldycor
+  d-closest
 ]
 
 scope-markers-own [ time found-goal? ]
@@ -294,7 +292,7 @@ memory-fade-parameter
 memory-fade-parameter
 0
 28
-4
+0
 1
 1
 NIL
@@ -679,10 +677,10 @@ PLOT
 Histogram distance
 NIL
 NIL
+-0.5
+1.5
 0.0
-1.0
-0.0
-1.0
+1000.0
 true
 false
 "set dis-distances []" ""
@@ -697,10 +695,10 @@ PLOT
 Histogram heading
 NIL
 NIL
+-0.5
+1.5
 0.0
-1.0
-0.0
-10.0
+1000.0
 true
 false
 "set dis-headings []" ""
@@ -1120,7 +1118,7 @@ NetLogo 5.3
       <value value="4"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="memory-fade-parameter">
-      <value value="4"/>
+      <value value="0"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="command">
       <value value="&quot;&quot;"/>
@@ -1159,6 +1157,7 @@ NetLogo 5.3
       <value value="6"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="activate-m-objects?">
+      <value value="false"/>
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="seed">
