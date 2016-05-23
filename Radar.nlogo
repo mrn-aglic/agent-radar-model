@@ -28,7 +28,6 @@ globals
 
   max-distance
   ms
-  max-dis
   minn
   maxx
 

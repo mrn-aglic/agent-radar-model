@@ -33,7 +33,7 @@ to setup
   set f_array []
   
   set max-distance get-max-distance
-  set max-dis max-distance
+
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   

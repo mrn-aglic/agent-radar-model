@@ -105,7 +105,7 @@ to-report feature-scaling-normalize-distance [ value ]
   
   if norm > 1
   [
-    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" max-dis "\n" minn "\n" maxx "\n" max-dis )
+    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" minn "\n" maxx "\n" )
   ]
   
   if d-closest != value and not hidden? [ show "different" ]
