@@ -87,6 +87,11 @@ end
 
 to save-rows [ filename data ]
   
+  if ( not is-results-directory-structure-ok? )
+  [
+    create-results-directory-structure
+  ]
+  
   if ( ticks = 0 and file-exists? filename )
   [
     file-delete filename
@@ -104,3 +109,67 @@ to save-rows [ filename data ]
   file-close 
   
 end
+
+to-report is-results-directory-structure-ok?
+  
+  report pathdir:isdirectory? "results" and 
+  pathdir:isdirectory? "results/collisions" and
+  pathdir:isdirectory? "results/headings" and
+  pathdir:isdirectory? "results/distances" and
+  pathdir:isdirectory? "results/paths" 
+  
+end
+
+to create-results-directory-structure
+  
+  pathdir:create "results"
+  pathdir:create "results/collisions" 
+  pathdir:create "results/headings" 
+  pathdir:create "results/distances" 
+  pathdir:create "results/paths" 
+  
+end
+
+to-report get-heading-normalizations-filename
+  
+  report get-filename ( word "results/headings/heading-normalizations" normalize-distance-with ) 
+  
+end
+
+to-report get-distance-normalizations-filename
+  
+  report get-filename ( word "results/distances/distance-normalizations" normalize-distance-with ) 
+  
+end
+
+to-report get-full-path-filename 
+  
+  report get-filename ( word "results/paths/path" normalize-distance-with ) 
+  
+end
+
+to-report get-collisions-filename
+  
+  report get-filename ( word "results/collisions/collisions" normalize-distance-with ) 
+  
+end
+
+to output-collisioned-with 
+  
+  if ( not ( pathdir:isdirectory? "results" and pathdir:isdirectory? "results/collisions" ) )
+  [
+    pathdir:create "results"
+    pathdir:create "results/collisions"
+  ]
+  
+  let filename get-collisions-filename
+  
+  save-rows filename collisioned-with
+  
+end
+
+to-report get-filename [ filename-part ]
+  
+  report ( word filename-part behaviorspace-run-number ".csv" )
+  
+end  

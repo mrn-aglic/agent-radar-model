@@ -14,7 +14,6 @@ __includes
   "nls_files/movableobjects.nls"
   "nls_files/relationquadrant.nls"
   "nls_files/experimental.nls"
-  "nls_files/experiment-outputs.nls"
 ]
 
 globals
