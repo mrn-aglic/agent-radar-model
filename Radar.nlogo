@@ -57,7 +57,6 @@ globals
 
   number-of-collisions
   collisioned-with
-
 ]
 
 breed [ waves ]
@@ -1117,6 +1116,84 @@ NetLogo 5.3
     </enumeratedValueSet>
     <enumeratedValueSet variable="memory-fade-parameter">
       <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="command">
+      <value value="&quot;&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="pen-down?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="hide-searchers?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="weight-param-b">
+      <value value="0.1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="leave-trail?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="resolution">
+      <value value="0.7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="area-of-interest-r">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="weight-param-a">
+      <value value="0.1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="decision-function">
+      <value value="&quot;function&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="num-m-objects">
+      <value value="3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="waves-visible?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sweep-angle">
+      <value value="6"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="activate-m-objects?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="seed">
+      <value value="200"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trail-memory-fade-parameter">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="enable-user-message?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="normalize-distance-with">
+      <value value="&quot;default&quot;"/>
+      <value value="&quot;circle area&quot;"/>
+      <value value="&quot;rpi&quot;"/>
+      <value value="&quot;max-distance&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="height-of-world">
+      <value value="37"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="set-seed?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="step-size">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="width-of-world">
+      <value value="67"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="experiment-w-movable" repetitions="10" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <final>output-collisioned-with</final>
+    <timeLimit steps="5000"/>
+    <enumeratedValueSet variable="scope-radius">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="memory-fade-parameter">
+      <value value="28"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="command">
       <value value="&quot;&quot;"/>

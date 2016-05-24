@@ -90,7 +90,13 @@ end
 
 to record-normalized-distance [ value ]
   
-  set dis-distances lput value dis-distances
+  ;; Since we want the BehaviorSpace experiments to run as fast as possible,
+  ;; we will disable fill of dis-distances and dis-headings when experiments are running.
+  ;; This is because these two lists tend to grow quite large 
+  if ( fill-dis-arrays )
+  [
+    set dis-distances lput value dis-distances
+  ]
   
   set record-distances lput ( list value ticks ) record-distances 
   
@@ -98,7 +104,13 @@ end
 
 to record-normalized-heading [ value ]
   
-  set dis-headings lput value dis-headings
+  ;; Since we want the BehaviorSpace experiments to run as fast as possible,
+  ;; we will disable fill of dis-distances and dis-headings when experiments are running.
+  ;; This is because these two lists tend to grow quite large 
+  if ( fill-dis-arrays )
+  [
+    set dis-headings lput value dis-headings
+  ]
   
   set record-headings lput ( list value ticks ) record-headings
     
@@ -114,4 +126,12 @@ to record-current-position [ observed ]
   
 end
 
-
+to-report fill-dis-arrays
+  
+  ;; FROM THE DOCS:
+  ;; Reports the current run number in the current BehaviorSpace experiment, starting at 1.
+  ;; If no BehaviorSpace experiment is running, reports 0.
+  report behaviorspace-run-number = 0
+  
+  
+end

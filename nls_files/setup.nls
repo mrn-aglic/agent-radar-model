@@ -32,8 +32,8 @@ to setup
   
   set f_array []
   
-  set max-distance get-max-distance
-
+  ;set max-distance get-max-distance
+  set max-distance ( scope-radius ^ 2 ) * pi
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
@@ -56,7 +56,7 @@ to setup
   
   set record-distances []
   set record-headings []
-  
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   
   analysis-setup

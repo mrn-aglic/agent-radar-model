@@ -30,7 +30,7 @@ to-report get-distance-to-closest-object [ object-set ]
 
   let closest-object-to-me ( get-closest-object-to-agent object-set self )
  
-  report ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ max-distance ]
+  report ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ 1 ]
 
 end
 
@@ -101,15 +101,16 @@ end
 
 to-report feature-scaling-normalize-distance [ value ]
   
-  let norm ( value - minn ) / ( maxx - minn ) 
+  ;let norm 2 * ( ( value - minn ) / ( maxx - minn ) ) - 1
+  let norm ( value - minn ) / ( maxx - minn )
   
   if norm > 1
   [
-    user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" minn "\n" maxx "\n" )
+    ;user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" minn "\n" maxx "\n" )
   ]
   
-  if d-closest != value and not hidden? [ show "different" ]
-  if norm < 0 [ show self ]
+  ;if d-closest != value and not hidden? [ show "different" ]
+  ;if norm < 0 [ show self ]
   
   report norm
   
