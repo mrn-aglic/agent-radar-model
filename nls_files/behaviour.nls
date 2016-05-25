@@ -62,9 +62,31 @@ to use-decision [ decision ]
   ask ( turtle-set agent scope searcher-zero rq-antenna ) 
   [
     set heading decision
+  ]
+
+  ask agent 
+  [
     fd 1
   ]
-    
+  
+  ask scope
+  [
+    set xcor [ xcor ] of agent
+    set ycor ( map-y-quadrant-second-third [ycor] of agent )
+  ]
+  
+  ask searcher-zero 
+  [
+    set xcor ( map-x-quadrant-first-fourth [xcor] of agent )
+    set ycor [ ycor ] of agent
+  ]
+  
+  ask rq-antenna
+  [
+    set xcor map-x-quadrant-first-fourth [ xcor ] of agent 
+    set ycor map-y-quadrant-second-third [ ycor ] of agent
+  ]
+  
 end
 
 to agent-behaviour
