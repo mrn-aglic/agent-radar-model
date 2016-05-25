@@ -35,13 +35,12 @@ end
 to memory-fade
 
   let fade-quotient get-memory-fade-quotient
-  let forget-border ( memory-pcolor-min - fade-quotient )
 
   ask patches with [ pcolor >= memory-pcolor-min and pcolor <= memory-pcolor-max ]
   [
     set pcolor pcolor - fade-quotient
 
-    if ( pcolor <= forget-border )
+    if ( pcolor < memory-pcolor-min )
     [ set pcolor black ]
   ]
 
@@ -50,13 +49,12 @@ end
 to trail-memory-fade
 
   let fade-quotient get-trail-fade-quotient
-  let forget-border (trail-pcolor-min - fade-quotient)
 
   ask patches with [ pcolor >= trail-pcolor-min and pcolor <= trail-pcolor-max ]
   [
     set pcolor pcolor - fade-quotient
 
-    if (pcolor <= forget-border)
+    if (pcolor <= trail-pcolor-min)
     [ set pcolor black ]
   ]
 
