@@ -32,8 +32,8 @@ to setup
   
   set f_array []
   
-  ;set max-distance get-max-distance
-  set max-distance ( scope-radius ^ 2 ) * pi
+  set max-distance get-max-distance
+  ;set max-distance ( scope-radius ^ 2 ) * pi
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   

@@ -54,7 +54,7 @@ to trail-memory-fade
   [
     set pcolor pcolor - fade-quotient
 
-    if (pcolor <= trail-pcolor-min)
+    if (pcolor < trail-pcolor-min)
     [ set pcolor black ]
   ]
 
