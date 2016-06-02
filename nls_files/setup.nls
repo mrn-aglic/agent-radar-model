@@ -9,6 +9,8 @@ to setup
   
   reset-ticks
   
+  create-results-directory-structure
+  
   my-resize-world
   
   let physical-world-middle ( floor ( floor ( world-width / 2 ) / 2 ) ) + 1

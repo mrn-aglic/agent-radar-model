@@ -86,11 +86,11 @@ to fix-files-in-directory [ directory-path action ]
 end
 
 to save-rows [ filename data ]
-  
-  if ( not is-results-directory-structure-ok? )
-  [
-    create-results-directory-structure
-  ]
+
+;  if ( not is-results-directory-structure-ok? )
+;  [
+;    create-results-directory-structure
+;  ]
   
   if ( ticks = 0 and file-exists? filename )
   [
@@ -112,11 +112,63 @@ end
 
 to-report is-results-directory-structure-ok?
   
-  report pathdir:isdirectory? "results" and 
-  pathdir:isdirectory? "results/collisions" and
-  pathdir:isdirectory? "results/headings" and
-  pathdir:isdirectory? "results/distances" and
-  pathdir:isdirectory? "results/paths" 
+  let main-structure-ok?
+  pathdir:isDirectory? "results" and
+  pathdir:isDirectory? "results/collisions" and
+  pathdir:isDirectory? "results/headings" and
+  pathdir:isDirectory? "results/distances" and
+  pathdir:isDirectory? "results/paths" and
+  pathdir:isDirectory? "results/collisions/with-movable" and
+  pathdir:isDirectory? "results/headings/with-movable" and
+  pathdir:isDirectory? "results/distances/with-movable" and
+  pathdir:isDirectory? "results/paths/with-movable" and
+  pathdir:isDirectory? "results/collisions/without-movable" and
+  pathdir:isDirectory? "results/headings/without-movable" and
+  pathdir:isDirectory? "results/distances/without-movable" and
+  pathdir:isDirectory? "results/paths/without-movable" 
+  
+  
+  let default-folders-ok?
+  pathdir:isDirectory? "results/collisions/with-movable/default" and
+  pathdir:isDirectory? "results/headings/with-movable/default" and
+  pathdir:isDirectory? "results/distances/with-movable/default" and
+  pathdir:isDirectory? "results/paths/with-movable/default" and
+  pathdir:isDirectory? "results/collisions/without-movable/default" and
+  pathdir:isDirectory? "results/headings/without-movable/default" and
+  pathdir:isDirectory? "results/distances/without-movable/default" and
+  pathdir:isDirectory? "results/paths/without-movable/default" 
+  
+  let max-distance-folders-ok?
+  pathdir:isDirectory? "results/collisions/with-movable/max-distance" and
+  pathdir:isDirectory? "results/headings/with-movable/max-distance" and
+  pathdir:isDirectory? "results/distances/with-movable/max-distance" and
+  pathdir:isDirectory? "results/paths/with-movable/max-distance" and
+  pathdir:isDirectory? "results/collisions/without-movable/max-distance" and
+  pathdir:isDirectory? "results/headings/without-movable/max-distance" and
+  pathdir:isDirectory? "results/distances/without-movable/max-distance" and
+  pathdir:isDirectory? "results/paths/without-movable/max-distance" 
+  
+  let circle-area-folders-ok?
+  pathdir:isDirectory? "results/collisions/with-movable/circle area" and
+  pathdir:isDirectory? "results/headings/with-movable/circle area" and
+  pathdir:isDirectory? "results/distances/with-movable/circle area" and
+  pathdir:isDirectory? "results/paths/with-movable/circle area" and
+  pathdir:isDirectory? "results/collisions/without-movable/circle area" and 
+  pathdir:isDirectory? "results/headings/without-movable/circle area" and
+  pathdir:isDirectory? "results/distances/without-movable/circle area" and
+  pathdir:isDirectory? "results/paths/without-movable/circle area" 
+  
+  let rpi-folders-ok?
+  pathdir:isDirectory? "results/collisions/with-movable/rpi" and
+  pathdir:isDirectory? "results/headings/with-movable/rpi" and
+  pathdir:isDirectory? "results/distances/with-movable/rpi" and
+  pathdir:isDirectory? "results/paths/with-movable/rpi" and
+  pathdir:isDirectory? "results/collisions/without-movable/rpi" and
+  pathdir:isDirectory? "results/headings/without-movable/rpi" and
+  pathdir:isDirectory? "results/distances/without-movable/rpi" and
+  pathdir:isDirectory? "results/paths/without-movable/rpi" 
+  
+  report main-structure-ok? and default-folders-ok? and max-distance-folders-ok? and circle-area-folders-ok? and rpi-folders-ok?
   
 end
 
@@ -127,30 +179,98 @@ to create-results-directory-structure
   pathdir:create "results/headings" 
   pathdir:create "results/distances" 
   pathdir:create "results/paths" 
+  pathdir:create "results/collisions/with-movable" 
+  pathdir:create "results/headings/with-movable" 
+  pathdir:create "results/distances/with-movable" 
+  pathdir:create "results/paths/with-movable" 
+  pathdir:create "results/collisions/without-movable" 
+  pathdir:create "results/headings/without-movable" 
+  pathdir:create "results/distances/without-movable" 
+  pathdir:create "results/paths/without-movable" 
+  
+  pathdir:create "results/collisions/with-movable/default" 
+  pathdir:create "results/headings/with-movable/default" 
+  pathdir:create "results/distances/with-movable/default" 
+  pathdir:create "results/paths/with-movable/default" 
+  pathdir:create "results/collisions/without-movable/default" 
+  pathdir:create "results/headings/without-movable/default" 
+  pathdir:create "results/distances/without-movable/default" 
+  pathdir:create "results/paths/without-movable/default" 
+  
+  pathdir:create "results/collisions/with-movable/max-distance" 
+  pathdir:create "results/headings/with-movable/max-distance" 
+  pathdir:create "results/distances/with-movable/max-distance" 
+  pathdir:create "results/paths/with-movable/max-distance" 
+  pathdir:create "results/collisions/without-movable/max-distance" 
+  pathdir:create "results/headings/without-movable/max-distance" 
+  pathdir:create "results/distances/without-movable/max-distance" 
+  pathdir:create "results/paths/without-movable/max-distance" 
+  
+  pathdir:create "results/collisions/with-movable/circle area" 
+  pathdir:create "results/headings/with-movable/circle area" 
+  pathdir:create "results/distances/with-movable/circle area" 
+  pathdir:create "results/paths/with-movable/circle area" 
+  pathdir:create "results/collisions/without-movable/circle area" 
+  pathdir:create "results/headings/without-movable/circle area" 
+  pathdir:create "results/distances/without-movable/circle area" 
+  pathdir:create "results/paths/without-movable/circle area" 
+  
+  pathdir:create "results/collisions/with-movable/rpi" 
+  pathdir:create "results/headings/with-movable/rpi" 
+  pathdir:create "results/distances/with-movable/rpi" 
+  pathdir:create "results/paths/with-movable/rpi" 
+  pathdir:create "results/collisions/without-movable/rpi" 
+  pathdir:create "results/headings/without-movable/rpi" 
+  pathdir:create "results/distances/without-movable/rpi" 
+  pathdir:create "results/paths/without-movable/rpi" 
   
 end
 
 to-report get-heading-normalizations-filename
   
-  report get-filename ( word "results/headings/heading-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ifelse ( activate-m-objects? )
+  [
+    report get-filename ( word "results/headings/with-movable/" normalize-distance-with "/heading-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ]
+  [
+    report get-filename ( word "results/headings/without-movable/" normalize-distance-with "/heading-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ]
   
 end
 
 to-report get-distance-normalizations-filename
   
-  report get-filename ( word "results/distances/distance-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ifelse ( activate-m-objects? )
+  [
+    report get-filename ( word "results/distances/with-movable/" normalize-distance-with "/distance-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ]
+  [
+    report get-filename ( word "results/distances/without-movable/" normalize-distance-with "/distance-normalizations" normalize-distance-with "-" activate-m-objects? ) 
+  ]
   
 end
 
 to-report get-full-path-filename 
   
-  report get-filename ( word "results/paths/path" normalize-distance-with "-" activate-m-objects? ) 
+  ifelse ( activate-m-objects? )
+  [
+    report get-filename ( word "results/paths/with-movable/" normalize-distance-with "/path" normalize-distance-with "-" activate-m-objects? ) 
+  ]
+  [
+    report get-filename ( word "results/paths/without-movable/" normalize-distance-with "/path" normalize-distance-with "-" activate-m-objects? ) 
+  ]
   
 end
 
 to-report get-collisions-filename
   
-  report get-filename ( word "results/collisions/collisions" normalize-distance-with "-" activate-m-objects? ) 
+  ifelse ( activate-m-objects? )
+  [
+    report get-filename ( word "results/collisions/with-movable/" normalize-distance-with "/collision" normalize-distance-with "-" activate-m-objects? ) 
+  ]
+  [
+    report get-filename ( word "results/collisions/without-movable/" normalize-distance-with "/collision" normalize-distance-with "-" activate-m-objects? ) 
+  ]
   
 end
 

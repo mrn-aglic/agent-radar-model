@@ -289,7 +289,7 @@ memory-fade-parameter
 memory-fade-parameter
 0
 28
-4
+0
 1
 1
 NIL
