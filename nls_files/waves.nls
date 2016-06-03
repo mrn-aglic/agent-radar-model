@@ -2,15 +2,21 @@ to wave-advancement
 
   ask waves
   [
-    set time time + resolution
-    
-    ifelse ( precision ( distance agent ) 1 >= scope-radius  ) 
-    [ die ]                                                        
+    ifelse ( time = 0 and bounce? )
     [
-     fd resolution
+      wave-bounce  
+    ]
+    [
+      set time time + resolution
+    
+      ifelse ( precision ( distance agent ) 1 >= scope-radius  ) 
+      [ die ]                                                        
+      [
+        fd resolution
 
-     if ( bounce? )        
-     [ wave-bounce ]
+        if ( bounce? )        
+        [ wave-bounce ]
+      ]
     ]
   ]
 
@@ -19,8 +25,8 @@ end
 to-report bounce?
   
   report not bounced? and
-       ( any? patches with [ pcolor != black and distance myself < 0.1 ] or [ pcolor ] of patch-here != black )
-        or ( [ pxcor ] of patch-here >= max-pxcor or [ pycor ] of patch-here >= max-pycor ) or ( any? m-objects with [distance myself < 0.2] )
+       ( any? patches with [ pcolor != black and distance myself < 0.3 ] or [ pcolor ] of patch-here != black )
+        or ( [ pxcor ] of patch-here >= max-pxcor or [ pycor ] of patch-here >= max-pycor ) or ( any? m-objects with [distance myself < 0.3] )
   
 end
 
