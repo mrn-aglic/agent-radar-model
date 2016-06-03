@@ -289,7 +289,7 @@ memory-fade-parameter
 memory-fade-parameter
 0
 28
-0
+28
 1
 1
 NIL
@@ -1310,6 +1310,12 @@ NetLogo 5.3
     <enumeratedValueSet variable="sweep-angle">
       <value value="6"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="normalize-distance-with">
+      <value value="&quot;default&quot;"/>
+      <value value="&quot;circle area&quot;"/>
+      <value value="&quot;rpi&quot;"/>
+      <value value="&quot;max-distance&quot;"/>
+    </enumeratedValueSet>
     <enumeratedValueSet variable="activate-m-objects?">
       <value value="false"/>
       <value value="true"/>
@@ -1322,12 +1328,6 @@ NetLogo 5.3
     </enumeratedValueSet>
     <enumeratedValueSet variable="enable-user-message?">
       <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="normalize-distance-with">
-      <value value="&quot;default&quot;"/>
-      <value value="&quot;circle area&quot;"/>
-      <value value="&quot;rpi&quot;"/>
-      <value value="&quot;max-distance&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="height-of-world">
       <value value="37"/>
