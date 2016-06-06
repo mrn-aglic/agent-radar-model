@@ -30,7 +30,7 @@ to-report get-distance-to-closest-object [ object-set ]
 
   let closest-object-to-me ( get-closest-object-to-agent object-set self )
  
-  report ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ 1 ]
+  report ifelse-value ( closest-object-to-me != nobody ) [ distance closest-object-to-me ] [ 2 * area-of-interest-r ]
 
 end
 
@@ -78,8 +78,8 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
     ifelse-value ( normalize-distance-with = "circle area" ) 
     [ task [ normalize-closest-patch-distance-with-circle-area closest_patch_distance scope_radius ] ] 
     [
-      ifelse-value ( normalize-distance-with = "rpi" ) 
-      [ task [ normalize-closest-patch-distance-with-rpi closest_patch_distance scope_radius ] ] 
+      ifelse-value ( normalize-distance-with = "2r" ) 
+      [ task [ normalize-closest-patch-distance-with-2r closest_patch_distance scope_radius ] ] 
       [ task [ normalize-closest-patch-distance-with-max-distance closest_patch_distance ] ]
     ] 
   ]
@@ -101,16 +101,7 @@ end
 
 to-report feature-scaling-normalize-distance [ value ]
   
-  ;let norm 2 * ( ( value - minn ) / ( maxx - minn ) ) - 1
   let norm ( value - minn ) / ( maxx - minn )
-  
-  if norm > 1
-  [
-    ;user-message ( word ( minn <= value and value <= maxx ) "\n" value "\n" d-closest "\n" norm "\n" minn "\n" maxx "\n" )
-  ]
-  
-  ;if d-closest != value and not hidden? [ show "different" ]
-  ;if norm < 0 [ show self ]
   
   report norm
   

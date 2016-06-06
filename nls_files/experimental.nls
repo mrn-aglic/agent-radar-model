@@ -27,3 +27,16 @@ to-report normalize-closest-patch-distance-with-rpi [ value scope_radius ]
   report norm
   
 end
+
+
+to-report normalize-closest-patch-distance-with-2r [ value scope_radius ]
+  
+  ;; minimum je u ovoj normalizaciji jednak 1, razlog: ako je searcher udaljen za manje od 1 
+  ;; od nekog patcha koji nije prazno polje, onda umire
+  let norm ( value - 1 ) / ( ( 2 * scope_radius ) - 1 )
+  
+  record-normalized-distance norm
+  
+  report norm
+  
+end

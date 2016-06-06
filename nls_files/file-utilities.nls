@@ -158,17 +158,27 @@ to-report is-results-directory-structure-ok?
   pathdir:isDirectory? "results/distances/without-movable/circle area" and
   pathdir:isDirectory? "results/paths/without-movable/circle area" 
   
-  let rpi-folders-ok?
-  pathdir:isDirectory? "results/collisions/with-movable/rpi" and
-  pathdir:isDirectory? "results/headings/with-movable/rpi" and
-  pathdir:isDirectory? "results/distances/with-movable/rpi" and
-  pathdir:isDirectory? "results/paths/with-movable/rpi" and
-  pathdir:isDirectory? "results/collisions/without-movable/rpi" and
-  pathdir:isDirectory? "results/headings/without-movable/rpi" and
-  pathdir:isDirectory? "results/distances/without-movable/rpi" and
-  pathdir:isDirectory? "results/paths/without-movable/rpi" 
+;  let rpi-folders-ok?
+;  pathdir:isDirectory? "results/collisions/with-movable/rpi" and
+;  pathdir:isDirectory? "results/headings/with-movable/rpi" and
+;  pathdir:isDirectory? "results/distances/with-movable/rpi" and
+;  pathdir:isDirectory? "results/paths/with-movable/rpi" and
+;  pathdir:isDirectory? "results/collisions/without-movable/rpi" and
+;  pathdir:isDirectory? "results/headings/without-movable/rpi" and
+;  pathdir:isDirectory? "results/distances/without-movable/rpi" and
+;  pathdir:isDirectory? "results/paths/without-movable/rpi" 
   
-  report main-structure-ok? and default-folders-ok? and max-distance-folders-ok? and circle-area-folders-ok? and rpi-folders-ok?
+  let twoR-folders-ok?
+  pathdir:isDirectory? "results/collisions/with-movable/2r" and
+  pathdir:isDirectory? "results/headings/with-movable/2r" and
+  pathdir:isDirectory? "results/distances/with-movable/2r" and
+  pathdir:isDirectory? "results/paths/with-movable/2r" and
+  pathdir:isDirectory? "results/collisions/without-movable/2r" and
+  pathdir:isDirectory? "results/headings/without-movable/2r" and
+  pathdir:isDirectory? "results/distances/without-movable/2r" and
+  pathdir:isDirectory? "results/paths/without-movable/2r" 
+  
+  report main-structure-ok? and default-folders-ok? and max-distance-folders-ok? and circle-area-folders-ok? and twoR-folders-ok? ;rpi-folders-ok?
   
 end
 
@@ -215,14 +225,23 @@ to create-results-directory-structure
   pathdir:create "results/distances/without-movable/circle area" 
   pathdir:create "results/paths/without-movable/circle area" 
   
-  pathdir:create "results/collisions/with-movable/rpi" 
-  pathdir:create "results/headings/with-movable/rpi" 
-  pathdir:create "results/distances/with-movable/rpi" 
-  pathdir:create "results/paths/with-movable/rpi" 
-  pathdir:create "results/collisions/without-movable/rpi" 
-  pathdir:create "results/headings/without-movable/rpi" 
-  pathdir:create "results/distances/without-movable/rpi" 
-  pathdir:create "results/paths/without-movable/rpi" 
+;  pathdir:create "results/collisions/with-movable/rpi" 
+;  pathdir:create "results/headings/with-movable/rpi" 
+;  pathdir:create "results/distances/with-movable/rpi" 
+;  pathdir:create "results/paths/with-movable/rpi" 
+;  pathdir:create "results/collisions/without-movable/rpi" 
+;  pathdir:create "results/headings/without-movable/rpi" 
+;  pathdir:create "results/distances/without-movable/rpi" 
+;  pathdir:create "results/paths/without-movable/rpi" 
+  
+  pathdir:create "results/collisions/with-movable/2r" 
+  pathdir:create "results/headings/with-movable/2r" 
+  pathdir:create "results/distances/with-movable/2r" 
+  pathdir:create "results/paths/with-movable/2r" 
+  pathdir:create "results/collisions/without-movable/2r" 
+  pathdir:create "results/headings/without-movable/2r" 
+  pathdir:create "results/distances/without-movable/2r" 
+  pathdir:create "results/paths/without-movable/2r" 
   
 end
 

@@ -709,8 +709,8 @@ CHOOSER
 663
 normalize-distance-with
 normalize-distance-with
-"default" "circle area" "rpi" "max-distance"
-0
+"default" "circle area" "2r" "max-distance"
+2
 
 SLIDER
 13

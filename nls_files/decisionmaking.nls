@@ -109,7 +109,7 @@ to explore-area-of-interest [ lmax N ]
     set ms [ d-closest ] of searchers with [ who != [ who ] of searcher-zero ]
     
     set minn ifelse-value ( empty? ms ) [ 0 ] [ min ms ]
-    set maxx ifelse-value ( empty? ms ) [ max-distance ] [ max ms ]
+    set maxx ifelse-value ( empty? ms ) [ 2 * area-of-interest-r ] [ max ms ]
     
     set minn ifelse-value ( minn = maxx ) [ 0 ] [ minn ]
           
