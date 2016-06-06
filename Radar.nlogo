@@ -387,7 +387,7 @@ SWITCH
 342
 activate-m-objects?
 activate-m-objects?
-1
+0
 1
 -1000
 

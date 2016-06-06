@@ -127,7 +127,7 @@ end
 
 to-report searcher-is-valid?
 
-  let cells-to-test patches with [ distance myself < 1 ]
+  let cells-to-test patches with [ distance myself < 1 and distance searcher-zero <= area-of-interest-r  ]
 
   report all? cells-to-test [ pcolor = black or goal? ]
  
