@@ -1168,7 +1168,7 @@ NetLogo 5.3
     <enumeratedValueSet variable="normalize-distance-with">
       <value value="&quot;default&quot;"/>
       <value value="&quot;circle area&quot;"/>
-      <value value="&quot;rpi&quot;"/>
+      <value value="&quot;2r&quot;"/>
       <value value="&quot;max-distance&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="height-of-world">
@@ -1247,7 +1247,7 @@ NetLogo 5.3
     <enumeratedValueSet variable="normalize-distance-with">
       <value value="&quot;default&quot;"/>
       <value value="&quot;circle area&quot;"/>
-      <value value="&quot;rpi&quot;"/>
+      <value value="&quot;2r&quot;"/>
       <value value="&quot;max-distance&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="height-of-world">
@@ -1313,7 +1313,7 @@ NetLogo 5.3
     <enumeratedValueSet variable="normalize-distance-with">
       <value value="&quot;default&quot;"/>
       <value value="&quot;circle area&quot;"/>
-      <value value="&quot;rpi&quot;"/>
+      <value value="&quot;2r&quot;"/>
       <value value="&quot;max-distance&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="activate-m-objects?">
