@@ -19,7 +19,7 @@ to setup
   
   if ( set-seed? )
   [
-    random-seed seed * ( ( 1 + behaviorspace-run-number ) mod 200 ) 
+    random-seed seed * ( ( 1 + behaviorspace-run-number ) mod 100 ) 
   ]
   
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

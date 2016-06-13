@@ -22,7 +22,7 @@ to start-behaviour
       
       ask patches with [ pcolor = gray and ( distance myself < 0.5 ) ] 
       [
-        set collisioned-with ( lput ( list ticks [ xcor ] of agent [ ycor ] of agent [ heading ] of agent  pxcor pycor ) collisioned-with )
+        set collisioned-with ( lput ( list ticks [ xcor ] of agent [ ycor ] of agent [ heading ] of agent  pxcor pycor "P" "P" ) collisioned-with )
       ]
       
       if ( enable-user-message? )
