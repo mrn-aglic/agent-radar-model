@@ -15,31 +15,52 @@ to move-objects
   
   ask m-objects 
   [
-    let moved? false
+;    let moved? false
+;    
+;    let p ifelse-value ( patch-ahead 1 != nobody ) [ patch-ahead 1 ] [ patch-here ]
+;    
+;    ifelse patch-ahead 1 != nobody and [ pcolor ] of p = black 
+;    [
+;      fd 1
+;      set moved? true
+;    ]
+;    [
+;      if any? neighbors with [ pcolor = black ] 
+;      [
+;        set heading get-new-heading [ pxcor ] of p [ pycor ] of p
+;        
+;        fd 1
+;        set moved? true
+;        
+;      ]
+;    ]
     
-    let p ifelse-value ( patch-ahead 1 != nobody ) [ patch-ahead 1 ] [ patch-here ]
+    bounce
     
-    ifelse patch-ahead 1 != nobody and [ pcolor ] of p = black 
-    [
-      fd 1
-      set moved? true
-    ]
-    [
-      if any? neighbors with [ pcolor = black ] 
-      [
-        set heading get-new-heading [ pxcor ] of p [ pycor ] of p
-        fd 1
-        set moved? true
-      ]
-    ]
+    fd 1
     
     ask rq-object 
     [ 
       set heading [ heading ] of myself 
       
-      if moved? 
-      [ fd 1 ]
+      fd 1
+      ;if moved? 
+      ;[ fd 1 ]
     ]
+  ]
+  
+end
+
+to bounce
+  
+  if [pcolor] of patch-at 0 dy = grey 
+  [
+    set heading (180 - heading)
+  ]
+  if [pcolor] of patch-at dx 0 = grey 
+  [
+    
+    set heading (- heading)
   ]
   
 end

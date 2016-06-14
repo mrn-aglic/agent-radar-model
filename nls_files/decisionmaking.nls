@@ -45,31 +45,6 @@ to setup-searchers [ N heading-step ]
       show-turtle
     ]
   ]
-  
-;  ask searchers with [ who != [ who ] of searcher-zero ]
-;  [
-;    let closest ( get-closest-object-to-agent get-temp-object-set self )
-;    
-;    set m ifelse-value ( closest != nobody ) [ distance closest ] [ max-distance ]
-;  ]
-;  
-;  set ms [ m ] of searchers with [ who != [ who ] of searcher-zero ]
-;  
-;  set minn min ms
-;  set maxx max ms
-;  
-;  set minn ifelse-value ( minn = maxx ) [ 0 ] [ minn ]
-;  
-;  ask searchers with [ who != [ who ] of searcher-zero ]
-;  [
-;    let is-valid? searcher-is-valid?
-;      
-;    ifelse ( is-valid? ) 
-;    [ 
-;      calculate-score-function 
-;    ] 
-;    [ die ]
-;  ]
 
 end
 
