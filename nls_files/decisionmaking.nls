@@ -122,7 +122,9 @@ to calculate-score-function [ object-set record? ]
     
     if ( record? )
     [
-      let norm-dis ( feature-scaling-normalize-distance d-closest )
+      let normalization get-normalization-function scope-radius d-closest
+      
+      let norm-dis runresult normalization
       
       let norm-h ( feature-scaling-normalize-deflection-angle ( get-my-heading-diff-from-main searcher-zero ) )
     

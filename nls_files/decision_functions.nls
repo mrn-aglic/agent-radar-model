@@ -71,9 +71,9 @@ to-report get-closest-object-to-agent [ temp-object-set _agent ]
   
 end
 
-to-report get-df [ scope_radius closest_patch_distance heading_diff ]
+to-report get-normalization-function [ scope_radius closest_patch_distance ]
   
-  let norm-distance-f ifelse-value ( normalize-distance-with = "default") [ task [ feature-scaling-normalize-distance closest_patch_distance ] ] 
+  report ifelse-value ( normalize-distance-with = "default") [ task [ feature-scaling-normalize-distance closest_patch_distance ] ] 
   [ 
     ifelse-value ( normalize-distance-with = "circle area" ) 
     [ task [ normalize-closest-patch-distance-with-circle-area closest_patch_distance scope_radius ] ] 
@@ -83,6 +83,12 @@ to-report get-df [ scope_radius closest_patch_distance heading_diff ]
       [ task [ normalize-closest-patch-distance-with-max-distance closest_patch_distance ] ]
     ] 
   ]
+  
+end
+
+to-report get-df [ scope_radius closest_patch_distance heading_diff ]
+  
+  let norm-distance-f get-normalization-function scope_radius closest_patch_distance
   
   let norm-closest-patch-distance ( run-result norm-distance-f )
   
